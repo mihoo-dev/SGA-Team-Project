@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "playGround.h"
 
-//앞으로 일주일 해야할 것들이 참 많아요~ :D
+//앞으로 일주일 해야할 것들이 참 많아요~ XD
 
 playGround::playGround()
 {
