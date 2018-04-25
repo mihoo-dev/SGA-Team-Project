@@ -1,0 +1,4 @@
+﻿  PlayScene.cpp
+e:\공부\학원\api class\팀포폴용\20180411_0\playscene.cpp(40): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+e:\공부\학원\api class\팀포폴용\20180411_0\playscene.cpp(50): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  nonaWindowsAPI.vcxproj -> E:\공부\학원\API Class\팀포폴용\20180411_0\Debug\nonaWindowsAPI.exe
