@@ -124,7 +124,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
                 if (dist < 0) dist = dist * -1;
                 if (dist < 50) _state = FOLLOW;
 
-                if (offSetX2 <= 0 && offSetX2 > WINSIZEX - backgroundSizeX)
+                if (offSetX2 <= 0 && offSetX2 >= WINSIZEX - backgroundSizeX)
                 {
                     if (x < _cameraRC.left)
                     {
@@ -153,40 +153,21 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
                     }
                 }
             }
-            //캐릭터에 도착했을 때 카메라
+            //캐릭터에 도착했을 때 카메라(정직)
             else if (_state == FOLLOW)
             {
                 _cameraSpeed = getDistance(x, y, x, _y) * 0.035;
                 if (x >= WINSIZEX / 2 && x <= backgroundSizeX - WINSIZEX / 2)
                 {
                     offSetX2 = -(x - (WINSIZEX / 2));
-                    /*if (x <= _cameraRC.left)
-                    {
-                        offSetX2 = -(x - (WINSIZEX / 2 - 50));
-                    }
-                    else if (x >= _cameraRC.right)
-                    {
-                        offSetX2 = -(x - (WINSIZEX / 2 + 50));
-                    }*/
                 }
                 if (y >= WINSIZEY / 2 && y <= backgroundSizeY - WINSIZEY / 2)
                 {
                     offSetY2 = -(y - (WINSIZEY / 2));
-                    /*if (y < _cameraRC.top)
-                    {
-                        offSetY2 += _cameraSpeed;
-                        if (offSetY2 > 0) offSetY2 = 0;
-                    }
-                    else if (y > _cameraRC.bottom)
-                    {
-                        offSetY2 += -_cameraSpeed;
-                        if (offSetY2 <= WINSIZEY - backgroundSizeY)
-                            offSetY2 = WINSIZEY - backgroundSizeY;
-                    }*/
                 }
             }
         }
-        else //미사일용 카메라
+        else //스무스 카메라
         {
             _state = MOVE;
             _cameraSpeed = getDistance(x, y, _x, y) * 0.035;
@@ -194,7 +175,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
             //처음에 캐릭터까지 카메라가 자동으로 이동
             if (_state == MOVE)
             {
-                if (offSetX2 <= 0 && offSetX2 > WINSIZEX - backgroundSizeX)
+                if (offSetX2 <= 0 && offSetX2 >= WINSIZEX - backgroundSizeX)
                 {
                     if (x < _cameraRC.left)
                     {
@@ -207,7 +188,11 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
                         if (offSetX2 < WINSIZEX - backgroundSizeX) offSetX2 = WINSIZEX - backgroundSizeX;
                     }
                 }
-                if (offSetY2 <= 0 && offSetY2 > WINSIZEY - backgroundSizeY)
+                if (y >= WINSIZEY / 2 && y <= backgroundSizeY - WINSIZEY / 2)
+                {
+                    offSetY2 = -(y - (WINSIZEY / 2));
+                }
+                /*if (offSetY2 <= 0 && offSetY2 >= WINSIZEY - backgroundSizeY)
                 {
                     if (y < _cameraRC.top)
                     {
@@ -219,7 +204,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
                         offSetY2 += -_cameraSpeed;
                         if (offSetY2 < WINSIZEY - backgroundSizeY) offSetY2 = WINSIZEY - backgroundSizeY;
                     }
-                }
+                }*/
             }
         }
     }

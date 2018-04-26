@@ -13,33 +13,22 @@ PlayScene::~PlayScene()
 
 HRESULT PlayScene::init()
 {
-    IMAGEMANAGER->addImage("background", "background1.bmp", 687, 732, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
 
-    _x = WINSIZEX / 2;
-    _y = WINSIZEY / 2;
+    _pm = new PlayerManager;
+    _pm->init();
 
     return S_OK;
 }
 
 void PlayScene::release()
 {
+    _pm->release();
 }
 
 void PlayScene::update()
 {
-
-    if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-        _x += 3;
-    if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-        _x -= 3;
-    if (KEYMANAGER->isStayKeyDown(VK_UP))
-        _y -= 3;
-    if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-        _y += 3;
-
-    _rc = RectMakeCenter(_x, _y, 20, 20);
-
-    CAMERA->update(_x, _y, 3, true);
+    _pm->update();
 }
 
 void PlayScene::render()
@@ -49,5 +38,5 @@ void PlayScene::render()
         CAMERA->GetX(), CAMERA->GetY(), 
         WINSIZEX, WINSIZEY);
 
-    Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+    _pm->render();
 }

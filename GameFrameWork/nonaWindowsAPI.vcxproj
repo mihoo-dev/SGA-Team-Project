@@ -93,6 +93,8 @@
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="progressBar.h" />
@@ -124,6 +126,8 @@
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="progressBar.cpp" />

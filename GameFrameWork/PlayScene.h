@@ -1,10 +1,11 @@
 #pragma once
 #include "gameNode.h"
+#include "PlayerManager.h"
+
 class PlayScene : public gameNode
 {
 private:
-    RECT _rc;
-    float _x, _y;
+    PlayerManager * _pm;
 public:
     PlayScene();
     ~PlayScene();

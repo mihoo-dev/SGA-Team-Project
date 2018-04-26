@@ -168,6 +168,12 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>playGround\Scene\LoadingScene</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -247,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>playGround\Scene\LoadingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

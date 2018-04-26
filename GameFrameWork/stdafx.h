@@ -38,10 +38,10 @@ using namespace NONA_UTIL;
 #define WINNAME (LPSTR)(TEXT("Nona API"))
 #define WINSTARTX 50		//윈도우 시작좌표 X
 #define WINSTARTY 50		//윈도우 시작좌표 Y
-#define WINSIZEX 300		//윈도우 가로크기
-#define WINSIZEY 250		//윈도우 세로크기
-#define GAMESIZEX 687
-#define GAMESIZEY 732
+#define WINSIZEX 600		//윈도우 가로크기
+#define WINSIZEY 500		//윈도우 세로크기
+#define GAMESIZEX 1374
+#define GAMESIZEY 1464
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
 
 #define KEYMANAGER		keyManager::getSingleton()
