@@ -9,8 +9,8 @@ c:\users\강동훈\desktop\sga-team-project\gameframework\commonmacrofunction.h(
 c:\users\강동훈\desktop\sga-team-project\gameframework\commonmacrofunction.h(89): warning C4244: '인수': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\강동훈\desktop\sga-team-project\gameframework\commonmacrofunction.h(104): warning C4244: 'return': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\강동훈\desktop\sga-team-project\gameframework\commonmacrofunction.h(110): warning C4244: 'return': 'LONG'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\강동훈\desktop\sga-team-project\gameframework\image.h(152): warning C4838: 'float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-c:\users\강동훈\desktop\sga-team-project\gameframework\image.h(152): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\강동훈\desktop\sga-team-project\gameframework\image.h(154): warning C4838: 'float'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+c:\users\강동훈\desktop\sga-team-project\gameframework\image.h(154): warning C4244: '초기화 중': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   winMain.cpp
   utils.cpp
   txtData.cpp
@@ -49,9 +49,9 @@ c:\users\강동훈\desktop\sga-team-project\gameframework\inidatamanager.cpp(94)
   image.cpp
 c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(351): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(361): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(495): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(501): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(506): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(507): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\강동훈\desktop\sga-team-project\gameframework\image.cpp(512): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   gameNode.cpp
 c:\users\강동훈\desktop\sga-team-project\gameframework\gamenode.cpp(104): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\강동훈\desktop\sga-team-project\gameframework\gamenode.cpp(105): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -72,7 +72,7 @@ c:\users\강동훈\desktop\sga-team-project\gameframework\txtdata.cpp(60): warni
   StartScene.cpp
   PlayerManager.cpp
   Player.cpp
-c:\users\강동훈\desktop\sga-team-project\gameframework\player.cpp(45): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\강동훈\desktop\sga-team-project\gameframework\player.cpp(83): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   PlayScene.cpp
 c:\users\강동훈\desktop\sga-team-project\gameframework\playscene.cpp(39): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   LoadingScene.cpp

@@ -43,5 +43,6 @@ public:
 
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 
+    
 };
 

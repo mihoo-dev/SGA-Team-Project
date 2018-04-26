@@ -109,6 +109,8 @@ public:
 	
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
 
+    bool FrustumCull(int destX, int destY);
+
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 
 	//이미지 조작을 간편하기 위한 Getter, Setter

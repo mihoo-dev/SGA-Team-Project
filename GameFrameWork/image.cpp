@@ -366,6 +366,8 @@ void image::render(HDC hdc)
 //렌더링 함수 뿌릴DC, left, top 좌표
 void image::render(HDC hdc, int destX, int destY)
 {
+    //if (!FrustumCull(destX, destY)) return;
+
 	if (_trans)
 	{
 		GdiTransparentBlt(
@@ -418,6 +420,8 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 
 void image::frameRender(HDC hdc, int destX, int destY)
 {
+    if (!FrustumCull(destX, destY)) return;
+
 	if (_trans)
 	{
 		GdiTransparentBlt(
@@ -450,6 +454,8 @@ void image::frameRender(HDC hdc, int destX, int destY)
 
 void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
 {
+    if (!FrustumCull(destX, destY)) return;
+
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
 
@@ -510,6 +516,8 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 
 void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
+    if (!FrustumCull(destX, destY)) return;
+
 	//실제 이미지에 알파블렌드를 접목시켜주는 함수
 	_blendFunc.SourceConstantAlpha = alpha;
 
@@ -557,6 +565,8 @@ void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int
 
 void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
+    if (!FrustumCull(destX, destY)) return;
+
     //실제 이미지에 알파블렌드를 접목시켜주는 함수
     _blendFunc.SourceConstantAlpha = alpha;
 
@@ -593,6 +603,8 @@ void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
 
 void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
 {
+    if (!FrustumCull(destX, destY)) return;
+
     //실제 이미지에 알파블렌드를 접목시켜주는 함수
     _blendFunc.SourceConstantAlpha = alpha;
     _imageInfo->currentFrameX = currentFrameX;
@@ -694,6 +706,34 @@ void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 
 void image::aniRender(HDC hdc, int destX, int destY, animation * ani)
 {
+    if (!FrustumCull(destX, destY)) return;
+
 	//프레임 위치에 맞게 이미지를 뿌려준다
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
+}
+
+bool image::FrustumCull(int destX, int destY)
+{
+    if (_imageInfo->maxFrameX > 0 || _imageInfo->maxFrameY > 0)
+    {
+        if (destX <= CAMERA->GetRC().right &&
+            destX + _imageInfo->frameWidth >= CAMERA->GetRC().left &&
+            destY <= CAMERA->GetRC().bottom &&
+            destY + _imageInfo->frameHeight >= CAMERA->GetRC().top)
+        {
+            return true;
+        }
+    }
+    else if (_imageInfo->maxFrameX == 0 && _imageInfo->maxFrameY == 0)
+    {
+        if (destX <= CAMERA->GetRC().right &&
+            destX + _imageInfo->width >= CAMERA->GetRC().left &&
+            destY <= CAMERA->GetRC().bottom &&
+            destY + _imageInfo->height >= CAMERA->GetRC().top)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

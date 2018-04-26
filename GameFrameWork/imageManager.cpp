@@ -240,3 +240,4 @@ void imageManager::loopRender(string strKey, HDC hdc, const LPRECT drawArea, int
 
 	if (img) img->loopRender(hdc, drawArea, offSetX, offSetY);
 }
+
