@@ -17,4 +17,7 @@ namespace NONA_UTIL
 	//각도 구하는 함수
 	float getAngle(float x1, float y1, float x2, float y2);
 
+	//이미지 저장폴더 입력해주는 함수
+	const char* fileName(string fileName);
+	string filePath(string filePath);
 }

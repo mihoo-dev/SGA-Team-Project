@@ -18,6 +18,8 @@ HRESULT Player::init()
     IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1200, 200, 12, 2, true, RGB(255, 0, 255));
     _img = IMAGEMANAGER->findImage("Player");
 
+	
+
     int rightIdle[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightIdle", "Player", rightIdle, 12, 10, true);
 

@@ -73,6 +73,12 @@
     <Filter Include="playGround\Scene\LoadingScene">
       <UniqueIdentifier>{df80ad90-ead4-4721-8829-6339ded01427}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\World">
+      <UniqueIdentifier>{bfa633c0-a6f9-420b-a61c-6f2ce3dbcef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\WorldScene">
+      <UniqueIdentifier>{2e884dac-3e60-42e8-b3b5-fd3cd7488009}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -174,6 +180,18 @@
     <ClInclude Include="Player.h">
       <Filter>playGround\Player</Filter>
     </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>playGround\World</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World_Character.h">
+      <Filter>playGround\World</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldScene.h">
+      <Filter>playGround\Scene\WorldScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -259,6 +277,15 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>playGround\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World_Character.cpp">
+      <Filter>playGround\World</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldScene.cpp">
+      <Filter>playGround\Scene\WorldScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

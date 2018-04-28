@@ -31,4 +31,23 @@ namespace NONA_UTIL
 		return angle;
 	}
 
+const char* fileName(string fileName)
+	{
+		string folder = "image\\";
+		folder.append(fileName);
+		folder.append(".bmp");
+
+		return folder.c_str();
+	}
+	
+string filePath(string filePath)
+	{
+		string folder = "image\\";
+		string extension = ".bmp";
+	
+		folder.append(filePath);
+		folder.append(extension);
+
+		return folder;
+	}
 }

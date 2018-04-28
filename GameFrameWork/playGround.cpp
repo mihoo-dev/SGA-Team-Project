@@ -23,11 +23,13 @@ HRESULT playGround::init()
 
     _startScene = new StartScene;
     _playScene = new PlayScene;
+	_worldScene = new WorldScene;
     _endScene = new EndScene;
     _loadingScene = new LoadingScene;
 
     SCENEMANAGER->addScene("StartScene", _startScene);
     SCENEMANAGER->addScene("PlayScene", _playScene);
+	SCENEMANAGER->addScene("WorldScene", _worldScene);
     SCENEMANAGER->addScene("EndScene", _endScene);
     SCENEMANAGER->addLoadingScene("LoadingScene", _loadingScene);
 
@@ -35,6 +37,7 @@ HRESULT playGround::init()
 
     _sceneChange1 = false;
     _sceneChange2 = false;
+	_sceneChange3 = false;
 
 	return S_OK;
 }
@@ -56,6 +59,9 @@ void playGround::update()
         _sceneChange1 = true;
     if (KEYMANAGER->isOnceKeyDown('W'))
         _sceneChange2 = true;
+	if (KEYMANAGER->isOnceKeyDown('E'))
+		_sceneChange3 = true;
+
 
     if (_sceneChange1)
     {
@@ -73,8 +79,16 @@ void playGround::update()
             SCENEMANAGER->changeScene("PlayScene", "LoadingScene");
         }
     }
+	if (_sceneChange3)
+	{
+		if (FadeIn(&_alpha))
+		{
+			_sceneChange3 = false;
+			SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+		}
+	}
 
-    if(!_sceneChange1 && !_sceneChange2)
+    if(!_sceneChange1 && !_sceneChange2 && !_sceneChange3)
         FadeOut(&_alpha);
         
     

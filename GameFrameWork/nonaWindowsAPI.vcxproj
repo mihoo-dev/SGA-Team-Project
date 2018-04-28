@@ -86,6 +86,7 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="EndScene.h" />
+    <ClInclude Include="enum.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -110,6 +111,9 @@
     <ClInclude Include="timer.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="WorldScene.h" />
+    <ClInclude Include="World_Character.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="action.cpp" />
@@ -143,6 +147,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldScene.cpp" />
+    <ClCompile Include="World_Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="nonaWindowsAPI.rc" />

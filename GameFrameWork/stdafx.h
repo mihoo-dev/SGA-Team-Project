@@ -15,6 +15,7 @@
 
 using namespace std;
 
+#include "enum.h"
 #include "commonMacroFunction.h"
 #include "keyManager.h"
 #include "randomFunction.h"
