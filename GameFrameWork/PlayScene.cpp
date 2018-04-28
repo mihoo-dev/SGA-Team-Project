@@ -14,6 +14,7 @@ PlayScene::~PlayScene()
 HRESULT PlayScene::init()
 {
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));
 
     _pm = new PlayerManager;
     _pm->init();
