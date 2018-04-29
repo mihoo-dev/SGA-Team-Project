@@ -18,7 +18,7 @@ Player::~Player()
 
 HRESULT Player::init()
 {
-    IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1600, 1200, 16, 12, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1600, 1100, 16, 11, true, RGB(255, 0, 255));
     _img = IMAGEMANAGER->findImage("Player");
 
     int rightIdle[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -81,6 +81,45 @@ HRESULT Player::init()
     int leftLadderOff[] = { 152, 151, 150, 149, 148, 147, 146, 145, 144 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLadderOff", "Player", leftLadderOff, 9, 15, false);
 
+    int rightDuck[] = { 12, 13 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDuck", "Player", rightDuck, 2, 2, true);
+
+    int leftDuck[] = { 14, 15 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDuck", "Player", leftDuck, 2, 2, true);
+
+    //플레이어 공격 모션
+    IMAGEMANAGER->addFrameImage("PlayerAttack", "PlayerAttack.bmp", 1500, 800, 6, 8, true, RGB(255, 0, 255));
+
+    int rightDuckKick[] = { 0, 1, 2, 3, 4, 5 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDuckKick", "PlayerAttack", rightDuckKick, 6, 15, false);
+
+    int leftDuckKick[] = { 6, 7, 8, 9, 10, 11 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDuckKick", "PlayerAttack", leftDuckKick, 6, 15, false);
+
+    int rightAttack1[] = { 12, 13, 14 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightAttack1", "PlayerAttack", rightAttack1, 3, 15, false);
+
+    int leftAttack1[] = { 18, 19, 20 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftAttack1", "PlayerAttack", leftAttack1, 3, 15, false);
+
+    int rightAttack2[] = { 15, 16, 17 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightAttack2", "PlayerAttack", rightAttack2, 3, 15, false);
+
+    int leftAttack2[] = { 21, 22, 23 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftAttack2", "PlayerAttack", leftAttack2, 3, 15, false);
+
+    int rightAttack3[] = { 24, 25, 26, 27 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightAttack3", "PlayerAttack", rightAttack3, 4, 15, false);
+
+    int leftAttack3[] = { 30, 31, 32, 33 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftAttack3", "PlayerAttack", leftAttack3, 4, 15, false);
+
+    int rightJumpAttack[] = { 36, 37, 38, 39, 40, 41 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightJumpAttack", "PlayerAttack", rightJumpAttack, 6, 15, false);
+
+    int leftJumpAttack[] = { 42, 43, 44, 45, 46, 47 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftJumpAttack", "PlayerAttack", leftJumpAttack, 6, 15, false);
+
     _state = RIGHT_IDLE;
     _anim = KEYANIMANAGER->findAnimation("PlayerRightIdle");
     _anim->start();
@@ -100,7 +139,12 @@ void Player::update()
         _state != RIGHT_MID && _state != LEFT_MID &&
         _state != RIGHT_FALL && _state != LEFT_FALL &&
         _state != RIGHT_LAND && _state != LEFT_LAND &&
-        _state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON)
+        _state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
+        _state != RIGHT_DUCK && _state != LEFT_DUCK &&
+        _state != RIGHT_DUCK_KICK && _state != LEFT_DUCK_KICK &&
+        _state != RIGHT_ATTACK_1 && _state != LEFT_ATTACK_1 &&
+        _state != RIGHT_ATTACK_2 && _state != LEFT_ATTACK_2 &&
+        _state != RIGHT_ATTACK_3 && _state != LEFT_ATTACK_3)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
         {
@@ -132,10 +176,16 @@ void Player::update()
                 ChangeAnim(LEFT_RUN, "PlayerLeftRun");
             }
         }
+        
     }
-    if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+    if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
     {
         _direction = RIGHT;
+        if (_state == LEFT_DUCK)
+        {
+            _state = RIGHT_DUCK;
+            _anim = KEYANIMANAGER->findAnimation("PlayerRightDuck");
+        }
         if (_state == LEFT_JUMP)
         {
             _state = RIGHT_JUMP;
@@ -151,10 +201,16 @@ void Player::update()
             _state = RIGHT_FALL;
             _anim = KEYANIMANAGER->findAnimation("PlayerRightFall");
         }
+        _anim->start();
     }
-    else if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+    else if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
     {
         _direction = LEFT;
+        if (_state == RIGHT_DUCK)
+        {
+            _state = LEFT_DUCK;
+            _anim = KEYANIMANAGER->findAnimation("PlayerLeftDuck");
+        }
         if (_state == RIGHT_JUMP)
         {
             _state = LEFT_JUMP;
@@ -170,6 +226,7 @@ void Player::update()
             _state = LEFT_FALL;
             _anim = KEYANIMANAGER->findAnimation("PlayerLeftFall");
         }
+        _anim->start();
     }
     if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
     {
@@ -189,7 +246,33 @@ void Player::update()
         }
     }
 
-    
+    if (_state == RIGHT_IDLE || _state == LEFT_IDLE ||
+        _state == RIGHT_WALK || _state == LEFT_WALK ||
+        _state == RIGHT_RUN || _state == LEFT_RUN)
+    {
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            _img = IMAGEMANAGER->findImage("PlayerAttack");
+            if (_direction == RIGHT)
+                ChangeAnim(RIGHT_ATTACK_1, "PlayerRightAttack1");
+            else if (_direction == LEFT)
+                ChangeAnim(LEFT_ATTACK_1, "PlayerLeftAttack1");
+        }
+    }
+
+    if (_state == RIGHT_JUMP || _state == LEFT_JUMP ||
+        _state == RIGHT_MID || _state == LEFT_MID ||
+        _state == RIGHT_FALL || _state == LEFT_FALL)
+    {
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            _img = IMAGEMANAGER->findImage("PlayerAttack");
+            if (_direction == RIGHT)
+                ChangeAnim(RIGHT_JUMP_ATTACK, "PlayerRightJumpAttack");
+            else if (_direction == LEFT)
+                ChangeAnim(LEFT_JUMP_ATTACK, "PlayerLeftJumpAttack");
+        }
+    }
     
 
     switch (_state)
@@ -277,15 +360,15 @@ void Player::update()
         }
         break;
     case Player::RIGHT_JUMP:
-        if (_jumpPower <= 0) 
+        if (_jumpPower <= 0)
             ChangeAnim(RIGHT_MID, "PlayerRightMid");
         break;
     case Player::LEFT_JUMP:
-        if (_jumpPower <= 0) 
+        if (_jumpPower <= 0)
             ChangeAnim(LEFT_MID, "PlayerLeftMid");
         break;
     case Player::RIGHT_MID:
-        if (!_anim->isPlay()) 
+        if (!_anim->isPlay())
             ChangeAnim(RIGHT_FALL, "PlayerRightFall");
         break;
     case Player::LEFT_MID:
@@ -391,7 +474,7 @@ void Player::update()
         }
         break;
     case Player::LADDER_DOWN:
-        if(KEYMANAGER->isOnceKeyDown(VK_UP))
+        if (KEYMANAGER->isOnceKeyDown(VK_UP))
             ChangeAnim(LADDER_UP, "PlayerLadderUp");
         if (KEYMANAGER->isStayKeyDown(VK_DOWN))
         {
@@ -405,7 +488,7 @@ void Player::update()
         {
             _anim->pause();
         }
-        
+
         break;
     case Player::RIGHT_LADDER_OFF:
         _y -= 2.5f;
@@ -419,6 +502,120 @@ void Player::update()
         if (!_anim->isPlay())
         {
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+        }
+        break;
+    case Player::RIGHT_DUCK:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            _speed = 4;
+            _friction = 0.1f;
+            _img = IMAGEMANAGER->findImage("PlayerAttack");
+            ChangeAnim(RIGHT_DUCK_KICK, "PlayerRightDuckKick");
+        }
+        if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+            ChangeAnim(RIGHT_WALK, "PlayerRightWalk");
+        break;
+    case Player::LEFT_DUCK:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            _speed = -4;
+            _friction = 0.1f;
+            _img = IMAGEMANAGER->findImage("PlayerAttack");
+            ChangeAnim(LEFT_DUCK_KICK, "PlayerLeftDuckKick");
+        }
+        if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+            ChangeAnim(LEFT_WALK, "PlayerLeftWalk");
+        break;
+    case Player::RIGHT_DUCK_KICK:
+        Friction("left", 0);
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
+        }
+        break;
+    case Player::LEFT_DUCK_KICK:
+        Friction("right", 0);
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
+        }
+        break;
+    case Player::RIGHT_ATTACK_1:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            ChangeAnim(RIGHT_ATTACK_2, "PlayerRightAttack2");
+            break;
+        }
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(RIGHT_WALK, "PlayerRightWalk");
+        }
+        break;
+    case Player::LEFT_ATTACK_1:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            ChangeAnim(LEFT_ATTACK_2, "PlayerLeftAttack2");
+            break;
+        }
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(LEFT_WALK, "PlayerLeftWalk");
+        }
+        break;
+    case Player::RIGHT_ATTACK_2:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            ChangeAnim(RIGHT_ATTACK_3, "PlayerRightAttack3");
+            break;
+        }
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(RIGHT_WALK, "PlayerRightWalk");
+        }
+        break;
+    case Player::LEFT_ATTACK_2:
+        if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
+            ChangeAnim(LEFT_ATTACK_3, "PlayerLeftAttack3");
+            break;
+        }
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(LEFT_WALK, "PlayerLeftWalk");
+        }
+        break;
+    case Player::RIGHT_ATTACK_3:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(RIGHT_WALK, "PlayerRightWalk");
+        }
+        break;
+    case Player::LEFT_ATTACK_3:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(LEFT_WALK, "PlayerLeftWalk");
+        }
+        break;
+    case Player::RIGHT_JUMP_ATTACK:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(RIGHT_FALL, "PlayerRightFall");
+        }
+        break;
+    case Player::LEFT_JUMP_ATTACK:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            ChangeAnim(LEFT_FALL, "PlayerLeftFall");
         }
         break;
     }
@@ -435,7 +632,8 @@ void Player::update()
 
     if (_state == RIGHT_JUMP || _state == LEFT_JUMP ||
         _state == RIGHT_MID || _state == LEFT_MID ||
-        _state == RIGHT_FALL || _state == LEFT_FALL)
+        _state == RIGHT_FALL || _state == LEFT_FALL ||
+        _state == RIGHT_JUMP_ATTACK || _state == LEFT_JUMP_ATTACK)
         _x += _speed;
     if (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
         _state != LADDER_UP && _state != LADDER_DOWN && 
@@ -443,6 +641,22 @@ void Player::update()
     {
         _y -= _jumpPower;
         _jumpPower -= _gravity;
+    }
+
+    if (_jumpPower < -1)
+    {
+        if (_state == RIGHT_IDLE || _state == LEFT_IDLE ||
+            _state == RIGHT_RUN || _state == LEFT_RUN)
+        {
+            if (_direction == RIGHT)
+            {
+                ChangeAnim(RIGHT_MID, "PlayerRightMid");
+            }
+            else if (_direction == LEFT)
+            {
+                ChangeAnim(LEFT_MID, "PlayerLeftMid");
+            }
+        }
     }
     
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
@@ -551,6 +765,13 @@ void Player::GroundCollision()
 
         if (pixelColor == color)
         {
+            if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+            {
+                if (_direction == RIGHT)
+                    ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
+                else if (_direction == LEFT)
+                    ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
+            }
             _onGround = true;
             _y = i - _img->getFrameHeight() / 2;
             _jumpPower = 0;
@@ -560,7 +781,7 @@ void Player::GroundCollision()
     }
 
     //위
-    for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2; i--)
+    for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2 + 10; i--)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), _x, i);
 
