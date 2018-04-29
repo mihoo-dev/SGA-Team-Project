@@ -18,7 +18,7 @@ Player::~Player()
 
 HRESULT Player::init()
 {
-    IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1600, 800, 16, 8, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1600, 1200, 16, 12, true, RGB(255, 0, 255));
     _img = IMAGEMANAGER->findImage("Player");
 
     int rightIdle[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -58,10 +58,28 @@ HRESULT Player::init()
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftFall", "Player", leftFall, 6, 15, true);
 
     int rightLand[] = { 76, 77, 78, 79, 109 };
-    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightLand", "Player", rightLand, 5, 15, false);
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightLand", "Player", rightLand, 5, 20, false);
     
     int leftLand[] = { 92, 93, 94, 95, 125 };
-    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLand", "Player", leftLand, 5, 15, false);
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLand", "Player", leftLand, 5, 20, false);
+
+    int rightLadderOn[] = { 128, 129, 130, 131, 132, 133, 134,135, 136 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightLadderOn", "Player", rightLadderOn, 9, 15, false);
+
+    int leftLadderOn[] = { 144, 145, 146, 147, 148, 149, 150, 151, 152 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLadderOn", "Player", leftLadderOn, 9, 15, false);
+
+    int ladderUp[] = { 160, 161, 162, 163, 164, 165, 166, 167, 168, 169 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLadderUp", "Player", ladderUp, 10, 15, true);
+
+    int ladderDown[] = { 169, 168, 167, 166, 165, 164, 163, 162, 161, 160 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLadderDown", "Player", ladderDown, 10, 15, true);
+
+    int rightLadderOff[] = { 136, 135, 134, 133, 132, 131, 130, 129, 128 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightLadderOff", "Player", rightLadderOff, 9, 15, false);
+
+    int leftLadderOff[] = { 152, 151, 150, 149, 148, 147, 146, 145, 144 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLadderOff", "Player", leftLadderOff, 9, 15, false);
 
     _state = RIGHT_IDLE;
     _anim = KEYANIMANAGER->findAnimation("PlayerRightIdle");
@@ -81,7 +99,8 @@ void Player::update()
     if (_state != RIGHT_JUMP && _state != LEFT_JUMP &&
         _state != RIGHT_MID && _state != LEFT_MID &&
         _state != RIGHT_FALL && _state != LEFT_FALL &&
-        _state != RIGHT_LAND && _state != LEFT_LAND)
+        _state != RIGHT_LAND && _state != LEFT_LAND &&
+        _state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
         {
@@ -114,31 +133,64 @@ void Player::update()
             }
         }
     }
+    if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+    {
+        _direction = RIGHT;
+        if (_state == LEFT_JUMP)
+        {
+            _state = RIGHT_JUMP;
+            _anim = KEYANIMANAGER->findAnimation("PlayerRightJump");
+        }
+        else if (_state == LEFT_MID)
+        {
+            _state = RIGHT_MID;
+            _anim = KEYANIMANAGER->findAnimation("PlayerRightMid");
+        }
+        else if (_state == LEFT_FALL)
+        {
+            _state = RIGHT_FALL;
+            _anim = KEYANIMANAGER->findAnimation("PlayerRightFall");
+        }
+    }
+    else if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+    {
+        _direction = LEFT;
+        if (_state == RIGHT_JUMP)
+        {
+            _state = LEFT_JUMP;
+            _anim = KEYANIMANAGER->findAnimation("PlayerLeftJump");
+        }
+        else if (_state == RIGHT_MID)
+        {
+            _state = LEFT_MID;
+            _anim = KEYANIMANAGER->findAnimation("PlayerLeftMid");
+        }
+        else if (_state == RIGHT_FALL)
+        {
+            _state = LEFT_FALL;
+            _anim = KEYANIMANAGER->findAnimation("PlayerLeftFall");
+        }
+    }
     if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
     {
-        _jumpPower = 7;
-        _gravity = 0.3f;
+        if (_state != RIGHT_LAND && _state != LEFT_LAND)
+        {
+            _jumpPower = 7;
+            _gravity = 0.3f;
 
-        if (_state == RIGHT_IDLE || _state == RIGHT_WALK || 
-            _state == RIGHT_RUN || _state == RIGHT_JUMP ||
-            _state == RIGHT_MID || _state == RIGHT_FALL)
-        {
-            ChangeAnim(RIGHT_JUMP, "PlayerRightJump");
-        }
-        else if (_state == LEFT_IDLE || _state == LEFT_WALK ||
-                 _state == LEFT_RUN || _state == LEFT_JUMP ||
-                 _state == LEFT_MID || _state == LEFT_FALL)
-        {
-            ChangeAnim(LEFT_JUMP, "PlayerLeftJump");
+            if (_direction == RIGHT)
+            {
+                ChangeAnim(RIGHT_JUMP, "PlayerRightJump");
+            }
+            else if (_direction == LEFT)
+            {
+                ChangeAnim(LEFT_JUMP, "PlayerLeftJump");
+            }
         }
     }
 
-    if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-        if (_onLadder)
-            _y += 2;
-    if (KEYMANAGER->isStayKeyDown(VK_UP))
-        if (_onLadder)
-            _y -= 2;
+    
+    
 
     switch (_state)
     {
@@ -308,6 +360,67 @@ void Player::update()
             }
         }
         break;
+    case Player::RIGHT_LADDER_ON:
+        _y += 2;
+        if (!_anim->isPlay())
+        {
+            ChangeAnim(LADDER_UP, "PlayerLadderUp");
+        }
+        break;
+    case Player::LEFT_LADDER_ON:
+        _y += 2;
+        if (!_anim->isPlay())
+        {
+            ChangeAnim(LADDER_UP, "PlayerLadderUp");
+        }
+        break;
+    case Player::LADDER_UP:
+        if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+            ChangeAnim(LADDER_DOWN, "PlayerLadderDown");
+        if (KEYMANAGER->isStayKeyDown(VK_UP))
+        {
+            if (_onLadder && (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON))
+            {
+                _y -= 2;
+                _anim->resume();
+            }
+        }
+        else if (!KEYMANAGER->isStayKeyDown(VK_UP))
+        {
+            _anim->pause();
+        }
+        break;
+    case Player::LADDER_DOWN:
+        if(KEYMANAGER->isOnceKeyDown(VK_UP))
+            ChangeAnim(LADDER_UP, "PlayerLadderUp");
+        if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+        {
+            if (_onLadder && (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON))
+            {
+                _y += 2;
+                _anim->resume();
+            }
+        }
+        else if (!KEYMANAGER->isStayKeyDown(VK_DOWN))
+        {
+            _anim->pause();
+        }
+        
+        break;
+    case Player::RIGHT_LADDER_OFF:
+        _y -= 2.5f;
+        if (!_anim->isPlay())
+        {
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
+    case Player::LEFT_LADDER_OFF:
+        _y -= 2.5f;
+        if (!_anim->isPlay())
+        {
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+        }
+        break;
     }
 
     switch (_direction)
@@ -324,8 +437,13 @@ void Player::update()
         _state == RIGHT_MID || _state == LEFT_MID ||
         _state == RIGHT_FALL || _state == LEFT_FALL)
         _x += _speed;
-    _y -= _jumpPower;
-    _jumpPower -= _gravity;
+    if (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
+        _state != LADDER_UP && _state != LADDER_DOWN && 
+        _state != RIGHT_LADDER_OFF && _state != LEFT_LADDER_OFF)
+    {
+        _y -= _jumpPower;
+        _jumpPower -= _gravity;
+    }
     
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
     
@@ -383,11 +501,51 @@ void Player::GroundCollision()
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), _x, i);
 
+        if (pixelColor == RGB(255, 0, 0))
+        {
+            if (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
+                _state != LADDER_UP && _state != LADDER_DOWN)
+            {
+                if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+                {
+                    if (_direction == RIGHT)
+                    {
+                        ChangeAnim(RIGHT_LADDER_ON, "PlayerRightLadderOn");
+                    }
+                    else if (_direction == LEFT)
+                    {
+                        ChangeAnim(LEFT_LADDER_ON, "PlayerLeftLadderOn");
+                    }
+                }
+                if (_state != RIGHT_LADDER_OFF && _state != LEFT_LADDER_OFF)
+                {
+                    _onGround = true;
+                    _y = i - _img->getFrameHeight() / 2;
+                    _jumpPower = 0;
+                }
+            }
+            break;
+        }
         if (pixelColor == RGB(0, 255, 0))
         {
             _onLadder = true;
-            _y = i - _img->getFrameHeight() / 2;
-            _jumpPower = 0;
+            if (_onLadder && _state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
+                _state != LADDER_UP && _state != LADDER_DOWN)
+            {
+                if (KEYMANAGER->isOnceKeyDown(VK_UP))
+                {
+                    if (_direction == RIGHT)
+                    {
+                        _state = RIGHT_LADDER_ON;
+                        _anim = KEYANIMANAGER->findAnimation("PlayerRightLadderOn");
+                    }
+                    else if (_direction == LEFT)
+                    {
+                        _state = LEFT_LADDER_ON;
+                        _anim = KEYANIMANAGER->findAnimation("PlayerLeftLadderOn");
+                    }
+                }
+            }
         }
         else _onLadder = false;
 
@@ -401,6 +559,28 @@ void Player::GroundCollision()
         else _onGround = false;
     }
 
+    //위
+    for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2; i--)
+    {
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), _x, i);
+
+        if (pixelColor == RGB(255, 0, 255))
+        {
+            if (_state == LADDER_UP)
+            {
+                if (_onLadder)
+                {
+                    if (KEYMANAGER->isStayKeyDown(VK_UP))
+                    {
+                        if (_direction == RIGHT)
+                            ChangeAnim(RIGHT_LADDER_OFF, "PlayerRightLadderOff");
+                        else if(_direction == LEFT)
+                            ChangeAnim(LEFT_LADDER_OFF, "PlayerLeftLadderOff");
+                    }
+                }
+            }
+        }
+    }
     color = RGB(0, 255, 255);
 
     //오른쪽

@@ -12,7 +12,10 @@ private:
         RIGHT_JUMP, LEFT_JUMP,
         RIGHT_MID,  LEFT_MID,
         RIGHT_FALL, LEFT_FALL,
-        RIGHT_LAND, LEFT_LAND
+        RIGHT_LAND, LEFT_LAND,
+        RIGHT_LADDER_ON, LEFT_LADDER_ON,
+        LADDER_UP, LADDER_DOWN,
+        RIGHT_LADDER_OFF, LEFT_LADDER_OFF
     };
     //캐릭터 방향
     enum DIRECTION {
