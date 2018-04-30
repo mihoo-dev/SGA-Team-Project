@@ -113,6 +113,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldScene.h" />
+    <ClInclude Include="World_Bridge.h" />
     <ClInclude Include="World_Character.h" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,7 @@
     </ClCompile>
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldScene.cpp" />
+    <ClCompile Include="World_Bridge.cpp" />
     <ClCompile Include="World_Character.cpp" />
   </ItemGroup>
   <ItemGroup>

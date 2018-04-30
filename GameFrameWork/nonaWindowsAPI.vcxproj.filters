@@ -192,6 +192,9 @@
     <ClInclude Include="WorldScene.h">
       <Filter>playGround\Scene\WorldScene</Filter>
     </ClInclude>
+    <ClInclude Include="World_Bridge.h">
+      <Filter>playGround\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="WorldScene.cpp">
       <Filter>playGround\Scene\WorldScene</Filter>
+    </ClCompile>
+    <ClCompile Include="World_Bridge.cpp">
+      <Filter>playGround\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

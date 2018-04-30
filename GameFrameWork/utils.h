@@ -3,6 +3,7 @@
 #define PI 3.141592654f
 #define PI2 PI * 2
 
+#define PI4 float(PI / 4.0f)
 #define PI8 float(PI / 8.0f)
 #define PI16 float(PI / 16.0f)
 #define PI32 float(PI / 32.0f)
