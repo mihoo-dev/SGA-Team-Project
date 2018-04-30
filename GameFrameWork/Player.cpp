@@ -167,6 +167,35 @@ HRESULT Player::init()
 
     //============================================================================================//
 
+    //플레이어 HIT & GET_ITEM=====================================================//    
+    IMAGEMANAGER->addFrameImage("PlayerHitItem", "Player_Hit_Item.bmp", 3000, 1080, 12, 9, true, RGB(255, 0, 255));
+
+    int rightHit[] = { 0, 1, 2, 3 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightHit", "PlayerHitItem", rightHit, 4, 15, false);
+
+    int leftHit[] = { 4, 5, 6, 7 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftHit", "PlayerHitItem", leftHit, 4, 15, false);
+    
+    int rightKnock[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightKnock", "PlayerHitItem", rightKnock, 12, 12, false);
+
+    int leftKnock[] = { 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftKnock", "PlayerHitItem", leftKnock, 12, 12, false);
+
+    int rightDie[] = { 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDie", "PlayerHitItem", rightDie, 20, 15, false);
+
+    int leftDie[]  = { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDie", "PlayerHitItem", leftDie, 20, 15, false);
+
+    int rightUseItem[] = { 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 56, 57, 58, 59 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightUseItem", "PlayerHitItem", rightUseItem, 16, 12, false);
+
+    int leftUseItem[] = { 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 80, 81, 82, 83 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftUseItem", "PlayerHitItem", leftUseItem, 16, 12, false);
+    
+    //==============================================================================//
+
     _state = RIGHT_IDLE;
     _img = IMAGEMANAGER->findImage("Player");
     _anim = KEYANIMANAGER->findAnimation("PlayerRightIdle");
@@ -200,7 +229,11 @@ void Player::update()
         _state != RIGHT_JAKE_PUNCH && _state != LEFT_JAKE_PUNCH &&
         _state != RIGHT_SWORD_1 && _state != LEFT_SWORD_1 &&
         _state != RIGHT_SWORD_2 && _state != LEFT_SWORD_2 &&
-        _state != RIGHT_JUMP_SWORD && _state != LEFT_JUMP_SWORD)
+        _state != RIGHT_JUMP_SWORD && _state != LEFT_JUMP_SWORD &&
+        _state != RIGHT_HIT && _state != LEFT_HIT &&
+        _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
+        _state != RIGHT_DIE && _state != LEFT_DIE && 
+        _state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
         {
@@ -351,6 +384,82 @@ void Player::update()
         }
     }
 
+    if (KEYMANAGER->isOnceKeyDown('A'))
+    {
+        if (_state != RIGHT_HIT && _state != LEFT_HIT)
+        {
+            _speed = 0;
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_HIT, "PlayerRightHit");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_HIT, "PlayerLeftHit");
+            }
+        }
+    }
+    if (KEYMANAGER->isOnceKeyDown('S'))
+    {
+        _speed = 0;
+        if (_state != RIGHT_KNOCK && _state != LEFT_KNOCK)
+        {
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_KNOCK, "PlayerRightKnock");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_KNOCK, "PlayerLeftKnock");
+            }
+        }
+    }
+    if (KEYMANAGER->isOnceKeyDown('D'))
+    {
+        _speed = 0;
+        if (_state != RIGHT_DIE && _state != LEFT_DIE)
+        {
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_DIE, "PlayerRightDie");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_DIE, "PlayerLeftDie");
+            }
+        }
+    }
+    if (KEYMANAGER->isOnceKeyDown('C'))
+    {
+        _speed = 0;
+        if (_state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM)
+        {
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_USE_ITEM, "PlayerRightUseItem");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_USE_ITEM, "PlayerLeftUseItem");
+            }
+        }
+    }
 
     switch (_state)
     {
@@ -925,6 +1034,70 @@ void Player::update()
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
+        }
+        break;
+    case Player::RIGHT_HIT:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
+    case Player::LEFT_HIT:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+        }
+        break;
+    case Player::RIGHT_KNOCK:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
+    case Player::LEFT_KNOCK:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+        }
+        break;
+    case Player::RIGHT_DIE:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
+    case Player::LEFT_DIE:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+        }
+        break;
+    case Player::RIGHT_USE_ITEM:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
+    case Player::LEFT_USE_ITEM:
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
     }
