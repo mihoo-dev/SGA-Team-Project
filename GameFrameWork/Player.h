@@ -8,9 +8,9 @@ private:
     enum STATE {
         RIGHT_IDLE, LEFT_IDLE,
         RIGHT_WALK, LEFT_WALK,
-        RIGHT_RUN,  LEFT_RUN,
+        RIGHT_RUN, LEFT_RUN,
         RIGHT_JUMP, LEFT_JUMP,
-        RIGHT_MID,  LEFT_MID,
+        RIGHT_MID, LEFT_MID,
         RIGHT_FALL, LEFT_FALL,
         RIGHT_LAND, LEFT_LAND,
         RIGHT_LADDER_ON, LEFT_LADDER_ON,

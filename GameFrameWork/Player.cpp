@@ -4,12 +4,12 @@
 
 Player::Player()
     : _x(WINSIZEX / 2), _y(WINSIZEY / 2),
-    _colX(WINSIZEX/2), _colY(WINSIZEY/2),
+    _colX(WINSIZEX / 2), _colY(WINSIZEY / 2),
     _speed(0.0f), _friction(0.0f),
     _jumpPower(0), _gravity(0.3f),
     _direction(RIGHT), _rc({ 0, 0, 0, 0 }),
     _onLadder(false), _onGround(false),
-    _item(SWORD), _isCombo(false)
+    _item(DEFFAULT), _isCombo(false)
 {
 }
 
@@ -20,8 +20,8 @@ Player::~Player()
 
 HRESULT Player::init()
 {
-    IMAGEMANAGER->addFrameImage("Player", "Player.bmp", 1600, 1100, 16, 11, true, RGB(255, 0, 255));
-    _img = IMAGEMANAGER->findImage("Player");
+    //플레이어 상태============================================================================================//
+    IMAGEMANAGER->addFrameImage("Player", "PlayerMove.bmp", 1600, 1100, 16, 11, true, RGB(255, 0, 255));
 
     int rightIdle[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightIdle", "Player", rightIdle, 12, 10, true);
@@ -61,7 +61,7 @@ HRESULT Player::init()
 
     int rightLand[] = { 76, 77, 78, 79, 109 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightLand", "Player", rightLand, 5, 20, false);
-    
+
     int leftLand[] = { 92, 93, 94, 95, 125 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftLand", "Player", leftLand, 5, 20, false);
 
@@ -89,7 +89,9 @@ HRESULT Player::init()
     int leftDuck[] = { 14, 15 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDuck", "Player", leftDuck, 2, 2, true);
 
-    //플레이어 공격(무기X) 모션
+    //============================================================================================//
+
+    //플레이어 공격(무기X) 모션//============================================================================================//
     IMAGEMANAGER->addFrameImage("PlayerAttack1", "PlayerAttack(WeaponX).bmp", 1500, 1000, 6, 10, true, RGB(255, 0, 255));
 
     int rightDuckKick[] = { 0, 1, 2, 3, 4, 5 };
@@ -128,7 +130,9 @@ HRESULT Player::init()
     int leftJumpPunch[] = { 42, 43, 44, 45, 46, 47 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftJumpPunch", "PlayerAttack1", leftJumpPunch, 6, 15, false);
 
-    //플레이어 공격(무기O) 모션
+    //============================================================================================//
+
+    //플레이어 공격(무기O) 모션============================================================================================
     IMAGEMANAGER->addFrameImage("PlayerAttack2", "PlayerAttack(WeaponO).bmp", 4200, 1200, 14, 8, true, RGB(255, 0, 255));
 
     int rightJakePunch[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -145,7 +149,7 @@ HRESULT Player::init()
 
     int rightSword2[] = { 35, 36, 37, 38, 39, 40, 41 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightSword2", "PlayerAttack2", rightSword2, 7, 17, false);
-    
+
     int leftSword2[] = { 49, 50, 51, 52, 53, 54, 55 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftSword2", "PlayerAttack2", leftSword2, 7, 17, false);
 
@@ -161,11 +165,12 @@ HRESULT Player::init()
     int leftDuckSword[] = { 98, 99, 100, 101, 102, 103, 104, 105, 106 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDuckSword", "PlayerAttack2", leftDuckSword, 9, 17, false);
 
+    //============================================================================================//
+
     _state = RIGHT_IDLE;
+    _img = IMAGEMANAGER->findImage("Player");
     _anim = KEYANIMANAGER->findAnimation("PlayerRightIdle");
     _anim->start();
-
-   
 
     return S_OK;
 }
@@ -227,7 +232,7 @@ void Player::update()
                 ChangeAnim(LEFT_RUN, "PlayerLeftRun");
             }
         }
-        
+
     }
     if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
     {
@@ -314,9 +319,9 @@ void Player::update()
             _img = IMAGEMANAGER->findImage("PlayerAttack2");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             if (_direction == RIGHT)
-               ChangeAnim(RIGHT_JAKE_PUNCH, "PlayerRightJakePunch");
+                ChangeAnim(RIGHT_JAKE_PUNCH, "PlayerRightJakePunch");
             else if (_direction == LEFT)
-               ChangeAnim(LEFT_JAKE_PUNCH, "PlayerLeftJakePunch");
+                ChangeAnim(LEFT_JAKE_PUNCH, "PlayerLeftJakePunch");
         }
     }
 
@@ -345,7 +350,7 @@ void Player::update()
             }
         }
     }
-    
+
 
     switch (_state)
     {
@@ -645,7 +650,7 @@ void Player::update()
             }
         }
         if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
-            ChangeAnim(RIGHT_WALK, "PlayerRightWalk");
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
         break;
     case Player::LEFT_DUCK:
         if (KEYMANAGER->isStayKeyDown(VK_LSHIFT))
@@ -671,12 +676,12 @@ void Player::update()
                 {
                     _img = IMAGEMANAGER->findImage("PlayerAttack2");
                     _y = _rc.bottom - _img->getFrameHeight() / 2;
-                    ChangeAnim(RIGHT_DUCK_SWORD, "PlayerRightDuckSword");
+                    ChangeAnim(LEFT_DUCK_SWORD, "PlayerLeftDuckSword");
                 }
             }
         }
         if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
-            ChangeAnim(LEFT_WALK, "PlayerLeftWalk");
+            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         break;
     case Player::RIGHT_DUCK_KICK:
         if (!_anim->isPlay())
@@ -943,7 +948,7 @@ void Player::update()
         _x += _speed;
     }
     if (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
-        _state != LADDER_UP && _state != LADDER_DOWN && 
+        _state != LADDER_UP && _state != LADDER_DOWN &&
         _state != RIGHT_LADDER_OFF && _state != LEFT_LADDER_OFF)
     {
         _colY -= _jumpPower;
@@ -967,17 +972,17 @@ void Player::update()
             }
         }
     }
-    
+
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
     _colRC = RectMakeCenter(_colX, _colY, 100, 100);
-    
+
     KEYANIMANAGER->update();
 }
 
 void Player::render()
 {
     //Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
-    
+
     _img->aniRender(getMemDC(), _rc.left, _rc.top, _anim);
 }
 
@@ -1113,7 +1118,7 @@ void Player::GroundCollision()
                     {
                         if (_direction == RIGHT)
                             ChangeAnim(RIGHT_LADDER_OFF, "PlayerRightLadderOff");
-                        else if(_direction == LEFT)
+                        else if (_direction == LEFT)
                             ChangeAnim(LEFT_LADDER_OFF, "PlayerLeftLadderOff");
                     }
                 }
