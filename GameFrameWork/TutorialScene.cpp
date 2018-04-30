@@ -2,7 +2,8 @@
 #include "TutorialScene.h"
 
 
-TutorialScene::TutorialScene()
+TutorialScene::TutorialScene() :
+    _alpha(255)
 {
 }
 
@@ -30,6 +31,8 @@ void TutorialScene::release()
 void TutorialScene::update()
 {
     _pm->update();
+
+    FadeOut(&_alpha);
 }
 
 void TutorialScene::render()
@@ -40,4 +43,6 @@ void TutorialScene::render()
         WINSIZEX, WINSIZEY);
 
     _pm->render();
+
+    IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 }
