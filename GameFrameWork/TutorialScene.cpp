@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "PlayScene.h"
+#include "TutorialScene.h"
 
 
-PlayScene::PlayScene()
+TutorialScene::TutorialScene()
 {
 }
 
 
-PlayScene::~PlayScene()
+TutorialScene::~TutorialScene()
 {
 }
 
-HRESULT PlayScene::init()
+HRESULT TutorialScene::init()
 {
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));
@@ -22,17 +22,17 @@ HRESULT PlayScene::init()
     return S_OK;
 }
 
-void PlayScene::release()
+void TutorialScene::release()
 {
     _pm->release();
 }
 
-void PlayScene::update()
+void TutorialScene::update()
 {
     _pm->update();
 }
 
-void PlayScene::render()
+void TutorialScene::render()
 {
     IMAGEMANAGER->findImage("background")->render(getMemDC(),
         CAMERA->GetX(), CAMERA->GetY(),

@@ -79,6 +79,21 @@
     <Filter Include="playGround\Scene\WorldScene">
       <UniqueIdentifier>{2e884dac-3e60-42e8-b3b5-fd3cd7488009}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Scene\PlayScene\TutorialScene">
+      <UniqueIdentifier>{ceeba02b-4b2d-4265-95d0-28c80affb767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\PlayScene\StageScene">
+      <UniqueIdentifier>{3a65bad2-8e14-4fb0-9919-63e92a771330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage1">
+      <UniqueIdentifier>{d48904d4-76e5-4193-969a-9217173fb7c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage2">
+      <UniqueIdentifier>{412b35f5-3244-470e-b7eb-4c069e8e14e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage3">
+      <UniqueIdentifier>{a3bb126f-d10f-40e6-afb1-a255429149f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -165,9 +180,6 @@
     <ClInclude Include="EndScene.h">
       <Filter>playGround\Scene\EndScene</Filter>
     </ClInclude>
-    <ClInclude Include="PlayScene.h">
-      <Filter>playGround\Scene\PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>playGround\Scene\StartScene</Filter>
     </ClInclude>
@@ -194,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="World_Bridge.h">
       <Filter>playGround\World</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialScene.h">
+      <Filter>playGround\Scene\PlayScene\TutorialScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +281,6 @@
     <ClCompile Include="EndScene.cpp">
       <Filter>playGround\Scene\EndScene</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
-      <Filter>playGround\Scene\PlayScene</Filter>
-    </ClCompile>
     <ClCompile Include="StartScene.cpp">
       <Filter>playGround\Scene\StartScene</Filter>
     </ClCompile>
@@ -292,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="World_Bridge.cpp">
       <Filter>playGround\World</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialScene.cpp">
+      <Filter>playGround\Scene\PlayScene\TutorialScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

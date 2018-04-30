@@ -2,13 +2,13 @@
 #include "gameNode.h"
 #include "PlayerManager.h"
 
-class PlayScene : public gameNode
+class TutorialScene : public gameNode
 {
 private:
     PlayerManager * _pm;
 public:
-    PlayScene();
-    ~PlayScene();
+    TutorialScene();
+    ~TutorialScene();
 
     HRESULT init();
     void release();

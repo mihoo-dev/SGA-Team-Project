@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "StartScene.h"
-#include "PlayScene.h"
+#include "TutorialScene.h"
 #include "WorldScene.h"
 #include "EndScene.h"
 #include "LoadingScene.h"
@@ -10,7 +10,7 @@ class playGround : public gameNode
 {
 private:
     gameNode * _startScene;
-    gameNode * _playScene;
+    gameNode * _tutorialScene;
 	gameNode * _worldScene;
     gameNode * _endScene;
     gameNode * _loadingScene;

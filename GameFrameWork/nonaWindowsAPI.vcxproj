@@ -97,7 +97,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="playGround.h" />
-    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
@@ -134,7 +134,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="playGround.cpp" />
-    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="soundManager.cpp" />

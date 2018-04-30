@@ -22,18 +22,18 @@ HRESULT playGround::init()
     _alpha = 0;
 
     _startScene = new StartScene;
-    _playScene = new PlayScene;
+    _tutorialScene = new TutorialScene;
 	_worldScene = new WorldScene;
     _endScene = new EndScene;
     _loadingScene = new LoadingScene;
 
     SCENEMANAGER->addScene("StartScene", _startScene);
-    SCENEMANAGER->addScene("PlayScene", _playScene);
+    SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
     SCENEMANAGER->addScene("EndScene", _endScene);
     SCENEMANAGER->addLoadingScene("LoadingScene", _loadingScene);
 
-    SCENEMANAGER->changeScene("PlayScene");
+    SCENEMANAGER->changeScene("TutorialScene");
 
     _sceneChange1 = false;
     _sceneChange2 = false;
@@ -76,7 +76,7 @@ void playGround::update()
         if (FadeIn(&_alpha))
         {
             _sceneChange2 = false;
-            SCENEMANAGER->changeScene("PlayScene", "LoadingScene");
+            SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
         }
     }
 	if (_sceneChange3)
