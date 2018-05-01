@@ -27,14 +27,12 @@ HRESULT playGround::init()
 	_worldScene = new WorldScene;
     _endScene = new EndScene;
     _loadingScene = new LoadingScene;
-	_storeScene = new StoreScene;
 
     SCENEMANAGER->addScene("StartScene", _startScene);
     SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
 	SCENEMANAGER->addScene("GraveyardScene", _graveyardScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
     SCENEMANAGER->addScene("EndScene", _endScene);
-	SCENEMANAGER->addScene("StoreScene", _storeScene);
     SCENEMANAGER->addLoadingScene("LoadingScene", _loadingScene);
 
     SCENEMANAGER->changeScene("StartScene");
@@ -43,7 +41,6 @@ HRESULT playGround::init()
     _sceneChange2 = false;
 	_sceneChange3 = false;
 	_sceneChange4 = false;
-	_sceneChange5 = false;
 
 
 	return S_OK;
@@ -70,8 +67,6 @@ void playGround::update()
 		_sceneChange3 = true;
 	if (KEYMANAGER->isOnceKeyDown('R'))
 		_sceneChange4 = true;
-	if (KEYMANAGER->isOnceKeyDown('T'))
-		_sceneChange5 = true;
 
     if (_sceneChange1)
     {
@@ -105,15 +100,7 @@ void playGround::update()
 			SCENEMANAGER->changeScene("GraveyardScene", "LoadingScene");
 		}
 	}
-	if (_sceneChange5)
-	{
-		if (FadeIn(&_alpha))
-		{
-			_sceneChange5 = false;
-			SCENEMANAGER->changeScene("StoreScene", "LoadingScene");
-		}
-	}
-    if(!_sceneChange1 && !_sceneChange2 && !_sceneChange3 && !_sceneChange4 && !_sceneChange5)
+    if(!_sceneChange1 && !_sceneChange2 && !_sceneChange3 && !_sceneChange4)
         FadeOut(&_alpha);
         
     
