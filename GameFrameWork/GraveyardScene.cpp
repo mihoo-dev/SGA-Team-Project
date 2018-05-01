@@ -35,6 +35,7 @@ void GraveyardScene::release()
 
 void GraveyardScene::update()
 {
+	_pm->GroundCollision("STAGE_GRAVEYARD_PIXEL");
 	_pm->update();
 }
 

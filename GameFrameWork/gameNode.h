@@ -1,7 +1,7 @@
 #pragma once
 #include "image.h"
 
-static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", 2793, 2111);
+static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", 8000, 2111);
 
 class gameNode
 {
