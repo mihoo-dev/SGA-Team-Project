@@ -16,10 +16,11 @@ public:
     void update();
     void render();
 
-    void GroundCollision(string pixelName) { _player->GroundCollision(pixelName); }
-    inline RECT GetPlayerColRC() { return _player->GetColRC(); }
-    inline RECT GetPlayerHitRC() { return _player->GetHitRC(); }
-    inline float GetPlayerX() { return _player->GetX(); }
-    inline float GetPlayerY() { return _player->GetY(); }
+    inline Player * GetPlayer() { return _player; }
+   //void GroundCollision(string pixelName) { _player->GroundCollision(pixelName); }
+   //inline RECT GetPlayerColRC() { return _player->GetColRC(); }
+   //inline RECT GetPlayerHitRC() { return _player->GetHitRC(); }
+   //inline float GetPlayerX() { return _player->GetX(); }
+   //inline float GetPlayerY() { return _player->GetY(); }
 };
 

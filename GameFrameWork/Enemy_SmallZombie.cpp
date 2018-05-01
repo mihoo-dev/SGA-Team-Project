@@ -27,8 +27,8 @@ HRESULT Enemy_SmallZombie::init()
 {
 	IMAGEMANAGER->addFrameImage("SmallZombie_idle", "SmallZombie_idle.bmp", 369, 70, 9, 2, true, RGB(255, 0, 255));
 
-	int leftIdle[] = { 0,1,2,3,4,5,6,7,8 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightIdle", "SmallZombie_idle", leftIdle, 9, 10, true);
+	int rightIdle[] = { 0,1,2,3,4,5,6,7,8 };
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightIdle", "SmallZombie_idle", rightIdle, 9, 10, true);
 
 	int leftIdle[] = { 9,10,11,12,13,14,15,16,17 };
 	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftIdle", "SmallZombie_idle", leftIdle, 9, 10, true);
