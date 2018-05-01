@@ -34,6 +34,6 @@ void WorldScene::update()
 void WorldScene::render()
 {	//¿ùµå¸Ê ·»´õ
 	IMAGEMANAGER->addImage("WORLD_MAP", "WORLD_MAP.bmp", 2793, 2111, false, NULL)->render(getMemDC(), CAMERA->GetX(), CAMERA->GetY(), CAMERA->GetX(), CAMERA->GetY(), 600, 500);
-
+	
 	_world->render();
 }

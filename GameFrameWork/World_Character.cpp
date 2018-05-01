@@ -14,7 +14,7 @@ World_Character::World_Character()
 	, _followTrace(true), _traceIndex(SIZEOFTRACE)
 	, _bridgeState(NOTHING_TO_DO)
 	, _jakeMotion(KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE"))
-	, _canMakeBridge(false), _meetDog(false)
+	, _canMakeBridge(false), _meetDog(true)
 {
 }
 
@@ -89,6 +89,14 @@ void World_Character::render(HDC hdc)
 		, _x - _img->getFrameWidth() / 2
 		, _y - _img->getFrameHeight() / 2
 		, _motion);
+
+	if (_bridgeState == JAKE_HORIZONTAL_MOVE || _bridgeState == JAKE_VERTICAL_MOVE)
+	{
+		_jakeImg->aniRender(hdc
+			, _jakeX - _img->getFrameWidth() / 2
+			, _jakeY - _img->getFrameHeight() / 2
+			, _jakeMotion);
+	}
 
 	CheckStatus(hdc);
 	//Rectangle(hdc, _rc.left, _rc.top, _rc.right, _rc.bottom);
@@ -374,8 +382,8 @@ void World_Character::BridgeOperation()
 		if (_jakeX > BRIDGEX)
 		{
 			//제이크의 모션은 서쪽 이동아닐 경우 변경하고 좌로 이동
-			if (_jakeMotion != KEYANIMANAGER->findAnimation("WOLRD_JAKE_WEST_MOVE")) {
-				_jakeMotion = KEYANIMANAGER->findAnimation("WOLRD_JAKE_WEST_MOVE");
+			if (_jakeMotion != KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE")) {
+				_jakeMotion = KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE");
 			}
 			_jakeX -= 2;
 			
