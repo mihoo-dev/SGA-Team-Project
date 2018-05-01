@@ -1,6 +1,6 @@
 #pragma once
 
-class PlayerManager;
+class Player;
 
 class Enemy_SmallZombie
 {
@@ -33,7 +33,7 @@ public:
 
 	HRESULT init();
 	void release();
-	void update(PlayerManager * PM);
+	void update(Player * player);
 	void render();
 
 private:
@@ -48,6 +48,8 @@ private:
 	animation * anim;
 
 	RECT hitBox;
+	int width;
+	int height;
 	Directions direction;
 
 	float alertRange;
@@ -65,13 +67,16 @@ private:
 	void idle_behavior();
 	void patrol_behavior();
 	void alert_behavior();
+	void getHit_behavior();
 
 	void stateTrigger();
 
 	UINT period_idleToPatrol;
+	UINT period_jump;
 	int moveRange;
 
-	void PlayerInfoUpdate(PlayerManager * PM);
+	void PlayerInfoUpdate(Player * player);
+	void CollisionUpdate(string);
 
 private:
 
