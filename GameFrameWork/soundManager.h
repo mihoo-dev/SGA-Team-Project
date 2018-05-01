@@ -41,7 +41,6 @@ public:
 	//									0 ~ 255 -> 0.0 ~ 1.0f
 	void play(string keyName, float volume = 1.0f);
 	void stop(string keyName);
-	void allStop();
 	void pause(string keyName);
 	void resume(string keyName);
 

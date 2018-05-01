@@ -95,17 +95,6 @@ void soundManager::stop(string keyName)
     (*_mTotalChannels[keyName])->stop();
 }
 
-void soundManager::allStop()
-{
-	arrSoundsIter iter = _mTotalSounds.begin();
-
-	int count = 0;
-
-	for (iter; iter != _mTotalSounds.end(); ++iter, ++count)
-	{
-		_channel[count]->stop();
-	}
-}
 
 void soundManager::pause(string keyName)			 
 {

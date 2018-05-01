@@ -18,10 +18,6 @@ HRESULT WorldScene::init()
 
 	CAMERA->SetSize(2793, 2111);
 
-	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
-	SOUNDMANAGER->allStop();
-	SOUNDMANAGER->play("WORLDMAP", 0.5f);
-
 	return S_OK;
 }
 
