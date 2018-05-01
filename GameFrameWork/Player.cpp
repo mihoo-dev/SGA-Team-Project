@@ -21,6 +21,7 @@ Player::~Player()
 
 HRESULT Player::init()
 {
+    
     //플레이어 상태============================================================================================//
     IMAGEMANAGER->addFrameImage("Player", "PlayerMove.bmp", 1600, 1300, 16, 13, true, RGB(255, 0, 255), true);
 

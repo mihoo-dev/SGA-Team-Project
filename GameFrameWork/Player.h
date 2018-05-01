@@ -4,6 +4,23 @@ class Player :
     public gameNode
 {
 private:
+    typedef struct tagPlayerStat
+    {
+        int star;
+        int hp;
+        bool armour;
+        int atk;
+        int weapon;
+
+        tagPlayerStat() :
+            star(0), hp(3), armour(false), atk(10), weapon(Player::DEFFAULT)
+        {}
+
+        tagPlayerStat(int _star, int _hp, bool _armour, int _atk, int _weapon) :
+            star(_star), hp(_hp), armour(_armour), atk(_atk), weapon(_weapon)
+        {}
+    } PlayerStat;
+
     //캐릭터 상태
     enum STATE {
         RIGHT_IDLE, LEFT_IDLE,
@@ -60,6 +77,7 @@ private:
     bool _onLadder;         //사다리
     bool _onGround;         //
 
+    PlayerStat _status;
     DIRECTION _direction;   //캐릭터 방향
     STATE _state;           //캐릭터 상태
     ITEM _item;             //아이템 상태
