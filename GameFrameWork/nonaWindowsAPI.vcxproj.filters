@@ -109,6 +109,9 @@
     <Filter Include="playGround\Scene\StoreScene">
       <UniqueIdentifier>{a3b7693b-a9e1-44b7-a13b-004e058d25cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Enemy\Enemy_Worm">
+      <UniqueIdentifier>{315091b9-38a3-43ac-85c3-b8dda5d0a3ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -261,6 +264,9 @@
     <ClInclude Include="StoreNPC.h">
       <Filter>playGround\Store</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy_Worm.h">
+      <Filter>playGround\Enemy\Enemy_Worm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -394,6 +400,9 @@
     </ClCompile>
     <ClCompile Include="StoreNPC.cpp">
       <Filter>playGround\Store</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Worm.cpp">
+      <Filter>playGround\Enemy\Enemy_Worm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
