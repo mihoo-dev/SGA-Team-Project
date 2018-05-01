@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Enemy_SmallZombie.h"
-#include "PlayerManager.h"
+#include "Player.h"
 
 Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
@@ -40,17 +40,31 @@ void Enemy_SmallZombie::release()
 {
 }
 
-void Enemy_SmallZombie::PlayerInfoUpdate(PlayerManager * PM)
+void Enemy_SmallZombie::PlayerInfoUpdate(Player * player)
 {
-	playerX = PM->GetPlayerX();
-	playerY = PM->GetPlayerY();
-	playerHitBox = PM->GetPlayerHitRC();
+	playerX = player->GetX();
+	playerY = player->GetY();
+	playerHitBox = player->GetHitRC();
 
 }
 
-void Enemy_SmallZombie::update(PlayerManager * PM)
+void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 {
-	PlayerInfoUpdate(PM);
+	COLORREF color = RGB(255, 255, 0);
+
+	for (int i = y; i <= y + hitBox / 2; i++)
+	{
+		COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
+
+		if (pixelColor == RGB(255, 0, 0))
+		{
+
+		}
+}
+
+void Enemy_SmallZombie::update(Player * player)
+{
+	PlayerInfoUpdate(player);
 
 	stateTrigger();
 
@@ -72,7 +86,7 @@ void Enemy_SmallZombie::idle_behavior()
 	moveY = gravity;
 
 
-
+	y += moveY;
 
 }
 
@@ -80,6 +94,10 @@ void Enemy_SmallZombie::patrol_behavior()
 {
 	moveX = direction ? -spd : spd;
 	moveY = gravity;
+
+
+	x += moveX;
+	//y += moveY;
 }
 
 void Enemy_SmallZombie::alert_behavior()
@@ -89,11 +107,32 @@ void Enemy_SmallZombie::alert_behavior()
 
 	direction = (x > playerX) ? LEFT : RIGHT;
 
+	x += moveX;
+	//y += moveY;
 
+	for (UINT i = 0; i <= period_jump; ++i) {
+		if (i == period_jump) {
+			bool rnd = RND->getFromIntTo(false, true);
+			if (rnd == true) {
+				if (direction == LEFT) changeState(alert, left_jump, "SZ_leftJump");
+				if (direction == RIGHT) changeState(alert, right_jump, "SZ_rightJump");
+			}
+		}
+	}
+
+}
+
+void Enemy_SmallZombie::getHit_behavior()
+{
+
+	//moveY = gravity;
 }
 
 void Enemy_SmallZombie::stateTrigger()
 {
+	RECT temp;
+	//if (IntersectRect(&temp, &hitBox, &player->attackBox)) state = states::getHit;
+
 	float distFromPlayer = getDistance(x, y, playerX, playerY);
 
 	if (state == states::idle) 
@@ -101,15 +140,18 @@ void Enemy_SmallZombie::stateTrigger()
 		if (distFromPlayer < alertRange) state = states::alert;
 
 		UINT i = 0;
-		for (i; i <= period_idleToPatrol; ++i)
-			if (i == period_idleToPatrol) { 
-				bool change = RND->getFromIntTo(false, true); 
+		for (i; i <= period_idleToPatrol; ++i) {
+			if (i == period_idleToPatrol) {
+				bool change = RND->getFromIntTo(false, true);
 				bool dir = RND->getFromIntTo(LEFT, RIGHT);
 				if (change == true) {
 					if (dir == LEFT) changeState(patrol, left_walk, "SZ_leftWalk");
 					if (dir == RIGHT) changeState(patrol, right_walk, "SZ_rightWalk");
+
+					break;
 				}
 			} // 일정 주기마다 상태 변화 idle <-> patrol 
+		}
 
 	}
 	else if (state == states::patrol) 
