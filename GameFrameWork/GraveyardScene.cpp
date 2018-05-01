@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GraveyardScene.h"
 #include "PlayerManager.h"
+#include "EnemyManager.h"
 
 GraveyardScene::GraveyardScene()
 {
@@ -25,18 +26,24 @@ HRESULT GraveyardScene::init()
 	_pm = new PlayerManager;
 	_pm->init();
 
+	_em = new EnemyManager;
+	_em->init();
+
 	return S_OK;
 }
 
 void GraveyardScene::release()
 {
 	_pm->release();
+	_em->release();
 }
 
 void GraveyardScene::update()
 {
     _pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
 	_pm->update();
+
+	_em->update();
 }
 
 void GraveyardScene::render()
@@ -50,4 +57,5 @@ void GraveyardScene::render()
 		, CAMERA->GetX(), CAMERA->GetY()
 		, WINSIZEX, WINSIZEY);
 	_pm->render();
+	_em->render();
 }

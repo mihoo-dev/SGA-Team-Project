@@ -94,9 +94,6 @@
     <Filter Include="playGround\Scene\PlayScene\StageScene\Stage3">
       <UniqueIdentifier>{a3bb126f-d10f-40e6-afb1-a255429149f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Stage">
-      <UniqueIdentifier>{2e81d1ca-fa8f-4c32-b4b1-5faa86bca935}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Object">
       <UniqueIdentifier>{26fed11c-5964-4cfc-bae8-485c065949b8}</UniqueIdentifier>
     </Filter>

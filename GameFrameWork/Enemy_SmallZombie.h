@@ -31,10 +31,11 @@ public:
 	Enemy_SmallZombie();
 	~Enemy_SmallZombie();
 
-	HRESULT init();
+	HRESULT init(int x, int y);
 	void release();
-	void update(Player * player);
-	void render();
+	//void update(Player * player);
+	void update();
+	void render(HDC hdc);
 
 private:
 	int x, y;
@@ -75,10 +76,11 @@ private:
 
 	UINT period_idleToPatrol;
 	UINT period_jump;
-	int moveRange;
+	int maxMoveDistance;
+	int moveDistance;
 
 	void PlayerInfoUpdate(Player * player);
-	void CollisionUpdate(string);
+	void CollisionUpdate(string pixelName);
 
 private:
 
