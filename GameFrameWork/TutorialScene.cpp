@@ -14,6 +14,7 @@ TutorialScene::~TutorialScene()
 
 HRESULT TutorialScene::init()
 {
+    IMAGEMANAGER->addImage("TutoBackground", "TutoBackground.bmp", 1374, 688, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));
 
@@ -79,7 +80,10 @@ void TutorialScene::update()
 
     for (int i = 0; i < _vObject.size(); i++)
     {
-        _vObject[i]->Collision(_pm->GetPlayerHitRC());
+        if(_vObject[i]->GetName() == "TutoBubble")
+            _vObject[i]->Collision(_pm->GetPlayerHitRC());
+        if (_vObject[i]->GetName() == "Door")
+            _vObject[i]->Collision(_pm->GetPlayerColRC());
         _vObject[i]->update();
 
         if (!_vObject[i]->GetInUse())
@@ -95,6 +99,11 @@ void TutorialScene::update()
 
 void TutorialScene::render()
 {
+    IMAGEMANAGER->findImage("TutoBackground")->render(getMemDC(),
+        CAMERA->GetX(), CAMERA->GetY(),
+        CAMERA->GetX() * 0.00001, CAMERA->GetY() * 0.000001,
+        WINSIZEX, WINSIZEY);
+
     IMAGEMANAGER->findImage("background")->render(getMemDC(),
         CAMERA->GetX(), CAMERA->GetY(),
         CAMERA->GetX(), CAMERA->GetY(),

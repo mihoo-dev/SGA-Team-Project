@@ -31,7 +31,8 @@ private:
         RIGHT_HIT, LEFT_HIT,
         RIGHT_KNOCK, LEFT_KNOCK,
         RIGHT_DIE, LEFT_DIE,
-        RIGHT_USE_ITEM, LEFT_USE_ITEM
+        RIGHT_USE_ITEM, LEFT_USE_ITEM,
+        RIGHT_DOOR_ENTER, LEFT_DOOR_ENTER
     };
     //캐릭터 방향
     enum DIRECTION {
@@ -66,7 +67,8 @@ private:
     int _probeX;            //X 탐사 축
     int _probeY;            //Y 탐사 축
 
-    bool _isCombo;
+    bool _isCombo;          //콤보
+    int _alpha;
 public:
     Player();
     ~Player();
@@ -83,6 +85,7 @@ public:
     //지형충돌
     void GroundCollision();
 
+    inline RECT GetColRC() { return _colRC; }
     inline RECT GetHitRC() { return _hitRC; }
     inline float GetX() { return _x; }
     inline float GetY() { return _y; }

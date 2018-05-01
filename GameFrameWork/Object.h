@@ -28,5 +28,6 @@ public:
     bool Animate();
     void Collision(RECT rc);
     inline bool GetInUse() { return _inUse; }
+    inline string GetName() { return _imgName; }
 };
 

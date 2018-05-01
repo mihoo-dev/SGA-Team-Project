@@ -712,6 +712,14 @@ void image::aniRender(HDC hdc, int destX, int destY, animation * ani)
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
 }
 
+void image::alphaAniRender(HDC hdc, int destX, int destY, animation * ani, BYTE alpha)
+{
+    if (!FrustumCull(destX, destY)) return;
+
+    //프레임 위치에 맞게 이미지를 뿌려준다
+    alphaRender(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight(), alpha);
+}
+
 bool image::FrustumCull(int destX, int destY)
 {
     if (_imageInfo->maxFrameX > 0 || _imageInfo->maxFrameY > 0)

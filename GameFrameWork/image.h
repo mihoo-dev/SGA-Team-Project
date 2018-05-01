@@ -108,6 +108,7 @@ public:
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 	
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
+    void alphaAniRender(HDC hdc, int destX, int destY, animation* ani, BYTE alpha);
 
     bool FrustumCull(int destX, int destY);
 

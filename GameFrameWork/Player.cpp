@@ -9,7 +9,8 @@ Player::Player()
     _jumpPower(0), _gravity(0.3f),
     _direction(LEFT), _rc({ 0, 0, 0, 0 }),
     _onLadder(false), _onGround(false),
-    _item(SWORD), _isCombo(false)
+    _item(DEFFAULT), _isCombo(false),
+    _alpha(255)
 {
 }
 
@@ -21,7 +22,7 @@ Player::~Player()
 HRESULT Player::init()
 {
     //플레이어 상태============================================================================================//
-    IMAGEMANAGER->addFrameImage("Player", "PlayerMove.bmp", 1600, 1100, 16, 11, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("Player", "PlayerMove.bmp", 1600, 1300, 16, 13, true, RGB(255, 0, 255), true);
 
     int rightIdle[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightIdle", "Player", rightIdle, 12, 10, true);
@@ -89,10 +90,16 @@ HRESULT Player::init()
     int leftDuck[] = { 14, 15 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDuck", "Player", leftDuck, 2, 2, true);
 
+    int rightDoorEnter[] = { 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDoorEnter", "Player", rightDoorEnter, 14, 10, false);
+
+    int leftDoorEnter[] =  { 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205 };
+    KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDoorEnter", "Player", leftDoorEnter, 14, 10, false);
+
     //============================================================================================//
 
     //플레이어 공격(무기X) 모션//============================================================================================//
-    IMAGEMANAGER->addFrameImage("PlayerAttack1", "PlayerAttack(WeaponX).bmp", 1500, 1000, 6, 10, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("PlayerAttack1", "PlayerAttack(WeaponX).bmp", 1500, 1000, 6, 10, true, RGB(255, 0, 255), true);
 
     int rightDuckKick[] = { 0, 1, 2, 3, 4, 5 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDuckKick", "PlayerAttack1", rightDuckKick, 6, 15, false);
@@ -133,7 +140,7 @@ HRESULT Player::init()
     //============================================================================================//
 
     //플레이어 공격(무기O) 모션============================================================================================
-    IMAGEMANAGER->addFrameImage("PlayerAttack2", "PlayerAttack(WeaponO).bmp", 4200, 1200, 14, 8, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("PlayerAttack2", "PlayerAttack(WeaponO).bmp", 4200, 1200, 14, 8, true, RGB(255, 0, 255), true);
 
     int rightJakePunch[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightJakePunch", "PlayerAttack2", rightJakePunch, 12, 15, false);
@@ -168,7 +175,7 @@ HRESULT Player::init()
     //============================================================================================//
 
     //플레이어 HIT & GET_ITEM=====================================================//    
-    IMAGEMANAGER->addFrameImage("PlayerHitItem", "Player_Hit_Item.bmp", 3000, 1080, 12, 9, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addFrameImage("PlayerHitItem", "Player_Hit_Item.bmp", 3000, 1080, 12, 9, true, RGB(255, 0, 255), true);
 
     int rightHit[] = { 0, 1, 2, 3 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightHit", "PlayerHitItem", rightHit, 4, 15, false);
@@ -459,6 +466,12 @@ void Player::update()
                 ChangeAnim(LEFT_USE_ITEM, "PlayerLeftUseItem");
             }
         }
+    }
+
+    if (_state != LEFT_DOOR_ENTER && _state != RIGHT_DOOR_ENTER)
+    {
+        if (_x <= 106 && _y >= 1000)
+            ChangeAnim(LEFT_DOOR_ENTER, "PlayerLeftDoorEnter");
     }
 
     switch (_state)
@@ -1146,6 +1159,18 @@ void Player::update()
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
+    case Player::LEFT_DOOR_ENTER:
+        Friction("right", 0);
+        _alpha -= 2;
+        if (!_anim->isPlay())
+        {
+            if (_alpha <= 0)
+            {
+                _alpha = 0;
+                SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+            }
+        }
+        break;
     }
 
     switch (_direction)
@@ -1202,7 +1227,7 @@ void Player::render()
 {
     //Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
     //Rectangle(getMemDC(), _hitRC.left, _hitRC.top, _hitRC.right, _hitRC.bottom);
-    _img->aniRender(getMemDC(), _rc.left, _rc.top, _anim);
+    _img->alphaAniRender(getMemDC(), _rc.left, _rc.top, _anim, _alpha);
 }
 
 void Player::ChangeAnim(STATE state, string animKeyName)
