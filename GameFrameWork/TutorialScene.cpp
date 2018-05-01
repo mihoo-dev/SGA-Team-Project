@@ -76,15 +76,15 @@ void TutorialScene::release()
 
 void TutorialScene::update()
 {
-    _pm->GetPlayer()->GroundCollision("backgroundCol");
+    _pm->GroundCollision("backgroundCol");
     _pm->update();
 
     for (int i = 0; i < _vObject.size(); i++)
     {
         if(_vObject[i]->GetName() == "TutoBubble")
-            _vObject[i]->Collision(_pm->GetPlayer()->GetHitRC());
+            _vObject[i]->Collision(_pm->GetPlayerHitRC());
         if (_vObject[i]->GetName() == "Door")
-            _vObject[i]->Collision(_pm->GetPlayer()->GetColRC());
+            _vObject[i]->Collision(_pm->GetPlayerColRC());
         _vObject[i]->update();
 
         if (!_vObject[i]->GetInUse())
