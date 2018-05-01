@@ -35,7 +35,7 @@ HRESULT playGround::init()
     SCENEMANAGER->addScene("EndScene", _endScene);
     SCENEMANAGER->addLoadingScene("LoadingScene", _loadingScene);
 
-    SCENEMANAGER->changeScene("TutorialScene");
+    SCENEMANAGER->changeScene("StartScene");
 
     _sceneChange1 = false;
     _sceneChange2 = false;

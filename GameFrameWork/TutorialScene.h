@@ -6,6 +6,8 @@ class TutorialScene : public gameNode
 {
 private:
     PlayerManager * _pm;
+
+    int _alpha;
 public:
     TutorialScene();
     ~TutorialScene();
