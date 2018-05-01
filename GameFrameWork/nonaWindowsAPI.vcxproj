@@ -88,7 +88,6 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="EndScene.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GraveyardScene.h" />
@@ -131,7 +130,6 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="EndScene.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GraveyardScene.cpp" />
     <ClCompile Include="image.cpp" />
