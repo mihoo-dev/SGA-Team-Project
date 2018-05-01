@@ -3,11 +3,11 @@
 
 
 Player::Player()
-    : _x(WINSIZEX / 2 + 500), _y(WINSIZEY / 2),
-    _colX(WINSIZEX / 2 + 500), _colY(WINSIZEY / 2),
+    : _x(WINSIZEX / 2), _y(WINSIZEY / 2),
+    _colX(WINSIZEX / 2), _colY(WINSIZEY / 2),
     _speed(0.0f), _friction(0.0f),
     _jumpPower(0), _gravity(0.3f),
-    _direction(LEFT), _rc({ 0, 0, 0, 0 }),
+    _direction(RIGHT), _rc({ 0, 0, 0, 0 }),
     _onLadder(false), _onGround(false),
     _item(DEFFAULT), _isCombo(false)
 {
@@ -175,7 +175,7 @@ HRESULT Player::init()
 
     int leftHit[] = { 4, 5, 6, 7 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftHit", "PlayerHitItem", leftHit, 4, 15, false);
-
+    
     int rightKnock[] = { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightKnock", "PlayerHitItem", rightKnock, 12, 12, false);
 
@@ -185,7 +185,7 @@ HRESULT Player::init()
     int rightDie[] = { 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerRightDie", "PlayerHitItem", rightDie, 20, 15, false);
 
-    int leftDie[] = { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79 };
+    int leftDie[]  = { 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftDie", "PlayerHitItem", leftDie, 20, 15, false);
 
     int rightUseItem[] = { 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 56, 57, 58, 59 };
@@ -193,7 +193,7 @@ HRESULT Player::init()
 
     int leftUseItem[] = { 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 80, 81, 82, 83 };
     KEYANIMANAGER->addArrayFrameAnimation("PlayerLeftUseItem", "PlayerHitItem", leftUseItem, 16, 12, false);
-
+    
     //==============================================================================//
 
     _state = RIGHT_IDLE;
@@ -232,7 +232,7 @@ void Player::update()
         _state != RIGHT_JUMP_SWORD && _state != LEFT_JUMP_SWORD &&
         _state != RIGHT_HIT && _state != LEFT_HIT &&
         _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
-        _state != RIGHT_DIE && _state != LEFT_DIE &&
+        _state != RIGHT_DIE && _state != LEFT_DIE && 
         _state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
@@ -1223,8 +1223,8 @@ void Player::GroundCollision()
                 if (_state != RIGHT_LADDER_OFF && _state != LEFT_LADDER_OFF)
                 {
                     _onGround = true;
-                    _colY = i - 50 + 5;
-                    _y = i - _img->getFrameHeight() / 2 + 5;
+                    _colY = i - 50;
+                    _y = i - _img->getFrameHeight() / 2;
                     _jumpPower = 0;
                 }
             }
@@ -1268,8 +1268,8 @@ void Player::GroundCollision()
                 }
             }
             _onGround = true;
-            _colY = i - 50 + 5;
-            _y = i - _img->getFrameHeight() / 2 + 5;
+            _colY = i - 50;
+            _y = i - _img->getFrameHeight() / 2;
             _jumpPower = 0;
             break;
         }

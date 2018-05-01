@@ -81,7 +81,5 @@ public:
     void Friction(string direction, float maxSpeed);
     //지형충돌
     void GroundCollision();
-
-    inline RECT GetRC() { return _rc; }
 };
 

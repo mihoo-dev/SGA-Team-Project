@@ -48,7 +48,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
 
     if (KEYMANAGER->isOnceKeyDown(VK_TAB))
     {
-        if (_state == FOLLOW || _state == MOVE)
+        if (_state == FOLLOW)
             _state = CONTROL;
         else if (_state == CONTROL)
             _state = MOVE;
@@ -68,7 +68,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
 
         if (KEYMANAGER->isStayKeyDown(VK_LEFT))
         {
-            if (offSetY2 < 0)
+            if (offSetY2 <= 0)
                 offSetX2 += _controlSpeed;
             if (offSetX2 > 0)
             {
@@ -78,7 +78,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
         }
         if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
         {
-            if (offSetX2 > WINSIZEX - backgroundSizeX)
+            if (offSetX2 >= WINSIZEX - backgroundSizeX)
                 offSetX2 -= _controlSpeed;
             if (offSetX2 < WINSIZEX - backgroundSizeX)
             {
@@ -88,7 +88,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
         }
         if (KEYMANAGER->isStayKeyDown(VK_UP))
         {
-            if (offSetY2 < 0)
+            if (offSetY2 <= 0)
                 offSetY2 += _controlSpeed;
             if (offSetY2 > 0)
             {
@@ -98,7 +98,7 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
         }
         if (KEYMANAGER->isStayKeyDown(VK_DOWN))
         {
-            if (offSetY2 > WINSIZEY - backgroundSizeY)
+            if (offSetY2 >= WINSIZEY - backgroundSizeY)
                 offSetY2 -= _controlSpeed;
             if (offSetY2 < WINSIZEY - backgroundSizeY)
             {
@@ -194,16 +194,16 @@ void CameraManager::update(float x, float y, float speed, bool isPlayer)
                 }
                 /*if (offSetY2 <= 0 && offSetY2 >= WINSIZEY - backgroundSizeY)
                 {
-                if (y < _cameraRC.top)
-                {
-                offSetY2 += _cameraSpeed;
-                if (offSetY2 > 0) offSetY2 = 0;
-                }
-                else if (y > _cameraRC.bottom)
-                {
-                offSetY2 += -_cameraSpeed;
-                if (offSetY2 < WINSIZEY - backgroundSizeY) offSetY2 = WINSIZEY - backgroundSizeY;
-                }
+                    if (y < _cameraRC.top)
+                    {
+                        offSetY2 += _cameraSpeed;
+                        if (offSetY2 > 0) offSetY2 = 0;
+                    }
+                    else if (y > _cameraRC.bottom)
+                    {
+                        offSetY2 += -_cameraSpeed;
+                        if (offSetY2 < WINSIZEY - backgroundSizeY) offSetY2 = WINSIZEY - backgroundSizeY;
+                    }
                 }*/
             }
         }
