@@ -15,5 +15,7 @@ public:
     void release();
     void update();
     void render();
+
+    inline RECT GetRC() { return _player->GetRC(); }
 };
 

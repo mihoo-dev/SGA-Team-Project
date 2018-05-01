@@ -97,6 +97,9 @@
     <Filter Include="playGround\Stage">
       <UniqueIdentifier>{2e81d1ca-fa8f-4c32-b4b1-5faa86bca935}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Object">
+      <UniqueIdentifier>{26fed11c-5964-4cfc-bae8-485c065949b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -216,6 +219,12 @@
     <ClInclude Include="GraveyardScene.h">
       <Filter>playGround\Scene\PlayScene\StageScene\Stage1</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>playGround\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bubble.h">
+      <Filter>playGround\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -316,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="GraveyardScene.cpp">
       <Filter>playGround\Scene\PlayScene\StageScene\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>playGround\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bubble.cpp">
+      <Filter>playGround\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
