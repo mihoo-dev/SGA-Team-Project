@@ -41,6 +41,8 @@ private:
 	int spd;
 	int gravity;
 
+	bool isOnGround;
+
 	int moveX;
 	int moveY;
 

@@ -5,9 +5,10 @@
 Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
-	spd(3), gravity(3),
+	spd(3), gravity(3), isOnGround(false),
 	x(0), y(0), moveX(0), moveY(0),
-	hitBox({ 0,0,0,0 }),
+	width(50), height(50),
+	hitBox({ x,y,x+width,y+height }),
 	playerHitBox({ 0,0,0,0 }),
 	direction(RIGHT),
 	alertRange(15),
@@ -21,17 +22,27 @@ Enemy_SmallZombie::~Enemy_SmallZombie()
 {
 }
 
+
 HRESULT Enemy_SmallZombie::init()
 {
 	IMAGEMANAGER->addFrameImage("SmallZombie_idle", "SmallZombie_idle.bmp", 369, 70, 9, 2, true, RGB(255, 0, 255));
 
-	int leftIdle[] = { 0 };
-	//KEYANIMANAGER->addArrayFrameAnimation("SZ_leftIdle","SmallZombie_idle",)
+	int leftIdle[] = { 0,1,2,3,4,5,6,7,8 };
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightIdle", "SmallZombie_idle", leftIdle, 9, 10, true);
+
+	int leftIdle[] = { 9,10,11,12,13,14,15,16,17 };
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftIdle", "SmallZombie_idle", leftIdle, 9, 10, true);
+
 
 
 	img = IMAGEMANAGER->findImage("SmallZombie_idle");
 	anim = KEYANIMANAGER->findAnimation("SZ_rightIdle");
 	anim->start();
+
+	x = WINSIZEX / 2;
+	y = WINSIZEY / 2;
+
+	
 	
 	return S_OK;
 }
@@ -50,16 +61,21 @@ void Enemy_SmallZombie::PlayerInfoUpdate(Player * player)
 
 void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 {
-	COLORREF color = RGB(255, 255, 0);
-
-	for (int i = y; i <= y + hitBox / 2; i++)
-	{
-		COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
-
-		if (pixelColor == RGB(255, 0, 0))
+	
+	if (!isOnGround) {
+		for (int i = y; i <= hitBox.bottom + moveY; i++)
 		{
+			COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), x, i);
 
+			if (pixelColor == RGB(255, 0, 0))
+			{
+				isOnGround = true;
+				moveY = 0;
+				if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
+				if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+			}
 		}
+	}
 }
 
 void Enemy_SmallZombie::update(Player * player)
@@ -72,7 +88,12 @@ void Enemy_SmallZombie::update(Player * player)
 	else if (state == states::patrol) patrol_behavior();
 	else if (state == states::alert) alert_behavior();
 
-	hitBox = RectMakeCenter(x, y, 50, 50); // update hitBox
+	CollisionUpdate("STAGE_GRAVEYARD_PIXEL");
+
+	x += moveX;
+	y += moveY;
+
+	hitBox = RectMakeCenter(x, y, width, height); // update hitBox
 }
 
 void Enemy_SmallZombie::render()
@@ -86,7 +107,6 @@ void Enemy_SmallZombie::idle_behavior()
 	moveY = gravity;
 
 
-	y += moveY;
 
 }
 
@@ -96,8 +116,6 @@ void Enemy_SmallZombie::patrol_behavior()
 	moveY = gravity;
 
 
-	x += moveX;
-	//y += moveY;
 }
 
 void Enemy_SmallZombie::alert_behavior()
@@ -107,8 +125,6 @@ void Enemy_SmallZombie::alert_behavior()
 
 	direction = (x > playerX) ? LEFT : RIGHT;
 
-	x += moveX;
-	//y += moveY;
 
 	for (UINT i = 0; i <= period_jump; ++i) {
 		if (i == period_jump) {

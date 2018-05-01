@@ -131,8 +131,3 @@ inline bool FadeOut(int * alpha)
     }
     return false;
 }
-
-inline POINT makePt(float x, float y)
-{
-	return { x,y };
-}
