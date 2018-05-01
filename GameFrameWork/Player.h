@@ -48,7 +48,8 @@ private:
     animation * _anim;      //애니메이션
 
     RECT _rc;               //RECT
-    RECT _colRC;
+    RECT _colRC;            //ColRC
+    RECT _hitRC;
     float _x, _y;           //중점
     float _colX, _colY;
     float _speed;           //속도
@@ -82,6 +83,8 @@ public:
     //지형충돌
     void GroundCollision();
 
-    inline RECT GetRC() { return _rc; }
+    inline RECT GetHitRC() { return _hitRC; }
+    inline float GetX() { return _x; }
+    inline float GetY() { return _y; }
 };
 

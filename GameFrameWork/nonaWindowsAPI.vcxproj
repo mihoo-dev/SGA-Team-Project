@@ -84,6 +84,7 @@
     <ClInclude Include="button.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="EndScene.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="EndScene.cpp" />

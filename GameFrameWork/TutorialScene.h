@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "PlayerManager.h"
 #include "Bubble.h"
+#include "Door.h"
 #include <vector>
 
 class TutorialScene : public gameNode

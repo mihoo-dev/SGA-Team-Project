@@ -47,8 +47,11 @@ bool Object::Animate()
     {
         _frameCount = 0;
         _frameX++;
-        if (_frameX >= 5)
+        if (_frameX >= _img->getMaxFrameX())
+        {
+            _frameX--;
             return true;
+        }
     }
     return false;
 }

@@ -21,7 +21,7 @@ HRESULT TutorialScene::init()
     _pm = new PlayerManager;
     _pm->init();
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 13; i++)
     {
         Object * bubble = new Bubble;
         if (i == 0)
@@ -38,9 +38,26 @@ HRESULT TutorialScene::init()
             bubble->init(587, 922);
         else if (i == 6)
             bubble->init(896, 788);
+        else if (i == 7)
+            bubble->init(917, 886);
+        else if (i == 8)
+            bubble->init(1023, 873);
+        else if (i == 9)
+            bubble->init(1140, 888);
+        else if (i == 10)
+            bubble->init(387, 1362);
+        else if (i == 11)
+            bubble->init(272, 1375);
+        else if (i == 12)
+            bubble->init(711, 1375);
 
         _vObject.push_back(bubble);
     }
+
+    Object * door = new Door;
+    door->init(106, 1371);
+
+    _vObject.push_back(door);
 
     return S_OK;
 }
@@ -62,7 +79,7 @@ void TutorialScene::update()
 
     for (int i = 0; i < _vObject.size(); i++)
     {
-        _vObject[i]->Collision(_pm->GetRC());
+        _vObject[i]->Collision(_pm->GetPlayerHitRC());
         _vObject[i]->update();
 
         if (!_vObject[i]->GetInUse())
@@ -83,10 +100,10 @@ void TutorialScene::render()
         CAMERA->GetX(), CAMERA->GetY(),
         WINSIZEX, WINSIZEY);
 
-    _pm->render();
-
     for (int i = 0; i < _vObject.size(); i++)
         _vObject[i]->render();
+
+    _pm->render();
 
     IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 }

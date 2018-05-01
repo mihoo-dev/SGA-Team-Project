@@ -16,6 +16,8 @@ public:
     void update();
     void render();
 
-    inline RECT GetRC() { return _player->GetRC(); }
+    inline RECT GetPlayerHitRC() { return _player->GetHitRC(); }
+    inline float GetPlayerX() { return _player->GetX(); }
+    inline float GetPlayerY() { return _player->GetY(); }
 };
 

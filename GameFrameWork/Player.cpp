@@ -9,7 +9,7 @@ Player::Player()
     _jumpPower(0), _gravity(0.3f),
     _direction(LEFT), _rc({ 0, 0, 0, 0 }),
     _onLadder(false), _onGround(false),
-    _item(DEFFAULT), _isCombo(false)
+    _item(SWORD), _isCombo(false)
 {
 }
 
@@ -745,6 +745,7 @@ void Player::update()
         {
             if (KEYMANAGER->isOnceKeyDown('Z'))
             {
+                _speed = 0;
                 if (_item == DEFFAULT)
                 {
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
@@ -776,6 +777,7 @@ void Player::update()
         {
             if (KEYMANAGER->isOnceKeyDown('Z'))
             {
+                _speed = 0;
                 if (_item == DEFFAULT)
                 {
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
@@ -793,36 +795,45 @@ void Player::update()
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         break;
     case Player::RIGHT_DUCK_KICK:
+        _hitRC = RectMakeCenter(_x + 30, _y + 30, 50, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
         }
         break;
     case Player::LEFT_DUCK_KICK:
+        _hitRC = RectMakeCenter(_x - 30, _y + 30, 50, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
         }
         break;
     case Player::RIGHT_DUCK_SLIDE:
         Friction("left", 0);
+        _hitRC = RectMakeCenter(_x + 30, _y + 30, 50, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
         }
         break;
     case Player::LEFT_DUCK_SLIDE:
         Friction("right", 0);
+        _hitRC = RectMakeCenter(_x - 30, _y + 30, 50, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
         }
         break;
     case Player::RIGHT_PUNCH_1:
+        _hitRC = RectMakeCenter(_x + 50, _y-5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -837,12 +848,14 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
             }
         }
         break;
     case Player::LEFT_PUNCH_1:
+        _hitRC = RectMakeCenter(_x - 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -857,12 +870,14 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
             }
         }
         break;
     case Player::RIGHT_PUNCH_2:
+        _hitRC = RectMakeCenter(_x + 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -877,12 +892,14 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
             }
         }
         break;
     case Player::LEFT_PUNCH_2:
+        _hitRC = RectMakeCenter(_x - 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -897,56 +914,70 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
             }
         }
         break;
     case Player::RIGHT_PUNCH_3:
+        _hitRC = RectMakeCenter(_x + 50, _y - 25, 30, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
         }
         break;
     case Player::LEFT_PUNCH_3:
+        _hitRC = RectMakeCenter(_x - 50, _y - 25, 30, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
     case Player::RIGHT_JUMP_PUNCH:
+        _hitRC = RectMakeCenter(_x + 50, _y - 10, 30, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(RIGHT_FALL, "PlayerRightFall");
         }
         break;
     case Player::LEFT_JUMP_PUNCH:
+        _hitRC = RectMakeCenter(_x - 50, _y - 10, 30, 20);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(LEFT_FALL, "PlayerLeftFall");
         }
         break;
     case Player::RIGHT_JAKE_PUNCH:
+        _hitRC = RectMakeCenter(_x + 90, _y, 100, 40);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _y = _rc.bottom - 50;
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
         }
         break;
     case Player::LEFT_JAKE_PUNCH:
+        _hitRC = RectMakeCenter(_x - 90, _y, 100, 40);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _y = _rc.bottom - 50;
             _img = IMAGEMANAGER->findImage("Player");
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
     case Player::RIGHT_SWORD_1:
+        _hitRC = RectMakeCenter(_x + 80, _y, 40, 80);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -961,6 +992,7 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 _y = _rc.bottom - _img->getFrameHeight() / 2;
                 ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
@@ -968,6 +1000,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_SWORD_1:
+        _hitRC = RectMakeCenter(_x - 80, _y, 40, 80);
         if (KEYMANAGER->isOnceKeyDown('Z'))
             _isCombo = true;
         if (_isCombo)
@@ -982,6 +1015,7 @@ void Player::update()
         {
             if (!_anim->isPlay())
             {
+                _hitRC = RectMakeCenter(0, 0, 0, 0);
                 _img = IMAGEMANAGER->findImage("Player");
                 _y = _rc.bottom - _img->getFrameHeight() / 2;
                 ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
@@ -989,48 +1023,60 @@ void Player::update()
         }
         break;
     case Player::RIGHT_SWORD_2:
+        _hitRC = RectMakeCenter(_x + 100, _y + 20, 40, 80);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
         }
         break;
     case Player::LEFT_SWORD_2:
+        _hitRC = RectMakeCenter(_x - 100, _y + 20, 40, 80);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
     case Player::RIGHT_JUMP_SWORD:
+        _hitRC = RectMakeCenter(_x + 70, _y + 10, 70, 30);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(RIGHT_FALL, "PlayerRightFall");
         }
         break;
     case Player::LEFT_JUMP_SWORD:
+        _hitRC = RectMakeCenter(_x - 70, _y + 10, 70, 30);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(LEFT_FALL, "PlayerLeftFall");
         }
         break;
     case Player::RIGHT_DUCK_SWORD:
+        _hitRC = RectMakeCenter(_x + 70, _y + 50, 70, 30);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
         }
         break;
     case Player::LEFT_DUCK_SWORD:
+        _hitRC = RectMakeCenter(_x - 70, _y + 50, 70, 30);
         if (!_anim->isPlay())
         {
+            _hitRC = RectMakeCenter(0, 0, 0, 0);
             _img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
             ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
@@ -1155,7 +1201,7 @@ void Player::update()
 void Player::render()
 {
     //Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
-
+    //Rectangle(getMemDC(), _hitRC.left, _hitRC.top, _hitRC.right, _hitRC.bottom);
     _img->aniRender(getMemDC(), _rc.left, _rc.top, _anim);
 }
 
