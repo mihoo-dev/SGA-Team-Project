@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="ArmorItem.h" />
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="CameraManager.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="LoadingScene.h" />
@@ -101,6 +103,12 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="playGround.h" />
+    <ClInclude Include="PotionItem.h" />
+    <ClInclude Include="StarPoint.h" />
+    <ClInclude Include="Store.h" />
+    <ClInclude Include="StoreNPC.h" />
+    <ClInclude Include="StoreScene.h" />
+    <ClInclude Include="Sword.h" />
     <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
@@ -123,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="ArmorItem.cpp" />
     <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="CameraManager.cpp" />
@@ -135,6 +144,7 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
@@ -142,6 +152,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="playGround.cpp" />
+    <ClCompile Include="PotionItem.cpp" />
+    <ClCompile Include="StarPoint.cpp" />
+    <ClCompile Include="Store.cpp" />
+    <ClCompile Include="StoreNPC.cpp" />
+    <ClCompile Include="StoreScene.cpp" />
+    <ClCompile Include="Sword.cpp" />
     <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />

@@ -100,6 +100,15 @@
     <Filter Include="playGround\Object">
       <UniqueIdentifier>{26fed11c-5964-4cfc-bae8-485c065949b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Item">
+      <UniqueIdentifier>{2b89cdda-5ad5-4be9-9df2-0b92a0e8ee5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Store">
+      <UniqueIdentifier>{82b3fe67-0c59-4cf7-87f8-0fc6861ba9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\StoreScene">
+      <UniqueIdentifier>{a3b7693b-a9e1-44b7-a13b-004e058d25cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -228,6 +237,30 @@
     <ClInclude Include="Door.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PotionItem.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmorItem.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="StarPoint.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>playGround\Store</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreScene.h">
+      <Filter>playGround\Scene\StoreScene</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreNPC.h">
+      <Filter>playGround\Store</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -337,6 +370,30 @@
     </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PotionItem.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmorItem.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="StarPoint.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Store.cpp">
+      <Filter>playGround\Store</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreScene.cpp">
+      <Filter>playGround\Scene\StoreScene</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreNPC.cpp">
+      <Filter>playGround\Store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
