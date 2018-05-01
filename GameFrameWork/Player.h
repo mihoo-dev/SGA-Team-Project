@@ -83,7 +83,7 @@ public:
     //마찰 적용 함수
     void Friction(string direction, float maxSpeed);
     //지형충돌
-    void GroundCollision();
+    void GroundCollision(string pixelName);
 
     inline RECT GetColRC() { return _colRC; }
     inline RECT GetHitRC() { return _hitRC; }

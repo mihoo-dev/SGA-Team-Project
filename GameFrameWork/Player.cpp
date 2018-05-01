@@ -217,7 +217,7 @@ void Player::release()
 
 void Player::update()
 {
-    GroundCollision();
+    //GroundCollision("backgroundCol");
 
     if (_state != RIGHT_JUMP && _state != LEFT_JUMP &&
         _state != RIGHT_MID && _state != LEFT_MID &&
@@ -1263,7 +1263,7 @@ void Player::Friction(string direction, float maxSpeed)
     }
 }
 
-void Player::GroundCollision()
+void Player::GroundCollision(string pixelName)
 {
     _probeX = _x;
     _probeY = _y;
@@ -1273,7 +1273,7 @@ void Player::GroundCollision()
 
     for (int i = _probeY; i <= _probeY + _img->getFrameHeight() / 2; i++)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), _x, i);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 
         if (pixelColor == RGB(255, 0, 0))
         {
@@ -1350,7 +1350,7 @@ void Player::GroundCollision()
     //위
     for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2 + 10; i--)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), _x, i);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 
         if (pixelColor == RGB(255, 0, 255))
         {
@@ -1374,7 +1374,7 @@ void Player::GroundCollision()
     //오른쪽
     for (int i = _probeX; i < _probeX + _img->getFrameHeight() / 2; i++)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), i, _y);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {
@@ -1388,7 +1388,7 @@ void Player::GroundCollision()
     //왼쪽
     for (int i = _probeX; i > _probeX - _img->getFrameHeight() / 2; i--)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage("backgroundCol")->getMemDC(), i, _y);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {

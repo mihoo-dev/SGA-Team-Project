@@ -76,6 +76,7 @@ void TutorialScene::release()
 
 void TutorialScene::update()
 {
+    _pm->GroundCollision("backgroundCol");
     _pm->update();
 
     for (int i = 0; i < _vObject.size(); i++)
