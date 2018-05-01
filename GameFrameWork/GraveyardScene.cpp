@@ -17,6 +17,9 @@ HRESULT GraveyardScene::init()
 	IMAGEMANAGER->addImage("STAGE_GRAVEYARD", "image\\STAGE_GRAVEYARD.bmp", 7168, 510, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("STAGE_GRAVEYARD_PIXEL", "image\\STAGE_GRAVEYARD_PIXEL.bmp", 7168, 510, true, RGB(255, 0, 255));
 
+	SOUNDMANAGER->addSound("GRAVEYARD", "sound\\Graveyard.mp3", true, true);
+	SOUNDMANAGER->allStop();
+	SOUNDMANAGER->play("GRAVEYARD", 0.5f);
 	CAMERA->SetSize(7168, 510);
 
 	_pm = new PlayerManager;
