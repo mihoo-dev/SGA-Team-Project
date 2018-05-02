@@ -279,6 +279,12 @@
     <ClInclude Include="PlayerUI.h">
       <Filter>playGround\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Boss_Snake.h">
+      <Filter>playGround\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BossSnakeScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +439,12 @@
     </ClCompile>
     <ClCompile Include="PlayerUI.cpp">
       <Filter>playGround\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Snake.cpp">
+      <Filter>playGround\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BossSnakeScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

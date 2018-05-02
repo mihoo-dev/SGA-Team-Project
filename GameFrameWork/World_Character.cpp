@@ -15,6 +15,8 @@ World_Character::World_Character()
 	, _bridgeState(NOTHING_TO_DO)
 	, _jakeMotion(KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE"))
 	, _canMakeBridge(false), _meetDog(true)
+	, _pressX(false), _Xframe(0), _Xcount(0)
+	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1))
 {
 }
 
@@ -54,7 +56,22 @@ void World_Character::update()
 	{
 		Move();
 		CheckDirection();
-		if (KEYMANAGER->isOnceKeyDown('X'))	MakeBridge();
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			switch (_buttonState)
+			{
+			case NO_PRESS:
+				break;
+			case GO_STORE:
+				SCENEMANAGER->changeScene("StoreScene", "LoadingScene");
+			break;
+			case MAKE_BRIDGE:
+				MakeBridge();
+			break;
+			default:
+				break;
+			}
+		}
 	}
 
 	CheckPixel();
@@ -62,7 +79,7 @@ void World_Character::update()
 	SetCamera();
 	CheckTrace();
 	BridgeOperation();	
-
+	button();
 
 
 	_rc = RectMakeCenter(_x, _y + 16, 32, 20);
@@ -96,6 +113,11 @@ void World_Character::render(HDC hdc)
 			, _jakeX - _img->getFrameWidth() / 2
 			, _jakeY - _img->getFrameHeight() / 2
 			, _jakeMotion);
+	}
+
+	if (_pressX && _bridgeState == NOTHING_TO_DO)
+	{
+		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x, _y - 100, _Xframe, 0);
 	}
 
 	CheckStatus(hdc);
@@ -203,8 +225,24 @@ void World_Character::CheckPixel()
 	if (RIGHT == RGB(0, 0, 255) || LEFT == RGB(0, 0, 255) || UP == RGB(0, 0, 255) || DOWN == RGB(0, 0, 255))
 	{
 		_canMakeBridge = true;
+		_pressX = true;
+		_buttonState = MAKE_BRIDGE;
 	}
-	else _canMakeBridge = false;
+	else
+	{
+		_canMakeBridge = false;
+		_pressX = false;
+	}
+	if (RIGHT == _colorStore || LEFT == _colorStore || UP == _colorStore || DOWN == _colorStore)
+	{
+		_pressX = true;
+		_buttonState = GO_STORE;
+	}
+	else
+	{
+		_pressX = false;
+		_buttonState = NO_PRESS;
+	}
 }
 
 void World_Character::ChangeState()
@@ -550,6 +588,20 @@ void World_Character::BridgeOperation()
 		else _jakeY = _y + 42.0f;
 		_bridgeState = NOTHING_TO_DO;
 	break;
+	}
+}
+
+void World_Character::button()
+{
+	if (_pressX)
+	{
+		_Xcount++;
+		if (_Xcount > 20)
+		{
+			_Xcount = 0;
+			_Xframe++;
+		}
+		if (_Xframe > 1) _Xframe = 0;
 	}
 }
 

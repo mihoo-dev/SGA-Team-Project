@@ -22,16 +22,22 @@ HRESULT playGround::init()
     _alpha = 0;
 
     _startScene = new StartScene;
-    _tutorialScene = new TutorialScene;
-	_graveyardScene = new GraveyardScene;
 	_worldScene = new WorldScene;
     _endScene = new EndScene;
     _loadingScene = new LoadingScene;
 	_storeScene = new StoreScene;
 
-    SCENEMANAGER->addScene("StartScene", _startScene);
-    SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
+	//스테이지씬 동적 할당
+	_tutorialScene = new TutorialScene;
+	_graveyardScene = new GraveyardScene;
+	_snakeScene = new BossSnakeScene;
+
+	//스테이지씬 씬매니져에 추가
+	SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
 	SCENEMANAGER->addScene("GraveyardScene", _graveyardScene);
+	SCENEMANAGER->addScene("SnakeScene", _snakeScene);
+
+    SCENEMANAGER->addScene("StartScene", _startScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
     SCENEMANAGER->addScene("EndScene", _endScene);
 	SCENEMANAGER->addScene("StoreScene", _storeScene);
@@ -44,6 +50,8 @@ HRESULT playGround::init()
 	_sceneChange3 = false;
 	_sceneChange4 = false;
 	_sceneChange5 = false;
+	_sceneChange6 = false;
+
 
 
 	return S_OK;
@@ -72,6 +80,8 @@ void playGround::update()
 		_sceneChange4 = true;
 	if (KEYMANAGER->isOnceKeyDown('T'))
 		_sceneChange5 = true;
+	if (KEYMANAGER->isOnceKeyDown('Y'))
+		_sceneChange6 = true;
 
     if (_sceneChange1)
     {
@@ -113,11 +123,26 @@ void playGround::update()
 			SCENEMANAGER->changeScene("StoreScene", "LoadingScene");
 		}
 	}
-    if(!_sceneChange1 && !_sceneChange2 && !_sceneChange3 && !_sceneChange4 && !_sceneChange5)
+	if (_sceneChange6)
+	{
+		if (FadeIn(&_alpha))
+		{
+			_sceneChange6 = false;
+			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
+		}
+	}
+    if(!_sceneChange1 
+		&& !_sceneChange2 
+		&& !_sceneChange3 
+		&& !_sceneChange4 
+		&& !_sceneChange5
+		&& !_sceneChange6)
+
         FadeOut(&_alpha);
         
     
     SCENEMANAGER->update();
+	EFFECTMANAGER->update();
 }
 
 //그려주는

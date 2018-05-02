@@ -35,6 +35,7 @@ private:
 	RECT						_rc;								//렉트
 	BOOL						_right, _left, _up, _down;			//키입력 상태
 
+
 private:
 	tagTrace					_traceFinn;							//핀 이동경로를 위한 구조체
 	vector<tagTrace>			_vTrace;							//핀 이동경로를 담을 벡터
@@ -49,6 +50,14 @@ private:
 	BOOL						_canMakeBridge;						//다리 생성 가능한 지역에 위치 하고 있는지 확인
 	BOOL						_meetDog;							//강아지 NPC 만났는지 확인
 	WORLD_MAKE_BRIDGE			_bridgeState;						//다리 생성 상태
+
+private:
+	BOOL						_pressX;
+	int							_Xframe;
+	int							_Xcount;
+	BUTTON_STATE				_buttonState;
+	COLORREF					_colorStore;
+	COLORREF					_colorBridge;
 
 public:
 	World_Character();
@@ -76,6 +85,9 @@ public:
 	void BridgeOperation();
 	WORLD_MAKE_BRIDGE GetBridgeState() { return _bridgeState; }
 	void SetBridgeState(WORLD_MAKE_BRIDGE state) { _bridgeState = state; }
+
+	//버튼 함수
+	void button();
 
 	float GetX() { return _x; }
 	float GetY() { return _y; }

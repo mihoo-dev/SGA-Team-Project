@@ -81,6 +81,8 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="ArmorItem.h" />
+    <ClInclude Include="BossSnakeScene.h" />
+    <ClInclude Include="Boss_Snake.h" />
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="CameraManager.h" />
@@ -139,6 +141,8 @@
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="ArmorItem.cpp" />
+    <ClCompile Include="BossSnakeScene.cpp" />
+    <ClCompile Include="Boss_Snake.cpp" />
     <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="CameraManager.cpp" />

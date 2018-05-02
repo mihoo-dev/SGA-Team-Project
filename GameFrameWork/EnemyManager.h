@@ -5,6 +5,8 @@
 
 #include "Enemy_SmallZombie.h"
 
+#include "Boss_Snake.h"
+
 #include <vector>
 
 
@@ -20,6 +22,8 @@ private:
 
 
 private:
+	Boss_Snake* _snake;
+
 	vSmallZombie _vSmallZombie;
 
 	void setSmallZombie(int x, int y);
@@ -36,5 +40,7 @@ public:
 	//	vSmallZombie
 	vSmallZombie getSmallZombies() { return _vSmallZombie; }
 
+	//Boss Snake
+	void SetSnake(float x, float y);
 };
 
