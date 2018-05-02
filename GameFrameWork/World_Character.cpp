@@ -16,7 +16,7 @@ World_Character::World_Character()
 	, _jakeMotion(KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE"))
 	, _canMakeBridge(false), _meetDog(true)
 	, _pressX(false), _Xframe(0), _Xcount(0)
-	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1))
+	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1)), _colorGraveyard(RGB(2,2,2))
 {
 }
 
@@ -117,7 +117,7 @@ void World_Character::render(HDC hdc)
 
 	if (_pressX && _bridgeState == NOTHING_TO_DO)
 	{
-		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x, _y - 100, _Xframe, 0);
+		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x - 14, _y - 60 - 14, _Xframe, 0);
 	}
 
 	CheckStatus(hdc);
@@ -219,27 +219,33 @@ void World_Character::CheckPixel()
 	}
 	else _collisionDown = 1;
 
-	//다리 생성에 관한 픽셀 체크
-	//강아지를 만난적이 없으면 리턴
-	if (!_meetDog) return;
-	if (RIGHT == RGB(0, 0, 255) || LEFT == RGB(0, 0, 255) || UP == RGB(0, 0, 255) || DOWN == RGB(0, 0, 255))
+
+	//다리 만들기
+	if (RIGHT == _colorBridge || LEFT == _colorBridge || UP == _colorBridge || DOWN == _colorBridge)
 	{
-		_canMakeBridge = true;
-		_pressX = true;
-		_buttonState = MAKE_BRIDGE;
+		if (_meetDog)
+		{
+			_canMakeBridge = true;
+			_pressX = true;
+			_buttonState = MAKE_BRIDGE;
+		}
 	}
-	else
-	{
-		_canMakeBridge = false;
-		_pressX = false;
-	}
-	if (RIGHT == _colorStore || LEFT == _colorStore || UP == _colorStore || DOWN == _colorStore)
+	//상점
+	else if (RIGHT == _colorStore || LEFT == _colorStore || UP == _colorStore || DOWN == _colorStore)
 	{
 		_pressX = true;
 		_buttonState = GO_STORE;
 	}
+
+	//그레이브야드
+	else if (RIGHT == _colorGraveyard || LEFT == _colorGraveyard || UP == _colorGraveyard || DOWN == _colorGraveyard)
+	{
+		_pressX = true;
+		_buttonState = GO_GRAVEYARD;
+	}
 	else
 	{
+		_canMakeBridge = false;
 		_pressX = false;
 		_buttonState = NO_PRESS;
 	}

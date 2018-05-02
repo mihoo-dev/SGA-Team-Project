@@ -58,6 +58,7 @@ private:
 	BUTTON_STATE				_buttonState;
 	COLORREF					_colorStore;
 	COLORREF					_colorBridge;
+	COLORREF					_colorGraveyard;
 
 public:
 	World_Character();
