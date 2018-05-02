@@ -97,6 +97,15 @@
     <Filter Include="playGround\Object">
       <UniqueIdentifier>{26fed11c-5964-4cfc-bae8-485c065949b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Item">
+      <UniqueIdentifier>{a46d75a2-4431-4dbb-a694-d1dbb8c11792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Store">
+      <UniqueIdentifier>{89211a0b-0858-4d84-a206-bee0016a6807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Scene\StoreScene">
+      <UniqueIdentifier>{deb323c9-9fdd-47c3-bda8-ec9088ffee09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -241,28 +250,31 @@
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="ArmorItem.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="PotionItem.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Store.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="StoreNPC.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="StoreScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="Sword.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="StarPoint.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>playGround\Store</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreNPC.h">
+      <Filter>playGround\Store</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreScene.h">
+      <Filter>playGround\Scene\StoreScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PurchaseBtn.h">
+      <Filter>playGround\Store</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -390,28 +402,31 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="ArmorItem.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="PotionItem.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Store.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="StoreNPC.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="StoreScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Sword.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="StarPoint.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Store.cpp">
+      <Filter>playGround\Store</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreNPC.cpp">
+      <Filter>playGround\Store</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreScene.cpp">
+      <Filter>playGround\Scene\StoreScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PurchaseBtn.cpp">
+      <Filter>playGround\Store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

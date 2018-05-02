@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-class StoreNPC : public gameNode 
+class StoreNPC : public gameNode
 {
 private:
 	image* _NPCImage;
@@ -17,6 +17,8 @@ public:
 	HRESULT init(float x, float y);
 	void update();
 	void release();
-	void render();
+	void render(float x, float y);
+
+	void setX(float x) { _x = x; }
 };
 

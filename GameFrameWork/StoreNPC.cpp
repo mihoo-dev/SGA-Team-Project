@@ -38,14 +38,14 @@ void StoreNPC::update()
 		if (_frameX >= _NPCImage->getMaxFrameX())
 			_frameX = 0;
 	}
-	
+
 }
 
 void StoreNPC::release()
 {
 }
 
-void StoreNPC::render()
+void StoreNPC::render(float x, float y)
 {
-	_NPCImage->frameRender(getMemDC(), _x, _y, _frameX, _frameY);
+	_NPCImage->frameRender(getMemDC(), x, y, _frameX, _frameY);
 }

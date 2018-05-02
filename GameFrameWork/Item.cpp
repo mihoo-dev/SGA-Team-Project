@@ -23,13 +23,14 @@ HRESULT Item::init(float x, float y)
 
 void Item::update()
 {
+	
 }
 
 void Item::release()
 {
 }
 
-void Item::render()
+void Item::render(float x, float y)
 {
-	itemImage->render(getMemDC(), _x, _y);
+	itemImage->render(getMemDC(), x, y);
 }

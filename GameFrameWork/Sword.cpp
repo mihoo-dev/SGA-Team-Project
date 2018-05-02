@@ -34,7 +34,7 @@ void Sword::release()
 {
 }
 
-void Sword::render()
+void Sword::render(float x, float y)
 {
-	Item::render();
+	Item::render(x, y);
 }

@@ -17,8 +17,10 @@ public:
 	virtual HRESULT init(float x, float y);
 	virtual void update();
 	virtual void release();
-	virtual void render();
+	virtual void render(float x, float y);
 
 	const char* getName() { return itemName; }
+	void setX(float x) { _x = x; }
+	void setY(float y) { _y = y; }
 };
 

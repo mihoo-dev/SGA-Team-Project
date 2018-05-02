@@ -3,8 +3,8 @@
 
 
 Player::Player()
-    : _x(WINSIZEX / 2 + 500), _y(WINSIZEY / 2),
-    _colX(WINSIZEX / 2 + 500), _colY(WINSIZEY / 2),
+    : _x(WINSIZEX / 2), _y(WINSIZEY / 2),
+    _colX(WINSIZEX / 2), _colY(WINSIZEY / 2),
     _speed(0.0f), _friction(0.0f),
     _jumpPower(0), _gravity(0.3f),
     _direction(LEFT), _rc({ 0, 0, 0, 0 }),
@@ -1174,7 +1174,7 @@ void Player::update()
         break;
     }
 
-    switch (_direction)
+    /*switch (_direction)
     {
     case Player::LEFT:
         CAMERA->update(_colX - 100, _colY, 3, false);
@@ -1182,7 +1182,7 @@ void Player::update()
     case Player::RIGHT:
         CAMERA->update(_colX + 100, _colY, 3, false);
         break;
-    }
+    }*/
 
     if (_state == RIGHT_JUMP || _state == LEFT_JUMP ||
         _state == RIGHT_MID || _state == LEFT_MID ||
@@ -1226,7 +1226,7 @@ void Player::update()
 
 void Player::render()
 {
-    //Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
+    Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
     //Rectangle(getMemDC(), _hitRC.left, _hitRC.top, _hitRC.right, _hitRC.bottom);
     _img->alphaAniRender(getMemDC(), _rc.left, _rc.top, _anim, _alpha);
 }

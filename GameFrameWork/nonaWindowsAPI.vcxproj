@@ -109,6 +109,7 @@
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="PotionItem.h" />
+    <ClInclude Include="PurchaseBtn.h" />
     <ClInclude Include="StarPoint.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="StoreNPC.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="PotionItem.cpp" />
+    <ClCompile Include="PurchaseBtn.cpp" />
     <ClCompile Include="StarPoint.cpp" />
     <ClCompile Include="Store.cpp" />
     <ClCompile Include="StoreNPC.cpp" />

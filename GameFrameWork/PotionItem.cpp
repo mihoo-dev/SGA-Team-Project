@@ -37,7 +37,7 @@ void PotionItem::release()
 {
 }
 
-void PotionItem::render()
+void PotionItem::render(float x, float y)
 {
-	Item::render();
+	Item::render(x, y);
 }

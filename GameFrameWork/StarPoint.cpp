@@ -32,7 +32,7 @@ void StarPoint::release()
 {
 }
 
-void StarPoint::render()
+void StarPoint::render(float x, float y)
 {
-	Item::render();
+	Item::render(x, y);
 }

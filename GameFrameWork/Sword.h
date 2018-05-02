@@ -12,6 +12,6 @@ public:
 	HRESULT init(float x, float y);
 	void update();
 	void release();
-	void render();
+	void render(float x, float y);
 };
 

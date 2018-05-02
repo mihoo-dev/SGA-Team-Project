@@ -40,7 +40,7 @@ void ArmorItem::release()
 
 }
 
-void ArmorItem::render()
+void ArmorItem::render(float x, float y)
 {
-	Item::render();
+	Item::render(x, y);
 }
