@@ -1430,6 +1430,8 @@ void Player::SaveData()
 
     //fputs(temp.c_str(), fp);
     fwrite(temp.c_str(), temp.size(), 1, fp);
+
+    fclose(fp);
 }
 
 void Player::LoadData()
@@ -1455,4 +1457,6 @@ void Player::LoadData()
 
     _status = PlayerStat(star, hp, speed, atk, weapon);
     UpdateInfo();
+
+    fclose(fp);
 }

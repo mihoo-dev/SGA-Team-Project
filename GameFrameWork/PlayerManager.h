@@ -1,12 +1,14 @@
 #pragma once
 #include "gameNode.h"
 #include "Player.h"
+#include "PlayerUI.h"
 
 class PlayerManager :
     public gameNode
 {
 private:
     Player * _player;
+    PlayerUI * _pu;
 public:
     PlayerManager();
     ~PlayerManager();

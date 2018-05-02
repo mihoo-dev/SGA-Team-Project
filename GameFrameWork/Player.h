@@ -14,7 +14,7 @@ private:
         int weapon;
 
         tagPlayerStat() :
-            star(0), hp(3), atk(10), speed(3), weapon((int)Player::DEFFAULT)
+            star(0), hp(1), atk(1), speed(3), weapon((int)Player::DEFFAULT)
         {}
 
         tagPlayerStat(int _star, int _hp, 
@@ -110,6 +110,7 @@ public:
     inline RECT GetHitRC() { return _hitRC; }
     inline float GetX() { return _x; }
     inline float GetY() { return _y; }
+    inline PlayerStat GetInfo() { return _status; }
 
     void UpdateInfo();
     void SaveData();

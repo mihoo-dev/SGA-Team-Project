@@ -264,6 +264,9 @@
     <ClInclude Include="StarPoint.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerUI.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="StarPoint.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
