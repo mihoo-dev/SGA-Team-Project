@@ -5,15 +5,15 @@
 Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
-	spd(2), gravity(3), isOnGround(false),
+	spd(1), gravity(3), isOnGround(false),
 	x(0), y(0), moveX(0), moveY(0),
 	width(80), height(72),
 	hitBox({ x,y,x+width,y+height }),
 	playerHitBox({ 0,0,0,0 }),
 	direction(RIGHT),
 	alertRange(15),
-	maxMoveDistance(100),
-	period_idleToPatrol(1000)
+	maxMoveDistance(150),
+	period_idleToPatrol(150)
 {
 }
 
@@ -40,10 +40,10 @@ HRESULT Enemy_SmallZombie::init(int x, int y)
 	IMAGEMANAGER->addFrameImage("SmallZombie_walk", "SmallZombie_walk.bmp", 1196, 152, 13, 2, true, RGB(255, 0, 255));
 
 	int rightWalk[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightWalk", "SmallZombie_walk", rightIdle, 13, 10, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightWalk", "SmallZombie_walk", rightWalk, 13, 5, true);
 
 	int leftWalk[] = { 13,14,15,16,17,18,19,20,21,22,23,24,25 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftWalk", "SmallZombie_walk", leftIdle, 13, 10, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftWalk", "SmallZombie_walk", leftWalk, 13, 5, true);
 	
 	//jump
 	IMAGEMANAGER->addFrameImage("SmallZombie_jump", "SmallZombie_jump.bmp", 630, 156, 7, 2, true, RGB(255, 0, 255));
@@ -64,9 +64,7 @@ HRESULT Enemy_SmallZombie::init(int x, int y)
 	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftGetHit", "SmallZombie_getHit", leftGetHit, 4, 10, true);
 	
 
-	img = IMAGEMANAGER->findImage("SmallZombie_idle");
-	anim = KEYANIMANAGER->findAnimation("SZ_rightIdle");
-	anim->start();
+	changeState(idle, right_idle, "SZ_rightIdle");
 
 	//test
 	this->x = x;
@@ -91,8 +89,8 @@ void Enemy_SmallZombie::PlayerInfoUpdate(Player * player)
 
 void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 {
-	
-	for (int i = y; i <= hitBox.bottom + moveY; i++)
+	#pragma region GroundCollision
+	for (int i = hitBox.top; i <= hitBox.bottom + moveY; i++)
 	{
 		COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), x, i);
 
@@ -111,10 +109,13 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 
 		if (pixelColor == RGB(255, 0, 255))
 		{
-			if(isOnGround) isOnGround = false;
+			if (isOnGround) isOnGround = false;
 		}
-		
 	}
+	#pragma endregion
+
+
+
 }
 
 //void Enemy_SmallZombie::update(Player * player)
@@ -122,11 +123,24 @@ void Enemy_SmallZombie::update()
 {
 	//PlayerInfoUpdate(player);
 
+	distFromPlayer = getDistance(x, y, playerX, playerY);
+
 	stateTrigger();
 
-	if (state == states::idle) idle_behavior();
-	else if (state == states::patrol) patrol_behavior();
-	else if (state == states::alert) alert_behavior();
+	switch (state)
+	{
+	case idle: idle_behavior();
+		break;
+	case patrol: patrol_behavior();
+		break;
+	case alert: alert_behavior();
+		break;
+	case alertJump: alertJump_behavior();
+		break;
+	case getHit: getHit_behavior();
+		break;
+
+	}
 
 	CollisionUpdate("STAGE_GRAVEYARD_PIXEL");
 
@@ -134,6 +148,8 @@ void Enemy_SmallZombie::update()
 	y += moveY;
 
 	hitBox = RectMakeCenter(x, y, width, height); // update hitBox
+
+	//printf_s("%d\n", direction);
 }
 
 void Enemy_SmallZombie::render(HDC hdc)
@@ -150,6 +166,23 @@ void Enemy_SmallZombie::idle_behavior()
 	moveY = isOnGround ? 0 : gravity;
 
 
+	#pragma region IdleToPatrol
+	check_idleToPatrol++;
+
+	if (period_idleToPatrol <= check_idleToPatrol) {
+		check_idleToPatrol = 0;
+		bool change = (bool)RND->getFromIntTo(0, 3); // 33%
+							//TO DO: 방향을 설정할 조건문 추가
+		if (change == true) {
+			if (direction == LEFT) changeState(patrol, left_walk, "SZ_leftWalk");
+			if (direction == RIGHT) changeState(patrol, right_walk, "SZ_rightWalk");
+		}
+	} // 일정 주기마다 상태 변화 idle -> patrol 
+	#pragma endregion
+
+	#pragma region IdleToAlert
+	if (distFromPlayer < alertRange) state = states::alert;
+#pragma endregion
 
 }
 
@@ -158,14 +191,23 @@ void Enemy_SmallZombie::patrol_behavior()
 	moveX = (direction == LEFT) ? -spd : spd;
 	moveY = isOnGround ? 0 : gravity;
 
+
+
+	#pragma region PatrolToIdle
 	moveDistance += moveX;
 
 	if (abs(moveDistance) >= maxMoveDistance) {
 		moveDistance = 0;
 		direction = (direction == LEFT) ? RIGHT : LEFT;
-		//changeState
-	}
 
+		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
+		else if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+	} // Patrole -> Idle
+	#pragma endregion
+
+	#pragma region IdleToAlert
+	if (distFromPlayer < alertRange) state = states::alert;
+#pragma endregion
 }
 
 void Enemy_SmallZombie::alert_behavior()
@@ -175,17 +217,24 @@ void Enemy_SmallZombie::alert_behavior()
 
 	direction = (x > playerX) ? LEFT : RIGHT;
 
+	#pragma region AlertToJump
+	jumpCount++;
 
-	for (UINT i = 0; i <= period_jump; ++i) {
-		if (i == period_jump) {
-			bool rnd = RND->getFromIntTo(false, true);
-			if (rnd == true) {
-				if (direction == LEFT) changeState(alert, left_jump, "SZ_leftJump");
-				if (direction == RIGHT) changeState(alert, right_jump, "SZ_rightJump");
-			}
+	if (jumpCount >= jumpCountLimit) {
+		jumpCount = 0;
+		int rnd = RND->getFromIntTo(0, 4); // 25%
+		if (rnd == true) {
+			if (direction == LEFT) changeState(alertJump, left_jump, "SZ_leftJump");
+			if (direction == RIGHT) changeState(alertJump, right_jump, "SZ_rightJump");
 		}
-	}
+	} // Alert -> Jump
+	#pragma endregion
+	
 
+}
+
+void Enemy_SmallZombie::alertJump_behavior()
+{
 }
 
 void Enemy_SmallZombie::getHit_behavior()
@@ -199,38 +248,7 @@ void Enemy_SmallZombie::stateTrigger()
 	//RECT temp;
 	//if (IntersectRect(&temp, &hitBox, &player->attackBox)) state = states::getHit;
 
-	float distFromPlayer = getDistance(x, y, playerX, playerY);
-
-	if (state == states::idle) 
-	{
-		if (distFromPlayer < alertRange) state = states::alert;
-
-		UINT i = 0;
-		for (i; i <= period_idleToPatrol; ++i) {
-			if (i == period_idleToPatrol) {
-				bool change = RND->getFromIntTo(0, 2);
-				Directions dir = (Directions)RND->getFromIntTo(0, 2);
-				if (change == true) {
-					if (dir == LEFT) changeState(patrol, left_walk, "SZ_leftWalk");
-					if (dir == RIGHT) changeState(patrol, right_walk, "SZ_rightWalk");
-
-					break;
-				}
-			} // 일정 주기마다 상태 변화 idle <-> patrol 
-		}
-
-	}
-	else if (state == states::patrol) 
-	{
-		if (distFromPlayer < alertRange) state = states::alert;
-
-
-
-	}
-	else if (state == states::alert) 
-	{
-		
-	}
+	//float distFromPlayer = getDistance(x, y, playerX, playerY);
 }
 
 void Enemy_SmallZombie::changeState(states state, imageStates imgState, string animKeyName)

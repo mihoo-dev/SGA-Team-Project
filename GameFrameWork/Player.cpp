@@ -1177,7 +1177,7 @@ void Player::update()
         break;
     }
 
-    /*switch (_direction)
+    switch (_direction)
     {
     case Player::LEFT:
         CAMERA->update(_colX - 100, _colY, 3, false);
@@ -1185,7 +1185,7 @@ void Player::update()
     case Player::RIGHT:
         CAMERA->update(_colX + 100, _colY, 3, false);
         break;
-    }*/
+    }
 
     if (_state == RIGHT_JUMP || _state == LEFT_JUMP ||
         _state == RIGHT_MID || _state == LEFT_MID ||

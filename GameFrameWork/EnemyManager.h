@@ -7,6 +7,11 @@
 
 #include <vector>
 
+
+#pragma comment ( linker, "/entry:WinMainCRTStartup /subsystem:console" )
+
+
+
 class EnemyManager :	public gameNode
 {
 private:

@@ -17,7 +17,7 @@ class Enemy_SmallZombie
 		idle,
 		patrol,
 		alert,
-		attack,
+		alertJump,
 		getHit
 	};
 
@@ -70,14 +70,19 @@ private:
 	void idle_behavior();
 	void patrol_behavior();
 	void alert_behavior();
+	void alertJump_behavior();
 	void getHit_behavior();
 
 	void stateTrigger();
 
 	UINT period_idleToPatrol;
-	UINT period_jump;
+	UINT check_idleToPatrol;
+	UINT jumpCount;
+	UINT jumpCountLimit;
 	int maxMoveDistance;
 	int moveDistance;
+
+	float distFromPlayer;
 
 	void PlayerInfoUpdate(Player * player);
 	void CollisionUpdate(string pixelName);

@@ -56,6 +56,6 @@ void GraveyardScene::render()
 		, CAMERA->GetX(), CAMERA->GetY()
 		, CAMERA->GetX(), CAMERA->GetY()
 		, WINSIZEX, WINSIZEY);
-	_pm->render();
 	_em->render();
+	_pm->render();
 }
