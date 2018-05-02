@@ -1,0 +1,2 @@
+Star	HP	AtkPwr	Speed	Weapon
+0	3	10	3	0
