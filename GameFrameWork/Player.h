@@ -8,16 +8,19 @@ private:
     {
         int star;
         int hp;
-        bool armour;
+        //bool armour;
         int atk;
+        float speed;
         int weapon;
 
         tagPlayerStat() :
-            star(0), hp(3), armour(false), atk(10), weapon(Player::DEFFAULT)
+            star(0), hp(1), atk(1), speed(3), weapon((int)Player::DEFFAULT)
         {}
 
-        tagPlayerStat(int _star, int _hp, bool _armour, int _atk, int _weapon) :
-            star(_star), hp(_hp), armour(_armour), atk(_atk), weapon(_weapon)
+        tagPlayerStat(int _star, int _hp, 
+            float _speed, int _atk, int _weapon) :
+            star(_star), hp(_hp), 
+            speed(_speed), atk(_atk), weapon(_weapon)
         {}
     } PlayerStat;
 
@@ -107,5 +110,10 @@ public:
     inline RECT GetHitRC() { return _hitRC; }
     inline float GetX() { return _x; }
     inline float GetY() { return _y; }
+    inline PlayerStat GetInfo() { return _status; }
+
+    void UpdateInfo();
+    void SaveData();
+    void LoadData();
 };
 

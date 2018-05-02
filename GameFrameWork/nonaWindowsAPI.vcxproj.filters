@@ -276,6 +276,9 @@
     <ClInclude Include="PurchaseBtn.h">
       <Filter>playGround\Store</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerUI.h">
+      <Filter>playGround\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="PurchaseBtn.cpp">
       <Filter>playGround\Store</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI.cpp">
+      <Filter>playGround\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

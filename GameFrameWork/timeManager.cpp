@@ -50,16 +50,16 @@ void timeManager::render(HDC hdc)
 #ifdef _DEBUG
 	{
 		wsprintf(str, "framePerSec(FPS) : %d", _timer->getFrameRate());
-		TextOut(hdc, CAMERA->GetX(), CAMERA->GetY(), str, strlen(str));
+		TextOut(hdc, CAMERA->GetX(), CAMERA->GetRC().bottom - 80, str, strlen(str));
 
 		sprintf_s(str, "worldTime : %f", _timer->getWorldTime());
-		TextOut(hdc, CAMERA->GetX(), CAMERA->GetY() + 20, str, strlen(str));
+		TextOut(hdc, CAMERA->GetX(), CAMERA->GetRC().bottom - 60, str, strlen(str));
 
 		sprintf_s(str, "elapsedTime : %f", _timer->getElapsedTime());
-		TextOut(hdc, CAMERA->GetX(), CAMERA->GetY() + 40, str, strlen(str));
+		TextOut(hdc, CAMERA->GetX(), CAMERA->GetRC().bottom - 40, str, strlen(str));
 
         sprintf_s(str, "x : %d, y : %d", (int)CAMERA->GetX() + _ptMouse.x, (int)CAMERA->GetY() + _ptMouse.y);
-        TextOut(hdc, CAMERA->GetX(), CAMERA->GetY() + 60, str, strlen(str));
+        TextOut(hdc, CAMERA->GetX(), CAMERA->GetRC().bottom - 20, str, strlen(str));
 	}
 #else
 	{

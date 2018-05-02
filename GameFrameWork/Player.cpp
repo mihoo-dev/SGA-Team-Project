@@ -21,7 +21,9 @@ Player::~Player()
 
 HRESULT Player::init()
 {
-    
+    _status = PlayerStat();
+    UpdateInfo();
+
     //플레이어 상태============================================================================================//
     IMAGEMANAGER->addFrameImage("Player", "PlayerMove.bmp", 1600, 1300, 16, 13, true, RGB(255, 0, 255), true);
 
@@ -218,7 +220,8 @@ void Player::release()
 
 void Player::update()
 {
-    //GroundCollision("backgroundCol");
+    if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+        LoadData();
 
     if (_state != RIGHT_JUMP && _state != LEFT_JUMP &&
         _state != RIGHT_MID && _state != LEFT_MID &&
@@ -518,7 +521,7 @@ void Player::update()
         }
         break;
     case Player::RIGHT_WALK:
-        Friction("right", 3);
+        Friction("right", _status.speed);
 
         if (!KEYMANAGER->isStayKeyDown(VK_RIGHT))
         {
@@ -537,7 +540,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_WALK:
-        Friction("left", -3);
+        Friction("left", -_status.speed);
 
         if (!KEYMANAGER->isStayKeyDown(VK_LEFT))
         {
@@ -556,7 +559,7 @@ void Player::update()
         }
         break;
     case Player::RIGHT_RUN:
-        Friction("right", 5);
+        Friction("right", _status.speed * 2);
 
         if (!KEYMANAGER->isStayKeyDown(VK_RIGHT))
         {
@@ -575,7 +578,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_RUN:
-        Friction("left", -5);
+        Friction("left", -(_status.speed*2));
 
         if (!KEYMANAGER->isStayKeyDown(VK_LEFT))
         {
@@ -1399,4 +1402,61 @@ void Player::GroundCollision(string pixelName)
             _speed = 0;
         }
     }
+}
+
+
+void Player::UpdateInfo()
+{
+    _item = (ITEM)_status.weapon;
+}
+
+void Player::SaveData()
+{
+    FILE * fp;
+    fopen_s(&fp, "PlayerInfo.txt", "wt");
+
+    string temp = "Star\tHP\tAtkPwr\tSpeed\tWeapon\n";
+
+    fputs(temp.c_str(), fp);
+
+    char tab = '\t';
+    char endl = '\n';
+
+    temp = to_string(_status.star) + tab +
+           to_string(_status.hp) + tab +
+           to_string(_status.atk) + tab +
+           to_string((int)_status.speed) + tab +
+           to_string(_status.weapon) + endl;
+
+    //fputs(temp.c_str(), fp);
+    fwrite(temp.c_str(), temp.size(), 1, fp);
+
+    fclose(fp);
+}
+
+void Player::LoadData()
+{
+    FILE * fp;
+    fopen_s(&fp, "PlayerInfo.txt", "rt");
+
+    char temp[256];
+    int star, hp, atk, speed, weapon;
+
+    while (true)
+    {
+        fgets(temp, sizeof(temp), fp);
+        if (string(temp).find("Weapon") != string::npos)
+            break;
+    }
+
+    while (true)
+    {
+        if (fscanf_s(fp, "%d", &star) == EOF) break;
+        fscanf_s(fp, "%d%d%d%d", &hp, &atk, &speed, &weapon);
+    }
+
+    _status = PlayerStat(star, hp, speed, atk, weapon);
+    UpdateInfo();
+
+    fclose(fp);
 }

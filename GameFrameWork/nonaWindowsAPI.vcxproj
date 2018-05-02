@@ -107,6 +107,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="PlayerUI.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="PotionItem.h" />
     <ClInclude Include="PurchaseBtn.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="PlayerUI.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="PotionItem.cpp" />
     <ClCompile Include="PurchaseBtn.cpp" />
