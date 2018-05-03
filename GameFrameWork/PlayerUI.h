@@ -41,6 +41,7 @@ private:
 	int _playerHP;
 	bool _weapon;
     int _coin;
+    int _star;
 
 	bool _isInven;
 
@@ -49,6 +50,8 @@ private:
 	vector<int> _vInven;
 
 	bool _isOnceClicked;
+
+    Player * _playerInfo;
 public:
 	PlayerUI();
 	~PlayerUI();
