@@ -9,6 +9,7 @@ private:
 	float _x, _y;
 	bool _isActive;
 	bool _isClicked;
+	bool _isBuy;
 
 	int _frameX, _frameY;
 	int _speechCnt;
@@ -29,6 +30,10 @@ public:
 	void setX(float x) { _x = x; }
 	float getX() { return _x; }
 	bool getIsClicked() { return _isClicked; }
+
+	int getIsBuy() { return _isBuy; }
+	void setIsBuy(bool buy) { _isBuy = buy; }
+
 	void setBool(bool isActive) { _isActive = isActive; }
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include <vector>
 
 class Store;
 
@@ -22,6 +23,7 @@ private:
 	int _starCost;
 	int _speechCnt;
 
+	vector<string> _vItem;
 public:
 	StoreScene();
 	~StoreScene();

@@ -3,6 +3,7 @@
 
 
 PurchaseBtn::PurchaseBtn()
+	: _isBuy(false)
 {
 }
 
@@ -41,6 +42,8 @@ void PurchaseBtn::update()
 		if (PtInRect(&_rc, _ptMouse))
 		{
 			_frameX = 0;
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+				_isBuy = true;
 			if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 			{
 				_frameX = 2;
