@@ -21,7 +21,8 @@ HRESULT PlayerUI::init()
 	IMAGEMANAGER->addImage("Inventory", "Inventory.bmp", 600, 500, false, NULL);
 	IMAGEMANAGER->addFrameImage("InventoryItem", "InventoryItem.bmp", 174, 66, 3, 1, true, RGB(255, 0, 255));
 
-	_loadInven = TXTDATA->txtLoad("ItemInfo.txt");
+	if(TXTDATA->txtLoad("ItemInfo.txt").size() > 0)
+		_loadInven = TXTDATA->txtLoad("ItemInfo.txt");
 
 	for (int i = 0; i < _loadInven.size(); i++)
 	{
@@ -166,10 +167,13 @@ void PlayerUI::UpdateInven()
 						if (_inventory[i][j].isOnceClicked)
 						{
 							_vInven.erase(_vInven.begin() + (i + (j * 8)));
+							_loadInven.erase(_loadInven.begin() + (i + (j * 8)));
 							_inventory[i][j].type = (int)Inven::DEFFAULT;
 							_inventory[i][j].isOnceClicked = false;
 							_isOnceClicked = false;
 							InitInvenPos();
+							
+							TXTDATA->txtSave("ItemInfo.txt", _loadInven);
 						}
 					}
 					else

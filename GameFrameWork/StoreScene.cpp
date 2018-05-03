@@ -26,6 +26,8 @@ HRESULT StoreScene::init()
 
 	_speechCnt = 0;
 
+	_vItem = TXTDATA->txtLoad("ItemInfo.txt");
+
 	return S_OK;
 }
 
