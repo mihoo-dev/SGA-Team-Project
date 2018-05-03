@@ -43,7 +43,7 @@ void GraveyardScene::update()
     _pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
 	_pm->update();
 
-	_em->update();
+	_em->update(_pm, "STAGE_GRAVEYARD_PIXEL");
 }
 
 void GraveyardScene::render()
@@ -58,4 +58,5 @@ void GraveyardScene::render()
 		, WINSIZEX, WINSIZEY);
 	_em->render();
 	_pm->render();
+
 }

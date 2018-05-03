@@ -42,7 +42,7 @@ void BossSnakeScene::update()
 
 
 
-	_em->update();
+	_em->update(_pm, "STAGE_SNAKE_PIXEL");
 }
 
 void BossSnakeScene::render()

@@ -1,31 +1,23 @@
 #pragma once
 #include "gameNode.h"
 
-#include "PlayerManager.h"
-
 #include "Enemy_SmallZombie.h"
-
 #include "Boss_Snake.h"
+
+#include "PlayerManager.h"
 
 #include <vector>
 
-
 #pragma comment ( linker, "/entry:WinMainCRTStartup /subsystem:console" )
-
-
 
 class EnemyManager :	public gameNode
 {
 private:
 	typedef vector<Enemy_SmallZombie*> vSmallZombie;
 
-
-
-
 private:
 	vSmallZombie _vSmallZombie;
 
-	void setSmallZombie(int x, int y);
 
 private:
 	Boss_Snake*		_snake;
@@ -37,13 +29,14 @@ public:
 
 	HRESULT init();
 	void release();
-	void update();
+	void update(PlayerManager * _pm, string colPixelName);
 	void render();
 
 	//	vSmallZombie
-	vSmallZombie getSmallZombies() { return _vSmallZombie; }
+	void setSmallZombie(int x, int y);
 
 	//Boss Snake
 	void SetSnake(float x, float y);
+
 };
 

@@ -35,8 +35,7 @@ public:
 
 	HRESULT init(int x, int y);
 	void release();
-	//void update(Player * player, string pixelName);
-	void update();
+	void update(Player * player, string pixelName);
 	void render(HDC hdc);
 
 	// getter
@@ -57,6 +56,8 @@ private:
 	int knockBackDistance;
 	int maxKnockBackDistance;
 
+	bool isOnGroundLeft;
+	bool isOnGroundRight;
 	bool isOnGround;
 	bool groundIsInLeft;	
 	bool groundIsInRight;
@@ -64,6 +65,7 @@ private:
 	bool cliffIsInRight;
 
 	bool isDie;
+	bool isHit;
 
 	int moveX;
 	int moveY;
@@ -76,14 +78,19 @@ private:
 	int height;
 	Directions direction;
 
+	int hitTime;
+	int hitTimeLimit;
+
 	float alertRange;
 
 	RECT Temp; //Rect for IntersectRect
+	COLORREF pixelColor; // COLERREF for PixelCollision
 
 private: // 다른 객체에서 받아올 것들
 	float playerX;
 	float playerY;
 	float playerAttackPower;
+	RECT playerAttackBox;
 	RECT playerHitBox;
 
 
@@ -98,8 +105,6 @@ private:
 	void alertJump_behavior();
 	void getHit_behavior();
 
-	void stateTrigger();
-
 	UINT period_idleToPatrol;
 	UINT check_idleToPatrol;
 	UINT jumpCount;
@@ -111,6 +116,8 @@ private:
 
 	void GetPlayerInfo(Player * player);
 	void CollisionUpdate(string pixelName);
+
+	void PreventFastAttack(); // 연속되는 공격 방지
 
 private:
 

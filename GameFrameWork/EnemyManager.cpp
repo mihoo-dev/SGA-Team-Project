@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EnemyManager.h"
+#include "PlayerManager.h"
 
 
 EnemyManager::EnemyManager()
@@ -32,12 +33,13 @@ void EnemyManager::release()
 	
 }
 
-void EnemyManager::update()
+void EnemyManager::update(PlayerManager * _pm, string colPixelName)
 {
 	if (_isSnakeStage) _snake->update();
 	
 	for (int i = 0; i < _vSmallZombie.size(); ++i) {
-		_vSmallZombie[i]->update();
+		if (_vSmallZombie[i]->getIsDie() == true) continue;
+		_vSmallZombie[i]->update(_pm->GetPlayer(), colPixelName);
 	}
 	
 }
