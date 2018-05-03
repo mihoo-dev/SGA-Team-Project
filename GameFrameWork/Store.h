@@ -42,5 +42,7 @@ public:
 	void FontFunction(int r, int g, int b, const char* txt, float rcX, float rcY);
 	void checkCollision();
 	PurchaseBtn* getBtn(int i);
+
+    PlayerManager * GetPlayerManager() { return _pm; }
 };
 

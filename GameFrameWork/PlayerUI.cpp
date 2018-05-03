@@ -76,13 +76,21 @@ void PlayerUI::render()
 		IMAGEMANAGER->findImage("Inventory")->render(getMemDC(), CAMERA->GetX(), CAMERA->GetY());
 
 		DrawInventory();
-	}
+
+        HFONT hFont = CreateFont(30, 30, 0, 0, 50, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, "±Ã¼­Ã¼");
+        HFONT hOFont = (HFONT)SelectObject(getMemDC(), hFont);
+        SetTextColor(getMemDC(), RGB(255, 255, 0));
+        TextOut(getMemDC(), CAMERA->GetX() + 30, CAMERA->GetRC().bottom - 50, to_string(_coin).c_str(), to_string(_coin).size());
+        SelectObject(getMemDC(), hOFont);
+        DeleteObject(hFont);
+    }
 }
 
 void PlayerUI::SetPlayerInfo(Player * player)
 {
 	_playerHP = player->GetInfo().hp;
 	_weapon = player->GetInfo().weapon;
+    _coin = player->GetInfo().coin;
 }
 
 void PlayerUI::SetInventoryVector(int type)

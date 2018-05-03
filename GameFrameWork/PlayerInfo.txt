@@ -1,2 +1,2 @@
-Star	HP	AtkPwr	Speed	Weapon
-0	3	10	3	0
+HP	AtkPwr	Speed	Weapon	Coin	Star
+1	1	1	0	9970	-858993460

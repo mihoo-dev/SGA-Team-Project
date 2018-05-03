@@ -22,6 +22,7 @@ Player::~Player()
 HRESULT Player::init()
 {
     _status = PlayerStat();
+    LoadData();
     UpdateInfo();
 
     //플레이어 상태============================================================================================//
@@ -220,9 +221,6 @@ void Player::release()
 
 void Player::update()
 {
-    if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-        LoadData();
-
     if (_state != RIGHT_JUMP && _state != LEFT_JUMP &&
         _state != RIGHT_MID && _state != LEFT_MID &&
         _state != RIGHT_FALL && _state != LEFT_FALL &&
@@ -1415,7 +1413,7 @@ void Player::SaveData()
     FILE * fp;
     fopen_s(&fp, "PlayerInfo.txt", "wt");
 
-    string temp = "HP\tAtkPwr\tSpeed\tWeapon\n";
+    string temp = "HP\tAtkPwr\tSpeed\tWeapon\tCoin\tStar\n";
 
     fputs(temp.c_str(), fp);
 
@@ -1425,7 +1423,9 @@ void Player::SaveData()
     temp = to_string(_status.hp) + tab +
            to_string(_status.atk) + tab +
            to_string((int)_status.speed) + tab +
-           to_string(_status.weapon) + endl;
+           to_string(_status.weapon) + tab +
+           to_string(_status.coin) + tab +
+           to_string(_status.star) + endl;
 
     //fputs(temp.c_str(), fp);
     fwrite(temp.c_str(), temp.size(), 1, fp);
@@ -1439,7 +1439,7 @@ void Player::LoadData()
     fopen_s(&fp, "PlayerInfo.txt", "rt");
 
     char temp[256];
-    int star, hp, atk, speed, weapon;
+    int star, hp, atk, speed, weapon, coin;
 
     while (true)
     {
@@ -1451,10 +1451,10 @@ void Player::LoadData()
     while (true)
     {
         if (fscanf_s(fp, "%d", &hp) == EOF) break;
-        fscanf_s(fp, "%d%d%d", &atk, &speed, &weapon);
+        fscanf_s(fp, "%d%d%d%d%d", &atk, &speed, &weapon, &coin, &star);
     }
 
-    _status = PlayerStat(hp, speed, atk, weapon);
+    _status = PlayerStat(hp, speed, atk, weapon, coin, star);
     UpdateInfo();
 
     fclose(fp);

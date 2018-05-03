@@ -40,6 +40,7 @@ private:
 private:
 	int _playerHP;
 	bool _weapon;
+    int _coin;
 
 	bool _isInven;
 

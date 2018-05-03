@@ -45,7 +45,7 @@ void timeManager::render(HDC hdc)
 	//폰트 배경색 지정
 	//폰트 배경색 불투명 : OPAQUE
 	//폰트 배경색 투명 : TRANSPARENT
-	SetBkMode(hdc, OPAQUE);
+	SetBkMode(hdc, TRANSPARENT);
 
 #ifdef _DEBUG
 	{

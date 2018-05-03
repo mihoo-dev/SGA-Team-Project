@@ -27,9 +27,10 @@ HRESULT StoreScene::init()
 	_state = WELCOME;
 
 	_speechCnt = 0;
-	_coins = 5;
+	_coins = _store->GetPlayerManager()->GetPlayer()->GetInfo().coin;
 
-	_vItem = TXTDATA->txtLoad("ItemInfo.txt");
+    if (TXTDATA->txtLoad("ItemInfo.txt").size() > 0)
+	    _vItem = TXTDATA->txtLoad("ItemInfo.txt");
 
 	return S_OK;
 }
@@ -80,6 +81,7 @@ void StoreScene::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F12))
 	{
+        _store->GetPlayerManager()->GetPlayer()->SaveData();
 		TXTDATA->txtSave("ItemInfo.txt", _vItem);
 
 		SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
@@ -120,10 +122,12 @@ void StoreScene::checkCost(int i)
 {
 	if (i > 4) return;
 
-	if (_store->getBtn(i)->getIsClicked())
+	if (_store->getBtn(i)->getIsBuy())
 	{
 		if (_coins >= _store->getBtn(i)->getItem()->getCost())
 		{
+            _store->GetPlayerManager()->GetPlayer()->SetCoin(
+                _coins -= _store->getBtn(i)->getItem()->getCost());
 			_state = THANKS;
 			_isSpeech = true;
 		}
