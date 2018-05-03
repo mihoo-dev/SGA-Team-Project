@@ -42,16 +42,16 @@ HRESULT Store::init()
 	_NPC->init(CAMERA->GetCenterX() + 200, CAMERA->GetCenterY());
 
 	_btn = new PurchaseBtn;
-	_btn->init(CAMERA->GetCenterX() - 260, CAMERA->GetCenterY() + 100);
+	_btn->init(CAMERA->GetCenterX() - 260, CAMERA->GetCenterY() + 100, new HotSauce);
 
 	_btn2 = new PurchaseBtn;
-	_btn2->init(CAMERA->GetCenterX() - 150, CAMERA->GetCenterY() + 100);
+	_btn2->init(CAMERA->GetCenterX() - 150, CAMERA->GetCenterY() + 100, new Sword);
 
 	_btn3 = new PurchaseBtn;
-	_btn3->init(CAMERA->GetCenterX() - 30, CAMERA->GetCenterY() + 100);
+	_btn3->init(CAMERA->GetCenterX() - 30, CAMERA->GetCenterY() + 100, new StarPoint);
 
 	_btn4 = new PurchaseBtn;
-	_btn4->init(CAMERA->GetCenterX() + 80, CAMERA->GetCenterY() + 100);
+	_btn4->init(CAMERA->GetCenterX() + 80, CAMERA->GetCenterY() + 100, new PotionItem);
 
 	return S_OK;
 }

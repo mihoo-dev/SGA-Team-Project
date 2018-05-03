@@ -12,13 +12,15 @@ PurchaseBtn::~PurchaseBtn()
 {
 }
 
-HRESULT PurchaseBtn::init(float x, float y)
+HRESULT PurchaseBtn::init(float x, float y, Item* item)
 {
 	IMAGEMANAGER->addFrameImage("btn", "BuyBtn.bmp", 137, 44, 3, 1, true, RGB(255, 0, 255));
 	_btnImage = IMAGEMANAGER->findImage("btn");
 
 	_x = x;
 	_y = y;
+
+	_item = item;
 
 	_isActive = false;
 

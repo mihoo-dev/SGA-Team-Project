@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "StoreScene.h"
 #include "Store.h"
+#include <iostream>
 
+using namespace std;
 
 StoreScene::StoreScene()
 {
@@ -25,6 +27,7 @@ HRESULT StoreScene::init()
 	_state = WELCOME;
 
 	_speechCnt = 0;
+	_coins = 5;
 
 	_vItem = TXTDATA->txtLoad("ItemInfo.txt");
 
@@ -39,31 +42,35 @@ void StoreScene::update()
 		if (_speechCnt % 400 == 0) { _isSpeech = false;  _speechCnt = 0; }
 	}
 
-	if (_store->getBtn(1)->getIsClicked() ||
+	/*if (_store->getBtn(1)->getIsClicked() ||
 		_store->getBtn(2)->getIsClicked() ||
 		_store->getBtn(3)->getIsClicked() ||
 		_store->getBtn(4)->getIsClicked())
 	{
 		_state = THANKS;
 		_isSpeech = true;
-	}
+	}*/
+	checkCost(1);
+	checkCost(2);
+	checkCost(3);
+	checkCost(4);
 
-	if (_store->getBtn(1)->getIsBuy())
+	if (_store->getBtn(1)->getIsBuy() && _state == THANKS)
 	{
 		_vItem.push_back(to_string(0));
 		_store->getBtn(1)->setIsBuy(false);
 	}
-	else if (_store->getBtn(2)->getIsBuy())
+	else if (_store->getBtn(2)->getIsBuy() && _state == THANKS)
 	{
 		_vItem.push_back(to_string(1));
 		_store->getBtn(2)->setIsBuy(false);
 	}
-	else if (_store->getBtn(3)->getIsBuy())
+	else if (_store->getBtn(3)->getIsBuy() && _state == THANKS)
 	{
 		_vItem.push_back(to_string(2));
 		_store->getBtn(3)->setIsBuy(false);
 	}
-	else if (_store->getBtn(4)->getIsBuy())
+	else if (_store->getBtn(4)->getIsBuy() && _state == THANKS)
 	{
 		_vItem.push_back(to_string(3));
 		_store->getBtn(4)->setIsBuy(false);
@@ -107,4 +114,25 @@ void StoreScene::render()
 		}
 	}
 
+}
+
+void StoreScene::checkCost(int i)
+{
+	if (i > 4) return;
+
+	if (_store->getBtn(i)->getIsClicked())
+	{
+		if (_coins >= _store->getBtn(i)->getItem()->getCost())
+		{
+			_state = THANKS;
+			_isSpeech = true;
+		}
+		else
+		{
+			_state = DISCARCE;
+			_isSpeech = true;
+		}
+	}
+	cout << _store->getBtn(i)->getItem()->getCost() << endl;
+	cout << _coins << endl;
 }
