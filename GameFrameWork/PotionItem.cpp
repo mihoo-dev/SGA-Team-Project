@@ -14,7 +14,7 @@ PotionItem::~PotionItem()
 HRESULT PotionItem::init(float x, float y)
 {
 
-	IMAGEMANAGER->addImage("potion", "potion.bmp", 48, 59, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("potion", "potion.bmp", 48, 66, true, RGB(255, 0, 255));
 	itemImage = IMAGEMANAGER->findImage("potion");
 
 	Item::init(x, y);

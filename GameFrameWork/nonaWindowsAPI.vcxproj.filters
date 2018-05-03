@@ -288,6 +288,9 @@
     <ClInclude Include="HotDogScene.h">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClInclude>
+    <ClInclude Include="HotSauce.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -451,6 +454,9 @@
     </ClCompile>
     <ClCompile Include="HotDogScene.cpp">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="HotSauce.cpp">
+      <Filter>playGround\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include "ArmorItem.h"
 #include "StarPoint.h"
 #include "Sword.h"
+#include "HotSauce.h"
 #include "StoreNPC.h"
 #include "PlayerManager.h"
 #include "PurchaseBtn.h"
@@ -15,7 +16,8 @@ private:
 	image* img;
 
 	Item* _potion;
-	Item* _armor;
+	Item* _hotsauce;
+	//Item* _armor;
 	Item* _starPoint;
 	Item* _sword;
 
@@ -39,5 +41,6 @@ public:
 
 	void FontFunction(int r, int g, int b, const char* txt, float rcX, float rcY);
 	void checkCollision();
+	PurchaseBtn* getBtn(int i);
 };
 

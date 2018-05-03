@@ -22,5 +22,7 @@ public:
 	const char* getName() { return itemName; }
 	void setX(float x) { _x = x; }
 	void setY(float y) { _y = y; }
+	float getX() { return _x; }
+	float getY() { return _y; }
 };
 

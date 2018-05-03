@@ -21,8 +21,12 @@ HRESULT PurchaseBtn::init(float x, float y)
 
 	_isActive = false;
 
+	_isClicked = false;
+
 	_frameX = 1;
 	_frameY = 0;
+
+
 
 	_rc = RectMake(_x, _y, _btnImage->getFrameWidth(), _btnImage->getFrameHeight());
 
@@ -40,6 +44,7 @@ void PurchaseBtn::update()
 			if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 			{
 				_frameX = 2;
+				_isClicked = true;
 			}
 			else if (KEYMANAGER->isOnceKeyUp(VK_LBUTTON))
 			{
@@ -56,6 +61,12 @@ void PurchaseBtn::update()
 	{
 		_frameX = 1;
 	}
+
+	if (_isClicked)
+	{
+		_btnCnt++;
+		if (_btnCnt % 100 == 0) _isClicked = false;
+	}
 	//_rc = RectMake(_x, _y, _btnImage->getFrameWidth(), _btnImage->getFrameHeight());
 }
 
@@ -67,7 +78,7 @@ void PurchaseBtn::render(float x, float y)
 {
 	if (_isActive)
 	{
-		TextOut(getMemDC(), CAMERA->GetCenterX(), CAMERA->GetCenterY(), "面倒!", strlen("面倒!"));
+		//TextOut(getMemDC(), CAMERA->GetCenterX(), CAMERA->GetCenterY(), "面倒!", strlen("面倒!"));
+		_btnImage->frameRender(getMemDC(), x, y, _frameX, _frameY);
 	}
-	_btnImage->frameRender(getMemDC(), x, y, _frameX, _frameY);
 }

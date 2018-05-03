@@ -100,6 +100,7 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GraveyardScene.h" />
     <ClInclude Include="HotDogScene.h" />
+    <ClInclude Include="HotSauce.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GraveyardScene.cpp" />
     <ClCompile Include="HotDogScene.cpp" />
+    <ClCompile Include="HotSauce.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
