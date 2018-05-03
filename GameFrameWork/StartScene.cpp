@@ -16,6 +16,10 @@ StartScene::~StartScene()
 
 HRESULT StartScene::init()
 {
+	SOUNDMANAGER->addSound("TITLE", "sound\\Title Theme.mp3", true, true);
+	SOUNDMANAGER->allStop();
+	SOUNDMANAGER->play("TITLE", 0.5f);
+
     CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
     IMAGEMANAGER->addImage("StartScene", "StartScene.bmp", 600, 500, false, RGB(0, 0, 0));
     IMAGEMANAGER->addImage("PressStartButton", "PressStartButton.bmp", 379, 62, true, RGB(255, 0, 255), true);

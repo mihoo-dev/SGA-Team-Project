@@ -222,9 +222,6 @@
     <ClInclude Include="TutorialScene.h">
       <Filter>playGround\Scene\PlayScene\TutorialScene</Filter>
     </ClInclude>
-    <ClInclude Include="GraveyardScene.h">
-      <Filter>playGround\Scene\PlayScene\StageScene\Stage1</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>playGround\Object</Filter>
     </ClInclude>
@@ -283,6 +280,12 @@
       <Filter>playGround\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BossSnakeScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GraveyardScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="HotDogScene.h">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClInclude>
   </ItemGroup>
@@ -383,9 +386,6 @@
     <ClCompile Include="TutorialScene.cpp">
       <Filter>playGround\Scene\PlayScene\TutorialScene</Filter>
     </ClCompile>
-    <ClCompile Include="GraveyardScene.cpp">
-      <Filter>playGround\Scene\PlayScene\StageScene\Stage1</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>playGround\Object</Filter>
     </ClCompile>
@@ -444,6 +444,12 @@
       <Filter>playGround\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BossSnakeScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GraveyardScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="HotDogScene.cpp">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClCompile>
   </ItemGroup>

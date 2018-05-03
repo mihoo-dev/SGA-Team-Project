@@ -7,7 +7,9 @@ Boss_Snake::Boss_Snake()
 	, _startX(50), _endX(750)
 	, _x(_endX), _y(418+200)
 	, _state(SNAKE_LEFT_IDLE)
+	, _direction(SNAKE_LEFT)
 	, _count(0), _isPlay(false)
+	, _attack(0), _attackCount(0)
 {
 }
 
@@ -67,20 +69,23 @@ void Boss_Snake::release()
 void Boss_Snake::update()
 {
 	Operation();
+	CheckState();
+	AttackRC();
+	DamageRC();
+	Die();
 
 	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
-		_state = SNAKE_LEFT_DAMAGED;
+		_state = SNAKE_LEFT_CLOUD;
 	}
-
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
-		EFFECTMANAGER->play("EFFECT_POISON", _x, _y);
-	}
+	if (KEYMANAGER->isOnceKeyDown('O')) PlayDamage();
 }
 
 void Boss_Snake::render()
 {
+	Rectangle(getMemDC(), _attackRC.left, _attackRC.top, _attackRC.right, _attackRC.bottom);
+	Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+
 	_img->aniRender(getMemDC()
 		, _x - _img->getFrameWidth() / 2
 		, _y - _img->getFrameHeight() / 2
@@ -94,40 +99,30 @@ void Boss_Snake::Set(float x, float y)
 	_state = SNAKE_WAIT_PLAYER;
 }
 
-void Boss_Snake::Operation()
+void Boss_Snake::CheckState()
 {
 	switch (_state)
 	{
 	case SNAKE_WAIT_PLAYER:
 
-	break;
-	
+		break;
+
 	case SNAKE_LEFT_IDLE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_IDLE");
+		_direction = SNAKE_LEFT;
 		if (_motion->isPlay() == false) _motion->start();
-		_count++;
-		if (_count > 200)
-		{
-			_count = 0;
-			KEYANIMANAGER->findAnimation("SNAKE_LEFT_IDLE")->stop();
-			_state = SNAKE_LEFT_MOVE;
-		}
 	break;
-	
+
 	case SNAKE_RIGHT_IDLE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_IDLE");
+		_direction = SNAKE_RIGHT;
 		if (_motion->isPlay() == false) _motion->start();
-		_count++;
-		if (_count > 200)
-		{
-			_count = 0;
-			KEYANIMANAGER->findAnimation("SNAKE_RIGHT_IDLE")->stop();
-			_state = SNAKE_RIGHT_MOVE;
-		}
 	break;
 
 	case SNAKE_LEFT_MOVE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_MOVE");
+		_direction = SNAKE_LEFT;
+
 		if (_motion->isPlay() == false) _motion->start();
 		Move("LEFT");
 		if (_x < _startX)
@@ -140,6 +135,8 @@ void Boss_Snake::Operation()
 
 	case SNAKE_RIGHT_MOVE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_MOVE");
+		_direction = SNAKE_RIGHT;
+
 		if (_motion->isPlay() == false) _motion->start();
 		Move("RIGHT");
 		if (_x > _endX)
@@ -152,39 +149,47 @@ void Boss_Snake::Operation()
 
 	case SNAKE_LEFT_CLOUD:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_CLOUD");
+		_direction = SNAKE_LEFT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
 			{
 				_motion->start();
 				_isPlay = true;
+				_attack = 2;
 			}
 			else
 			{
-				_state = SNAKE_LEFT_IDLE;
+				_state = SNAKE_LEFT_MOVE;
 				_isPlay = false;
 			}
 		}
-	break;
+		break;
 
 	case SNAKE_RIGHT_CLOUD:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_CLOUD");
+		_direction = SNAKE_RIGHT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
 			{
 				_motion->start();
 				_isPlay = true;
+				_attack = 2;
 			}
 			else
 			{
-				_state = SNAKE_RIGHT_IDLE;
+				_state = SNAKE_RIGHT_MOVE;
 				_isPlay = false;
 			}
 		}
-	break;
+		break;
 	case SNAKE_LEFT_POISON:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_POISON");
+		_direction = SNAKE_LEFT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
@@ -194,17 +199,20 @@ void Boss_Snake::Operation()
 			}
 			else
 			{
+				_attack = 1;
 				for (int ii = 0; ii < 11; ++ii)
-				{
+				{			
 					EFFECTMANAGER->play("EFFECT_POISON", 90 * (ii + 1), 368);
 				}
 				_state = SNAKE_LEFT_IDLE;
 				_isPlay = false;
 			}
 		}
-	break;
+		break;
 	case SNAKE_RIGHT_POISON:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_POISON");
+		_direction = SNAKE_RIGHT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
@@ -214,6 +222,7 @@ void Boss_Snake::Operation()
 			}
 			else
 			{
+				_attack = 1;
 				for (int ii = 0; ii < 11; ++ii)
 				{
 					EFFECTMANAGER->play("EFFECT_POISON", 90 * (ii + 1), 368);
@@ -222,9 +231,11 @@ void Boss_Snake::Operation()
 				_isPlay = false;
 			}
 		}
-	break;
+		break;
 	case SNAKE_LEFT_DAMAGED:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_DAMAGED");
+		_direction = SNAKE_LEFT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
@@ -234,13 +245,15 @@ void Boss_Snake::Operation()
 			}
 			else
 			{
-				_state = SNAKE_LEFT_IDLE;
+				_state = SNAKE_LEFT_CLOUD;
 				_isPlay = false;
 			}
 		}
-	break;
+		break;
 	case SNAKE_RIGHT_DAMAGED:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_DAMAGED");
+		_direction = SNAKE_RIGHT;
+
 		if (_motion->isPlay() == false)
 		{
 			if (!_isPlay)
@@ -250,11 +263,12 @@ void Boss_Snake::Operation()
 			}
 			else
 			{
-				_state = SNAKE_RIGHT_IDLE;
+				_state = SNAKE_RIGHT_CLOUD;
 				_isPlay = false;
+
 			}
 		}
-	break;
+		break;
 
 	case SNAKE_LEFT_DIE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_LEFT_DIE");
@@ -266,7 +280,7 @@ void Boss_Snake::Operation()
 				_isPlay = true;
 			}
 		}
-	break;
+		break;
 
 	case SNAKE_RIGHT_DIE:
 		_motion = KEYANIMANAGER->findAnimation("SNAKE_RIGHT_DIE");
@@ -278,8 +292,21 @@ void Boss_Snake::Operation()
 				_isPlay = true;
 			}
 		}
-	break;
+		break;
 	}
+}
+
+void Boss_Snake::Operation()
+{
+	if (_state == SNAKE_LEFT_IDLE || _state == SNAKE_RIGHT_IDLE)	_count++;
+
+	if (_count > 200)
+	{
+		if (_direction == SNAKE_RIGHT) _state = SNAKE_RIGHT_POISON;
+		else _state = SNAKE_LEFT_POISON;
+		_count = 0;
+	}
+	
 }
 
 void Boss_Snake::Move(string direction)
@@ -292,4 +319,77 @@ void Boss_Snake::Move(string direction)
 	{
 		_x += 4;
 	}
+}
+
+void Boss_Snake::Die()
+{
+	if (_HP > 0) return;
+
+	switch (_direction)
+	{
+		case SNAKE_LEFT:
+			_state = SNAKE_LEFT_DIE;
+		break;
+		case SNAKE_RIGHT:
+			_state = SNAKE_RIGHT_DIE;
+		break;
+	}
+
+}
+
+RECT Boss_Snake::AttackRC()
+{
+	//RECT temp = { 0,0,0,0 };
+	if (_attack == 0) _attackRC = { 0,0,0,0 };
+	else if (_attack == 1)
+	{
+		_attackRC = { 90, 318, 1030, 418 };
+		_attackCount++;
+		
+		if (_attackCount > 15)
+		{
+			_attackCount = 0;
+			_attack = 0;
+		}	
+	}
+	else if (_attack == 2)
+	{
+		_attackCount++;
+		if (_attackCount > 15)
+		{
+			switch (_direction)
+			{
+			case SNAKE_LEFT:
+				_attackRC = { _rc.left - 80, _rc.top - 40, _rc.right + 60, _rc.bottom + 30 };
+			break;
+			case SNAKE_RIGHT:
+				_attackRC = { _rc.left - 60, _rc.top - 40, _rc.right + 80, _rc.bottom + 30 };
+			break;
+			}
+		}
+		if (_attackCount > 45)
+		{
+			_attackCount = 0;
+			_attack = 0;
+		}
+	}
+
+	return _attackRC;
+}
+
+RECT Boss_Snake::DamageRC()
+{
+	if (_direction == SNAKE_RIGHT)	_rc = RectMakeCenter(_x + 15, _y, 110, 80);
+	else 	_rc = RectMakeCenter(_x - 15, _y, 110, 80);
+
+	return _rc;
+}
+
+void Boss_Snake::PlayDamage()
+{
+	_motion->stop();			//이전 애니메이션 일시정지
+	_isPlay = false;			//애니메이션 플레이 중 아님
+	
+	if (_direction == SNAKE_LEFT)			_state = SNAKE_LEFT_DAMAGED;
+	else if (_direction == SNAKE_RIGHT)		_state = SNAKE_RIGHT_DAMAGED;
 }

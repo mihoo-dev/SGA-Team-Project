@@ -10,6 +10,7 @@
 #include "TutorialScene.h"
 #include "GraveyardScene.h"
 #include "BossSnakeScene.h"
+#include "HotDogScene.h"
 
 class playGround : public gameNode
 {
@@ -24,6 +25,7 @@ private:
 	gameNode * _tutorialScene;
 	gameNode * _graveyardScene;
 	gameNode * _snakeScene;
+	gameNode * _hotdogScene;
 
     int _alpha;
 

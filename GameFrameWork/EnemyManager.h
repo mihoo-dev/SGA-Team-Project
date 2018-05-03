@@ -22,11 +22,13 @@ private:
 
 
 private:
-	Boss_Snake* _snake;
-
 	vSmallZombie _vSmallZombie;
 
 	void setSmallZombie(int x, int y);
+
+private:
+	Boss_Snake*		_snake;
+	BOOL			_isSnakeStage;
 
 public:
 	EnemyManager();

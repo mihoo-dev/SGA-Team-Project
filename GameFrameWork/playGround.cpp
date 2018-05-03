@@ -31,11 +31,13 @@ HRESULT playGround::init()
 	_tutorialScene = new TutorialScene;
 	_graveyardScene = new GraveyardScene;
 	_snakeScene = new BossSnakeScene;
+	_hotdogScene = new HotDogScene;
 
 	//스테이지씬 씬매니져에 추가
 	SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
 	SCENEMANAGER->addScene("GraveyardScene", _graveyardScene);
 	SCENEMANAGER->addScene("SnakeScene", _snakeScene);
+	SCENEMANAGER->addScene("HotDogScene", _hotdogScene);
 
     SCENEMANAGER->addScene("StartScene", _startScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
@@ -128,7 +130,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
+			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
 		}
 	}
     if(!_sceneChange1 
