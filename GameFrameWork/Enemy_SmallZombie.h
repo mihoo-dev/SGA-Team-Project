@@ -2,6 +2,8 @@
 
 class Player;
 
+//TO DO : 플레이어와 연결
+
 class Enemy_SmallZombie
 {
 	enum imageStates
@@ -33,16 +35,35 @@ public:
 
 	HRESULT init(int x, int y);
 	void release();
-	//void update(Player * player);
+	//void update(Player * player, string pixelName);
 	void update();
 	void render(HDC hdc);
+
+	// getter
+	bool getIsDie() { return isDie; }
+	int getX() { return x; }
+	int getY() { return y; }
 
 private:
 	int x, y;
 	int spd;
 	int gravity;
 
+	int hp;
+	int maxHp;
+
+	int jumpPower;
+	int knockBackPower;
+	int knockBackDistance;
+	int maxKnockBackDistance;
+
 	bool isOnGround;
+	bool groundIsInLeft;	
+	bool groundIsInRight;
+	bool cliffIsInLeft;
+	bool cliffIsInRight;
+
+	bool isDie;
 
 	int moveX;
 	int moveY;
@@ -57,10 +78,14 @@ private:
 
 	float alertRange;
 
+	RECT Temp; //Rect for IntersectRect
+
 private: // 다른 객체에서 받아올 것들
 	float playerX;
 	float playerY;
+	float playerAttackPower;
 	RECT playerHitBox;
+
 
 private:
 
@@ -84,11 +109,13 @@ private:
 
 	float distFromPlayer;
 
-	void PlayerInfoUpdate(Player * player);
+	void GetPlayerInfo(Player * player);
 	void CollisionUpdate(string pixelName);
 
 private:
 
 	void changeState(states state, imageStates imgState, string animKeyName); // 상태와 animation 변경
+
+	void CheckIsDie(int hp); // HP <= 0 이면 isDie = true
 };
 

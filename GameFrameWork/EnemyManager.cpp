@@ -17,6 +17,7 @@ HRESULT EnemyManager::init()
 	IMAGEMANAGER->addFrameImage("BOSS_SNAKE", "BOSS_SNAKE.bmp", 3828, 3000, 11, 12, true, RGB(255, 0, 255));
 
 	setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
+	setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
 
 	return S_OK;
 }
@@ -46,6 +47,7 @@ void EnemyManager::render()
 	if (_isSnakeStage) _snake->render();
 
 	for (int i = 0; i < _vSmallZombie.size(); ++i) {
+		if (_vSmallZombie[i]->getIsDie() == true) continue;
 		_vSmallZombie[i]->render(getMemDC());
 	}
 	

@@ -21,6 +21,7 @@ private:
 
 
 
+
 private:
 	vSmallZombie _vSmallZombie;
 
