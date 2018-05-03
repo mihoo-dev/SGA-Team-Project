@@ -26,6 +26,8 @@ HRESULT StoreScene::init()
 
 	_speechCnt = 0;
 
+	_vItem = TXTDATA->txtLoad("ItemInfo.txt");
+
 	return S_OK;
 }
 
@@ -44,15 +46,43 @@ void StoreScene::update()
 	{
 		_state = THANKS;
 		_isSpeech = true;
+	}
 
+	if (_store->getBtn(1)->getIsBuy())
+	{
+		_vItem.push_back(to_string(0));
+		_store->getBtn(1)->setIsBuy(false);
+	}
+	else if (_store->getBtn(2)->getIsBuy())
+	{
+		_vItem.push_back(to_string(1));
+		_store->getBtn(2)->setIsBuy(false);
+	}
+	else if (_store->getBtn(3)->getIsBuy())
+	{
+		_vItem.push_back(to_string(2));
+		_store->getBtn(3)->setIsBuy(false);
+	}
+	else if (_store->getBtn(4)->getIsBuy())
+	{
+		_vItem.push_back(to_string(3));
+		_store->getBtn(4)->setIsBuy(false);
 	}
 
 	_store->update();
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F12))
+	{
+		TXTDATA->txtSave("ItemInfo.txt", _vItem);
+
+		SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
+	}
 }
 
 void StoreScene::release()
 {
 	_store->release();
+	_vItem.clear();
 }
 
 void StoreScene::render()

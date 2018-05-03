@@ -47,7 +47,7 @@ char* txtData::vectorArrayCombine(vector<string> vArray)
 	//버퍼는 나중에 여러분이 속성이 들어온만큼 담을 수있게
 	//수정을 하면 됩니당 우선은 128개로 잡아둘께요 
 
-	char str[128];
+	char str[128] = "";
 	ZeroMemory(str, sizeof(str));
 
 	for (int i = 0; i < vArray.size(); ++i)

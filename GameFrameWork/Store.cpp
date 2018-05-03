@@ -45,13 +45,13 @@ HRESULT Store::init()
 	_btn->init(CAMERA->GetCenterX() - 260, CAMERA->GetCenterY() + 100);
 
 	_btn2 = new PurchaseBtn;
-	_btn2->init(CAMERA->GetCenterX() + 80, CAMERA->GetCenterY() + 100);
+	_btn2->init(CAMERA->GetCenterX() - 150, CAMERA->GetCenterY() + 100);
 
 	_btn3 = new PurchaseBtn;
 	_btn3->init(CAMERA->GetCenterX() - 30, CAMERA->GetCenterY() + 100);
 
 	_btn4 = new PurchaseBtn;
-	_btn4->init(CAMERA->GetCenterX() - 150, CAMERA->GetCenterY() + 100);
+	_btn4->init(CAMERA->GetCenterX() + 80, CAMERA->GetCenterY() + 100);
 
 	return S_OK;
 }
@@ -155,8 +155,8 @@ void Store::checkCollision()
 				_btn4->setBool(false);
 				break;
 			case 1:
-				_btn4->setBool(true);
-				_btn2->setBool(false);
+				_btn4->setBool(false);
+				_btn2->setBool(true);
 				_btn->setBool(false);
 				_btn3->setBool(false);
 				break;
@@ -167,8 +167,8 @@ void Store::checkCollision()
 				_btn4->setBool(false);
 				break;
 			case 3:
-				_btn2->setBool(true);
-				_btn4->setBool(false);
+				_btn2->setBool(false);
+				_btn4->setBool(true);
 				_btn->setBool(false);
 				_btn3->setBool(false);
 				break;
