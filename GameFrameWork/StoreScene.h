@@ -22,6 +22,7 @@ private:
 
 	int _starCost;
 	int _speechCnt;
+	int _coins;
 
 	vector<string> _vItem;
 public:
@@ -32,5 +33,7 @@ public:
 	void update();
 	void release();
 	void render();
+
+	void checkCost(int i);
 };
 

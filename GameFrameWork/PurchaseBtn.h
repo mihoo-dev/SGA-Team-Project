@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "Item.h"
 class PurchaseBtn : public gameNode
 {
 private:
@@ -15,14 +16,16 @@ private:
 	int _speechCnt;
 	int _btnCnt;
 
-	char* itemName;
+	
+
+	Item* _item;
 
 
 public:
 	PurchaseBtn();
 	~PurchaseBtn();
 
-	HRESULT init(float x, float y);
+	HRESULT init(float x, float y, Item* item);
 	void update();
 	void release();
 	void render(float x, float y);
@@ -35,5 +38,6 @@ public:
 	void setIsBuy(bool buy) { _isBuy = buy; }
 
 	void setBool(bool isActive) { _isActive = isActive; }
+	Item* getItem() { return _item; }
 };
 

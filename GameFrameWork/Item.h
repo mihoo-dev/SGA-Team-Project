@@ -24,5 +24,6 @@ public:
 	void setY(float y) { _y = y; }
 	float getX() { return _x; }
 	float getY() { return _y; }
+	int getCost() { return _cost; }
 };
 
