@@ -1415,15 +1415,14 @@ void Player::SaveData()
     FILE * fp;
     fopen_s(&fp, "PlayerInfo.txt", "wt");
 
-    string temp = "Star\tHP\tAtkPwr\tSpeed\tWeapon\n";
+    string temp = "HP\tAtkPwr\tSpeed\tWeapon\n";
 
     fputs(temp.c_str(), fp);
 
     char tab = '\t';
     char endl = '\n';
 
-    temp = to_string(_status.star) + tab +
-           to_string(_status.hp) + tab +
+    temp = to_string(_status.hp) + tab +
            to_string(_status.atk) + tab +
            to_string((int)_status.speed) + tab +
            to_string(_status.weapon) + endl;
@@ -1451,11 +1450,11 @@ void Player::LoadData()
 
     while (true)
     {
-        if (fscanf_s(fp, "%d", &star) == EOF) break;
-        fscanf_s(fp, "%d%d%d%d", &hp, &atk, &speed, &weapon);
+        if (fscanf_s(fp, "%d", &hp) == EOF) break;
+        fscanf_s(fp, "%d%d%d", &atk, &speed, &weapon);
     }
 
-    _status = PlayerStat(star, hp, speed, atk, weapon);
+    _status = PlayerStat(hp, speed, atk, weapon);
     UpdateInfo();
 
     fclose(fp);

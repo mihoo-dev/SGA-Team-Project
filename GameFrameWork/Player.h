@@ -6,21 +6,18 @@ class Player :
 private:
     typedef struct tagPlayerStat
     {
-        int star;
         int hp;
-        //bool armour;
         int atk;
         float speed;
         int weapon;
 
         tagPlayerStat() :
-            star(0), hp(1), atk(1), speed(3), weapon((int)Player::DEFFAULT)
+            hp(1), atk(1), speed(3), weapon((int)Player::DEFFAULT)
         {}
 
-        tagPlayerStat(int _star, int _hp, 
+        tagPlayerStat(int _hp, 
             float _speed, int _atk, int _weapon) :
-            star(_star), hp(_hp), 
-            speed(_speed), atk(_atk), weapon(_weapon)
+            hp(_hp), speed(_speed), atk(_atk), weapon(_weapon)
         {}
     } PlayerStat;
 
