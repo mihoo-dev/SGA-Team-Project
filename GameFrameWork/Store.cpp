@@ -111,7 +111,7 @@ void Store::render()
 	_starPoint->render(_starPoint->getX(), _starPoint->getY());
 	FontFunction(255, 0, 0, "star", CAMERA->GetCenterX() - 235, CAMERA->GetCenterY() - 160);
 
-	RenderPrice(_priceTagImage4, _sword->getX() - 10, _sword->getY() - 80, _sword->getCost());
+	RenderPrice(_priceTagImage4, _sword->getX(), _sword->getY() - 80, _sword->getCost());
 	_sword->render(_sword->getX(), _sword->getY());
 	FontFunction(255, 0, 0, "sword", CAMERA->GetCenterX() - 350, CAMERA->GetCenterY() - 160);
 
@@ -163,22 +163,22 @@ void Store::checkCollision()
 				_btn4->setBool(false);
 				break;
 			case 1:
-				_btn4->setBool(false);
-				_btn2->setBool(true);
 				_btn->setBool(false);
+				_btn2->setBool(true);
 				_btn3->setBool(false);
+				_btn4->setBool(false);
 				break;
 			case 2:
-				_btn3->setBool(true);
 				_btn->setBool(false);
 				_btn2->setBool(false);
+				_btn3->setBool(true);
 				_btn4->setBool(false);
 				break;
 			case 3:
-				_btn2->setBool(false);
-				_btn4->setBool(true);
 				_btn->setBool(false);
+				_btn2->setBool(false);
 				_btn3->setBool(false);
+				_btn4->setBool(true);
 				break;
 			}
 
