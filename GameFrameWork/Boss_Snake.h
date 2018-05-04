@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
 
+class Player;
+
 class Boss_Snake : public gameNode
 {
 private:
@@ -20,7 +22,12 @@ private:
 												
 	int						_count;				//카운트
 	BOOL					_isPlay;			//애니 플레이 여부
+	BOOL					_isDamage;			//데미지 적용 여부
 	int						_startX, _endX;		//움직임 시작점 끝점
+
+	float					playerX, playerY;
+	RECT					playerAttackBox;
+	RECT					playerDamageBox;
 
 public:
 	Boss_Snake();
@@ -28,17 +35,25 @@ public:
 
 	HRESULT init();
 	void release();
-	void update();
+	void update(Player * player);
 	void render();
 
 	void Set(float x, float y);
-	void CheckState();
+	void CheckState(Player * player);
 	void Operation();
 	void Move(string direction);
 	void Die();
-	RECT AttackRC();
+	RECT AttackRC(Player * player);
 	RECT DamageRC();
+	void GetDamage();
+
+
+	void GetPlayerInfo(Player * player);
 	
+	BOSS_SNAKE GetState() { return _state; }
+	float GetX() { return _x; }
+	float GetY() { return _y; }
+
 	void SetDamage(int damage) { _HP -= damage; }
 	void PlayDamage();
 };

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Boss_Snake.h"
+#include "Player.h"
 
 
 Boss_Snake::Boss_Snake()
@@ -10,6 +11,7 @@ Boss_Snake::Boss_Snake()
 	, _direction(SNAKE_LEFT)
 	, _count(0), _isPlay(false)
 	, _attack(0), _attackCount(0)
+	, _HP(20), _isDamage(false)
 {
 }
 
@@ -66,12 +68,15 @@ void Boss_Snake::release()
 {
 }
 
-void Boss_Snake::update()
+void Boss_Snake::update(Player * player)
 {
 	Operation();
-	CheckState();
-	AttackRC();
+	CheckState(player);
+	GetDamage();
+	AttackRC(player);
 	DamageRC();
+
+	GetPlayerInfo(player);
 	Die();
 
 	if (KEYMANAGER->isOnceKeyDown('P'))
@@ -85,6 +90,7 @@ void Boss_Snake::render()
 {
 	Rectangle(getMemDC(), _attackRC.left, _attackRC.top, _attackRC.right, _attackRC.bottom);
 	Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	Rectangle(getMemDC(), playerAttackBox.left, playerAttackBox.top, playerAttackBox.right, playerAttackBox.bottom);
 
 	_img->aniRender(getMemDC()
 		, _x - _img->getFrameWidth() / 2
@@ -99,12 +105,14 @@ void Boss_Snake::Set(float x, float y)
 	_state = SNAKE_WAIT_PLAYER;
 }
 
-void Boss_Snake::CheckState()
+void Boss_Snake::CheckState(Player* player)
 {
 	switch (_state)
 	{
 	case SNAKE_WAIT_PLAYER:
-
+		if (getDistance(_x, _y, player->GetX(), player->GetY()) < 300) _state = SNAKE_LEFT_POISON;
+		SOUNDMANAGER->allStop();
+		SOUNDMANAGER->play("SNAKE", 0.5f);
 		break;
 
 	case SNAKE_LEFT_IDLE:
@@ -247,6 +255,7 @@ void Boss_Snake::CheckState()
 			{
 				_state = SNAKE_LEFT_CLOUD;
 				_isPlay = false;
+				_isDamage = false;
 			}
 		}
 		break;
@@ -265,7 +274,7 @@ void Boss_Snake::CheckState()
 			{
 				_state = SNAKE_RIGHT_CLOUD;
 				_isPlay = false;
-
+				_isDamage = false;
 			}
 		}
 		break;
@@ -278,6 +287,8 @@ void Boss_Snake::CheckState()
 			{
 				_motion->start();
 				_isPlay = true;
+				SOUNDMANAGER->allStop();
+				SOUNDMANAGER->play("VICTORY", 0.5f);
 			}
 		}
 		break;
@@ -290,6 +301,8 @@ void Boss_Snake::CheckState()
 			{
 				_motion->start();
 				_isPlay = true;
+				SOUNDMANAGER->allStop();
+				SOUNDMANAGER->play("VICTORY", 0.5f);
 			}
 		}
 		break;
@@ -337,9 +350,9 @@ void Boss_Snake::Die()
 
 }
 
-RECT Boss_Snake::AttackRC()
+RECT Boss_Snake::AttackRC(Player * player)
 {
-	//RECT temp = { 0,0,0,0 };
+	RECT temp;
 	if (_attack == 0) _attackRC = { 0,0,0,0 };
 	else if (_attack == 1)
 	{
@@ -374,6 +387,8 @@ RECT Boss_Snake::AttackRC()
 		}
 	}
 
+	if (IntersectRect(&temp, &playerDamageBox, &_attackRC)) player->SetPlayerHit();
+
 	return _attackRC;
 }
 
@@ -385,11 +400,33 @@ RECT Boss_Snake::DamageRC()
 	return _rc;
 }
 
+void Boss_Snake::GetDamage()
+{
+	RECT temp;
+	if (IntersectRect(&temp, &playerAttackBox, &DamageRC()) && _isDamage == false)
+	{
+		PlayDamage();
+	}	
+}
+
+void Boss_Snake::GetPlayerInfo(Player * player)
+{
+	playerX = player->GetX();
+	playerY = player->GetY();
+	//playerAttackPower = player->getAttackPower();
+	playerAttackBox = player->GetHitRC();
+	playerDamageBox = player->GetColRC();
+
+}
+
 void Boss_Snake::PlayDamage()
 {
+	_isDamage = true;
+	_HP--;
+
 	_motion->stop();			//이전 애니메이션 일시정지
 	_isPlay = false;			//애니메이션 플레이 중 아님
-	
+
 	if (_direction == SNAKE_LEFT)			_state = SNAKE_LEFT_DAMAGED;
 	else if (_direction == SNAKE_RIGHT)		_state = SNAKE_RIGHT_DAMAGED;
 }

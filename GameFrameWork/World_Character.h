@@ -92,7 +92,9 @@ public:
 
 	float GetX() { return _x; }
 	float GetY() { return _y; }
-	
+
+	void SetXY(float x, float y);
+
 	void SetFinnState(WORLD_CHARACTER_STATE state) { _state = state; }
 
 	void CheckStatus(HDC hdc);

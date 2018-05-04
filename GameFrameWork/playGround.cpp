@@ -54,7 +54,10 @@ HRESULT playGround::init()
 	_sceneChange5 = false;
 	_sceneChange6 = false;
 
-
+	//사운드 추가
+	SOUNDMANAGER->addSound("GRAVEYARD", "sound\\Graveyard.mp3", true, true);
+	SOUNDMANAGER->addSound("SNAKE", "sound\\Red Rock Pass VS.mp3", true, true);
+	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
 
 	return S_OK;
 }
@@ -130,7 +133,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
+			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
 		}
 	}
     if(!_sceneChange1 

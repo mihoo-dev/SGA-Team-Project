@@ -63,7 +63,10 @@ void World_Character::update()
 			case NO_PRESS:
 				break;
 			case GO_STORE:
-				SCENEMANAGER->changeScene("StoreScene", "LoadingScene");
+				SCENEMANAGER->ChangeScene("StoreScene");
+			break;
+			case GO_GRAVEYARD:
+				SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
 			break;
 			case MAKE_BRIDGE:
 				MakeBridge();
@@ -608,6 +611,22 @@ void World_Character::button()
 			_Xframe++;
 		}
 		if (_Xframe > 1) _Xframe = 0;
+	}
+}
+
+void World_Character::SetXY(float x, float y)
+{
+	_x = x;
+	_y = y;
+
+	for (int ii = 0; ii <= SIZEOFTRACE; ++ii)
+	{
+		_traceFinn.x = _x;
+		_traceFinn.y = _y - (SIZEOFTRACE - ii) * 2;
+		_traceFinn.state = WORLD_SOUTH_IDLE;
+		_traceFinn.idleFrame = 0;
+
+		_vTrace.push_back(_traceFinn);
 	}
 }
 

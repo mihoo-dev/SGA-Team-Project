@@ -14,11 +14,6 @@ GraveyardScene::~GraveyardScene()
 
 HRESULT GraveyardScene::init()
 {
-	IMAGEMANAGER->addImage("STAGE_GRAVEYARD_BACKGROUND", "image\\STAGE_GRAVEYARD_BACKGROUND.bmp", 7168, 510, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("STAGE_GRAVEYARD", "image\\STAGE_GRAVEYARD.bmp", 7168, 510, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("STAGE_GRAVEYARD_PIXEL", "image\\STAGE_GRAVEYARD_PIXEL.bmp", 7168, 510, true, RGB(255, 0, 255));
-
-	SOUNDMANAGER->addSound("GRAVEYARD", "sound\\Graveyard.mp3", true, true);
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("GRAVEYARD", 0.5f);
 	CAMERA->SetSize(7168, 510);
@@ -34,6 +29,7 @@ HRESULT GraveyardScene::init()
 
 	_em = new EnemyManager;
 	_em->init();
+	_em->SetAdressPM(_pm);
 
 	_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
 	_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
@@ -56,7 +52,7 @@ void GraveyardScene::update()
     _pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
 	_pm->update();
 
-	_em->update(_pm, "STAGE_GRAVEYARD_PIXEL");
+	_em->update("STAGE_GRAVEYARD_PIXEL");
 }
 
 void GraveyardScene::render()
