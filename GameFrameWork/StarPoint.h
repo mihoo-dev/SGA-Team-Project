@@ -13,5 +13,7 @@ public:
 	void update();
 	void release();
 	void render(float x, float y);
+
+	
 };
 

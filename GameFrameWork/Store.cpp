@@ -15,10 +15,12 @@ HRESULT Store::init()
 {
 	IMAGEMANAGER->addImage("storeBackgroundCol", "storeBackgroundCol.bmp", 1200, 500, false, RGB(0, 0, 0));
 	IMAGEMANAGER->addImage("priceTag", "priceTag.bmp", 70, 54, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("coin", "coin.bmp", 40, 40, true, RGB(255, 0, 255));
 	_priceTagImage = IMAGEMANAGER->findImage("priceTag");
 	_priceTagImage2 = IMAGEMANAGER->findImage("priceTag");
 	_priceTagImage3 = IMAGEMANAGER->findImage("priceTag");
 	_priceTagImage4 = IMAGEMANAGER->findImage("priceTag");
+	_coinImage = IMAGEMANAGER->findImage("coin");
 	CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
 
 	_pm = new PlayerManager;
@@ -107,7 +109,6 @@ void Store::render()
 	_potion->render(_potion->getX(), _potion->getY());
 	FontFunction(255, 0, 0, "potion", CAMERA->GetCenterX() - 105, CAMERA->GetCenterY() - 160);
 
-	RenderPrice(_priceTagImage3, _starPoint->getX() - 10, _starPoint->getY() - 80, _starPoint->getCost());
 	_starPoint->render(_starPoint->getX(), _starPoint->getY());
 	FontFunction(255, 0, 0, "star", CAMERA->GetCenterX() - 235, CAMERA->GetCenterY() - 160);
 
@@ -121,6 +122,9 @@ void Store::render()
 	_btn2->render(_btn2->getX(), CAMERA->GetCenterY() + 100);
 	_btn3->render(_btn3->getX(), CAMERA->GetCenterY() + 100);
 	_btn4->render(_btn4->getX(), CAMERA->GetCenterY() + 100);
+
+	_coinImage->render(getMemDC(), WINSIZEX - 450, 10);
+	FontFunction(255, 0, 0, to_string(GetPlayerManager()->GetPlayer()->GetInfo().coin).c_str(), WINSIZEX - 600, -125);
 
 }
 

@@ -21,7 +21,6 @@ HRESULT StarPoint::init(float x, float y)
 
 	itemName = "star";
 	
-	
 
 	return S_OK;
 }

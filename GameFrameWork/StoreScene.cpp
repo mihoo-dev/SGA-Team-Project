@@ -6,7 +6,10 @@
 using namespace std;
 
 StoreScene::StoreScene()
+	:_starCost(10), _starPoint(new StarPoint)
 {
+	_starPoint->init(0, 0);
+	
 }
 
 
@@ -18,7 +21,9 @@ HRESULT StoreScene::init()
 {
 	IMAGEMANAGER->addImage("storeBackground", "storeBackground.bmp", 600, 500, false, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("speechBalloon", "speechBalloon.bmp", 480, 60, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("priceTags", "priceTag.bmp", 70, 54, true, RGB(255, 0, 255));
 	_speechBalloon = IMAGEMANAGER->findImage("speechBalloon");
+	_priceTagImage = IMAGEMANAGER->findImage("priceTags");
 
 	_store = new Store;
 	_store->init();
@@ -32,6 +37,7 @@ HRESULT StoreScene::init()
     if (TXTDATA->txtLoad("ItemInfo.txt").size() > 0)
 	    _vItem = TXTDATA->txtLoad("ItemInfo.txt");
 
+	initBackBtn();
 	return S_OK;
 }
 
@@ -70,6 +76,8 @@ void StoreScene::update()
 	{
 		_vItem.push_back(to_string(2));
 		_store->getBtn(3)->setIsBuy(false);
+		_starPoint->setCost(_starPoint->getCost() + 10);
+		_store->getBtn(3)->getItem()->setCost(_store->getBtn(3)->getItem()->getCost() + 10);
 	}
 	else if (_store->getBtn(4)->getIsBuy() && _state == THANKS)
 	{
@@ -86,6 +94,7 @@ void StoreScene::update()
 
 		SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
 	}
+	updateBackBtn();
 }
 
 void StoreScene::release()
@@ -115,7 +124,8 @@ void StoreScene::render()
 			break;
 		}
 	}
-
+	_store->RenderPrice(_priceTagImage, CAMERA->GetCenterX() - 40, CAMERA->GetCenterY() - 180, _starPoint->getCost());
+	renderBackBtn();
 }
 
 void StoreScene::checkCost(int i)
@@ -137,6 +147,35 @@ void StoreScene::checkCost(int i)
 			_isSpeech = true;
 		}
 	}
-	cout << _store->getBtn(i)->getItem()->getCost() << endl;
-	cout << _coins << endl;
+}
+
+void StoreScene::initBackBtn()
+{
+	IMAGEMANAGER->addImage("backBtn", "storeBackBtn.bmp", 80, 80, true, RGB(255, 0, 255));
+	_backBtnImage = IMAGEMANAGER->findImage("backBtn");
+
+	_rc = RectMake(500, 10, _backBtnImage->getWidth(), _backBtnImage->getHeight());
+}
+
+void StoreScene::updateBackBtn()
+{
+	bool isClicked = false;
+
+	if (PtInRect(&_rc, _ptMouse))
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			isClicked = true;
+	}
+
+	if (isClicked)
+	{
+		isClicked = false;
+		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+	}
+}
+
+void StoreScene::renderBackBtn()
+{
+	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	_backBtnImage->render(getMemDC(), 500, 10);
 }

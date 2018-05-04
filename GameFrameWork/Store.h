@@ -20,6 +20,8 @@ private:
 	image* _priceTagImage3;
 	image* _priceTagImage4;
 
+	image* _coinImage;
+
 	Item* _potion;
 	Item* _hotsauce;
 	//Item* _armor;

@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "StarPoint.h"
 #include <vector>
 
 class Store;
@@ -15,14 +16,21 @@ class StoreScene : public gameNode
 {
 private:
 	Store* _store;
+	RECT _rc;
 	image* _speechBalloon;
+	image* _priceTagImage;
+	image* _backBtnImage;
+
 	BalloonState _state;
+
+	Item* _starPoint;
 
 	bool _isSpeech;
 
 	int _starCost;
 	int _speechCnt;
 	int _coins;
+	int _alpha;
 
 	vector<string> _vItem;
 public:
@@ -35,5 +43,9 @@ public:
 	void render();
 
 	void checkCost(int i);
+
+	void initBackBtn();
+	void updateBackBtn();
+	void renderBackBtn();
 };
 
