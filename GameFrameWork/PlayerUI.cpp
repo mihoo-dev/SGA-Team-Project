@@ -229,8 +229,8 @@ void PlayerUI::UpdateInven()
                                 {
                                     if (_inventory[i][j].type == (int)Inven::POTION)
                                         _playerInfo->SetHP(++_playerHP);
-                                    else if (_inventory[i][j].type == (int)Inven::STAR)
-                                        _playerInfo->SetStar(++_star);
+                                    /*else if (_inventory[i][j].type == (int)Inven::STAR)
+                                        _playerInfo->SetStar(++_star);*/
 
                                     _vInven.erase(_vInven.begin() + (i + (j * 8)));
                                     _loadInven.erase(_loadInven.begin() + (i + (j * 8)));

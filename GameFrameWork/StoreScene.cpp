@@ -33,6 +33,7 @@ HRESULT StoreScene::init()
 
 	_speechCnt = 0;
 	_coins = _store->GetPlayerManager()->GetPlayer()->GetInfo().coin;
+    _stars = _store->GetPlayerManager()->GetPlayer()->GetInfo().star;
 
     if (TXTDATA->txtLoad("ItemInfo.txt").size() > 0)
 	    _vItem = TXTDATA->txtLoad("ItemInfo.txt");
@@ -78,6 +79,7 @@ void StoreScene::update()
 		_store->getBtn(3)->setIsBuy(false);
 		_starPoint->setCost(_starPoint->getCost() + 10);
 		_store->getBtn(3)->getItem()->setCost(_store->getBtn(3)->getItem()->getCost() + 10);
+        _store->GetPlayerManager()->GetPlayer()->SetStar(++_stars);
 	}
 	else if (_store->getBtn(4)->getIsBuy() && _state == THANKS)
 	{

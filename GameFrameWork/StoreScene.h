@@ -30,6 +30,7 @@ private:
 	int _starCost;
 	int _speechCnt;
 	int _coins;
+    int _stars;
 	int _alpha;
 
 	vector<string> _vItem;
