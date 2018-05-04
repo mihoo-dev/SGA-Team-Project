@@ -48,7 +48,7 @@ HRESULT sceneManager::init()
 
 void sceneManager::release()
 {
-
+    if (_currentScene) _currentScene->release();
 }
 
 void sceneManager::update()	

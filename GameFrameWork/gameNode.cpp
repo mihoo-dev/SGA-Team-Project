@@ -38,7 +38,8 @@ HRESULT gameNode::init(bool managerInit)
 		TXTDATA->init();
 		INIDATA->init();
         CAMERA->init("backBuffer");
-        CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
+        CAMERA->SetPos(0, 0);
+        POPUP->init();
 	}
 
 	return S_OK;
@@ -66,6 +67,8 @@ void gameNode::release(void)
 		INIDATA->releaseSingleton();
         CAMERA->release();
         CAMERA->releaseSingleton();
+        POPUP->release();
+        POPUP->releaseSingleton();
 	}
 	
 	ReleaseDC(_hWnd, _hdc);

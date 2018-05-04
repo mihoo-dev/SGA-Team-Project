@@ -28,6 +28,7 @@ using namespace std;
 #include "iniDataManager.h"
 #include "keyAniManager.h"
 #include "CameraManager.h"
+#include "PopUp.h"
 #include "utils.h"
 
 using namespace NONA_UTIL;
@@ -56,6 +57,7 @@ using namespace NONA_UTIL;
 #define TXTDATA			txtData::getSingleton()
 #define INIDATA			iniDataManager::getSingleton()
 #define CAMERA          CameraManager::getSingleton()
+#define POPUP           PopUp::getSingleton()
 
 //===================================
 // ## Macro ## 2018.02.27 ##

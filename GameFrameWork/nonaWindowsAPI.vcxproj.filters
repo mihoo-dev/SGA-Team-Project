@@ -291,6 +291,9 @@
     <ClInclude Include="HotSauce.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
+    <ClInclude Include="PopUp.h">
+      <Filter>2DGameFramework\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -457,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="HotSauce.cpp">
       <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PopUp.cpp">
+      <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

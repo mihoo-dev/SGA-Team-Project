@@ -63,7 +63,7 @@ void World_Character::update()
 			case NO_PRESS:
 				break;
 			case GO_STORE:
-				SCENEMANAGER->ChangeScene("StoreScene");
+				SCENEMANAGER->changeScene("StoreScene");
 			break;
 			case GO_GRAVEYARD:
 				SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");

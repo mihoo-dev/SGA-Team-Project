@@ -131,3 +131,4 @@ inline bool FadeOut(int * alpha)
     }
     return false;
 }
+
