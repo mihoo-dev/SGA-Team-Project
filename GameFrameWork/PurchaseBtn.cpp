@@ -21,6 +21,7 @@ HRESULT PurchaseBtn::init(float x, float y, Item* item)
 	_y = y;
 
 	_item = item;
+	_item->init(0, 0);
 
 	_isActive = false;
 

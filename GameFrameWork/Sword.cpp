@@ -22,6 +22,7 @@ HRESULT Sword::init(float x, float y)
 
 	atk = 10;
 	
+	_cost = 10;
 
 	return S_OK;
 }

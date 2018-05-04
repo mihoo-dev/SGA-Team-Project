@@ -20,6 +20,7 @@ HRESULT StarPoint::init(float x, float y)
 
 	itemName = "star";
 	
+	_cost = 10;
 
 	return S_OK;
 }

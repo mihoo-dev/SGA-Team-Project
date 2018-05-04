@@ -23,7 +23,7 @@ HRESULT PotionItem::init(float x, float y)
 
 	healAmount = 50;
 	
-
+	_cost = 10;
 
 	return S_OK;
 }

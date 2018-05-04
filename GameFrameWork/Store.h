@@ -15,6 +15,11 @@ private:
 
 	image* img;
 
+	image* _priceTagImage;
+	image* _priceTagImage2;
+	image* _priceTagImage3;
+	image* _priceTagImage4;
+
 	Item* _potion;
 	Item* _hotsauce;
 	//Item* _armor;
@@ -41,7 +46,9 @@ public:
 
 	void FontFunction(int r, int g, int b, const char* txt, float rcX, float rcY);
 	void checkCollision();
+	void RenderPrice(image* img, float x, float y, int cost);
 	PurchaseBtn* getBtn(int i);
+
 
     PlayerManager * GetPlayerManager() { return _pm; }
 };

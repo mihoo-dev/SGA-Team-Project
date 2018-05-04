@@ -20,7 +20,7 @@ HRESULT HotSauce::init(float x, float y)
 
 	itemName = "hotsauce";
 
-	
+	_cost = 10;
 
 	return S_OK;
 }

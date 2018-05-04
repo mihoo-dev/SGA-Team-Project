@@ -3,7 +3,6 @@
 
 
 Item::Item()
-	:_cost(10)
 {
 }
 

@@ -14,7 +14,11 @@ Store::~Store()
 HRESULT Store::init()
 {
 	IMAGEMANAGER->addImage("storeBackgroundCol", "storeBackgroundCol.bmp", 1200, 500, false, RGB(0, 0, 0));
-
+	IMAGEMANAGER->addImage("priceTag", "priceTag.bmp", 70, 54, true, RGB(255, 0, 255));
+	_priceTagImage = IMAGEMANAGER->findImage("priceTag");
+	_priceTagImage2 = IMAGEMANAGER->findImage("priceTag");
+	_priceTagImage3 = IMAGEMANAGER->findImage("priceTag");
+	_priceTagImage4 = IMAGEMANAGER->findImage("priceTag");
 	CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
 
 	_pm = new PlayerManager;
@@ -92,18 +96,22 @@ void Store::release()
 
 void Store::render()
 {
-	//img->render(getMemDC(), 0, 0);
+	//img->render(getMemDC() 0, 0);
 	_pm->render();
 
+	RenderPrice(_priceTagImage, _hotsauce->getX() - 10, _hotsauce->getY() - 80, _hotsauce->getCost());
 	_hotsauce->render(_hotsauce->getX(), _hotsauce->getY());
 	FontFunction(255, 0, 0, "hotsauce", CAMERA->GetCenterX() - 470, CAMERA->GetCenterY() - 160);
 
+	RenderPrice(_priceTagImage2, _potion->getX() - 10, _potion->getY() - 80, _potion->getCost());
 	_potion->render(_potion->getX(), _potion->getY());
 	FontFunction(255, 0, 0, "potion", CAMERA->GetCenterX() - 105, CAMERA->GetCenterY() - 160);
 
+	RenderPrice(_priceTagImage3, _starPoint->getX() - 10, _starPoint->getY() - 80, _starPoint->getCost());
 	_starPoint->render(_starPoint->getX(), _starPoint->getY());
 	FontFunction(255, 0, 0, "star", CAMERA->GetCenterX() - 235, CAMERA->GetCenterY() - 160);
 
+	RenderPrice(_priceTagImage4, _sword->getX() - 10, _sword->getY() - 80, _sword->getCost());
 	_sword->render(_sword->getX(), _sword->getY());
 	FontFunction(255, 0, 0, "sword", CAMERA->GetCenterX() - 350, CAMERA->GetCenterY() - 160);
 
@@ -178,6 +186,12 @@ void Store::checkCollision()
 	}
 }
 
+void Store::RenderPrice(image * img, float x, float y, int cost)
+{
+	img->render(getMemDC(), x, y);
+	FontFunction(255, 0, 0, to_string(cost).c_str(), x -210, y - 130);
+}
+
 PurchaseBtn * Store::getBtn(int i)
 {
 	PurchaseBtn* btn;
@@ -198,3 +212,4 @@ PurchaseBtn * Store::getBtn(int i)
 	}
 	return btn;
 }
+
