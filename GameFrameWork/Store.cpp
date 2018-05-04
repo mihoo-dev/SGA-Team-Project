@@ -105,8 +105,7 @@ void Store::release()
 void Store::render()
 {
 	//img->render(getMemDC() 0, 0);
-	_pm->render();
-
+	
 	RenderPrice(_priceTagImage, _hotsauce->getX() - 10, _hotsauce->getY() - 80, _hotsauce->getCost());
 	_hotsauce->render(_hotsauce->getX(), _hotsauce->getY());
 	FontFunction(255, 0, 0, "hotsauce", CAMERA->GetCenterX() - 470, CAMERA->GetCenterY() - 160);
@@ -132,6 +131,7 @@ void Store::render()
 	_coinImage->render(getMemDC(), WINSIZEX - 450, 10);
 	FontFunction(255, 0, 0, to_string(GetPlayerManager()->GetPlayer()->GetInfo().coin).c_str(), WINSIZEX - 600, -125);
 
+    _pm->render();
 }
 
 void Store::FontFunction(int r, int g, int b, const char* txt, float rcX, float rcY)

@@ -111,7 +111,7 @@ void StoreScene::release()
 void StoreScene::render()
 {
 	IMAGEMANAGER->findImage("storeBackground")->render(getMemDC(), CAMERA->GetX(), CAMERA->GetY());
-	_store->render();
+	
 	if (_isSpeech)
 	{
 		_speechBalloon->render(getMemDC(), WINSIZEX / 2 - 250, WINSIZEY / 2 + 150);
@@ -131,6 +131,7 @@ void StoreScene::render()
 	}
 	_store->RenderPrice(_priceTagImage, CAMERA->GetCenterX() - 40, CAMERA->GetCenterY() - 180, _starPoint->getCost());
 	renderBackBtn();
+    _store->render();
 }
 
 void StoreScene::checkCost(int i)
