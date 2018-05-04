@@ -238,8 +238,11 @@ void CameraManager::SetState(const char * state)
 
 void CameraManager::SetPos(float x, float y)
 {
-    _x = x;
-    _y = y;
+    offSetX2 = x;
+    offSetY2 = y;
+    
+    _x = WINSIZEX / 2 - offSetX2;
+    _y = WINSIZEY / 2 - offSetY2;
 }
 
 void CameraManager::SetSize(int sizeX, int sizeY)

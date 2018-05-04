@@ -21,7 +21,7 @@ HRESULT Store::init()
 	_priceTagImage3 = IMAGEMANAGER->findImage("priceTag");
 	_priceTagImage4 = IMAGEMANAGER->findImage("priceTag");
 	_coinImage = IMAGEMANAGER->findImage("coin");
-	CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
+	
 
 	_pm = new PlayerManager;
 	_pm->init();
@@ -44,6 +44,12 @@ HRESULT Store::init()
 	_sword = new Sword;
 	_sword->init(CAMERA->GetCenterX() - 170, CAMERA->GetCenterY() - 100);
 
+    cout << "카메라  - x : " << CAMERA->GetX() << ", y : " << CAMERA->GetY() << endl;
+    cout << "핫소스  - x : " << _hotsauce->getX() << ", y : " << _hotsauce->getY() << endl;
+    cout << "검  - x : " << _sword->getX() << ", y : " << _sword->getY() << endl;
+    cout << "스타  - x : " << _starPoint->getX() << ", y : " << _starPoint->getY() << endl;
+    cout << "포션  - x : " << _potion->getX() << ", y : " << _potion->getY() << endl;
+    
 	_NPC = new StoreNPC;
 	_NPC->init(CAMERA->GetCenterX() + 200, CAMERA->GetCenterY());
 

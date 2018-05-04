@@ -22,7 +22,11 @@ HRESULT StoreScene::init()
 	IMAGEMANAGER->addImage("storeBackground", "storeBackground.bmp", 600, 500, false, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("speechBalloon", "speechBalloon.bmp", 480, 60, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("priceTags", "priceTag.bmp", 70, 54, true, RGB(255, 0, 255));
-	_speechBalloon = IMAGEMANAGER->findImage("speechBalloon");
+	
+    CAMERA->SetSize(600, 500);
+    CAMERA->SetPos(0, 0);
+
+    _speechBalloon = IMAGEMANAGER->findImage("speechBalloon");
 	_priceTagImage = IMAGEMANAGER->findImage("priceTags");
 
 	_store = new Store;
@@ -88,13 +92,13 @@ void StoreScene::update()
 
 	_store->update();
 
-	if (KEYMANAGER->isOnceKeyDown(VK_F12))
-	{
-        _store->GetPlayerManager()->GetPlayer()->SaveData();
-		TXTDATA->txtSave("ItemInfo.txt", _vItem);
-
-		SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
-	}
+	//if (KEYMANAGER->isOnceKeyDown(VK_F12))
+	//{
+    //    _store->GetPlayerManager()->GetPlayer()->SaveData();
+	//	TXTDATA->txtSave("ItemInfo.txt", _vItem);
+    //
+	//	SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
+	//}
 	updateBackBtn();
 }
 
@@ -171,6 +175,8 @@ void StoreScene::updateBackBtn()
 	if (isClicked)
 	{
 		isClicked = false;
+        _store->GetPlayerManager()->GetPlayer()->SaveData();
+        TXTDATA->txtSave("ItemInfo.txt", _vItem);
 		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
 	}
 }
