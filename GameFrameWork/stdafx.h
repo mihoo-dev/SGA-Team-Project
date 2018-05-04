@@ -31,6 +31,8 @@ using namespace std;
 #include "PopUp.h"
 #include "utils.h"
 
+#include "WorldXY.h"
+
 using namespace NONA_UTIL;
 
 //==============================
@@ -58,6 +60,8 @@ using namespace NONA_UTIL;
 #define INIDATA			iniDataManager::getSingleton()
 #define CAMERA          CameraManager::getSingleton()
 #define POPUP           PopUp::getSingleton()
+
+#define WORLDXY			WorldXY::getSingleton()
 
 //===================================
 // ## Macro ## 2018.02.27 ##

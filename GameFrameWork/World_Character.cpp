@@ -25,8 +25,11 @@ World_Character::~World_Character()
 {
 }
 
-HRESULT World_Character::init()
+HRESULT World_Character::init(float x, float y)
 {
+	_x = x;
+	_y = y;
+
 	for (int ii = 0; ii <= SIZEOFTRACE; ++ii)
 	{
 		_traceFinn.x = _x;
@@ -63,9 +66,13 @@ void World_Character::update()
 			case NO_PRESS:
 				break;
 			case GO_STORE:
+				SOUNDMANAGER->stop("WORLDMAP");
+				SOUNDMANAGER->play("ENTER");
 				SCENEMANAGER->changeScene("StoreScene");
 			break;
 			case GO_GRAVEYARD:
+				SOUNDMANAGER->stop("WORLDMAP");
+				SOUNDMANAGER->play("ENTER");
 				SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
 			break;
 			case MAKE_BRIDGE:
@@ -123,7 +130,7 @@ void World_Character::render(HDC hdc)
 		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x - 14, _y - 60 - 14, _Xframe, 0);
 	}
 
-	CheckStatus(hdc);
+	//CheckStatus(hdc);
 	//Rectangle(hdc, _rc.left, _rc.top, _rc.right, _rc.bottom);
 }
 

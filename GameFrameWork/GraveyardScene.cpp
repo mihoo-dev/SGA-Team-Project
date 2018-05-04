@@ -17,6 +17,7 @@ HRESULT GraveyardScene::init()
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("GRAVEYARD", 0.5f);
 	CAMERA->SetSize(7168, 510);
+	CAMERA->SetPos(0, 0);
 
 	//_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
 	//_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);

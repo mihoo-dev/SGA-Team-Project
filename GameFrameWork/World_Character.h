@@ -64,7 +64,7 @@ public:
 	World_Character();
 	~World_Character();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render(HDC hdc);

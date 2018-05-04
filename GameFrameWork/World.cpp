@@ -12,7 +12,7 @@ World::~World()
 {
 }
 
-HRESULT World::init()
+HRESULT World::init(float x, float y)
 {
 	IMAGEMANAGER->addFrameImage("WORLD_FINN", "WORLD_FINN.bmp", 512, 576, 8, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("WORLD_JAKE", "WORLD_JAKE.bmp", 512, 576, 8, 9, true, RGB(255, 0, 255));
@@ -20,8 +20,8 @@ HRESULT World::init()
 	IMAGEMANAGER->addFrameImage("PRESS_X", "PRESS_X.bmp", 56, 28, 2, 1, true, RGB(255, 0, 255));
 
 	_finn = new World_Character;
-	_finn->init();
-
+	_finn->init(x, y);
+	
 	_bridge = new World_Bridge;
 
 	//전방 선언을 위한 주소 입력
@@ -98,7 +98,7 @@ void World::render()
 	_finn->render(getMemDC());
 
 	//Test용 텍스트
-	CheckStatus();
+	//CheckStatus();
 }
 
 void World::CheckStatus()

@@ -35,10 +35,10 @@ HRESULT Boss_Snake::init()
 	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_RIGHT_MOVE", "BOSS_SNAKE", rightMove, 8, 8, true);
 
 	int leftCloud[] = { 98, 97, 96, 95, 94, 93, 92, 91, 90, 89 };
-	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_LEFT_CLOUD", "BOSS_SNAKE", leftCloud, 10, 8, false);
+	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_LEFT_CLOUD", "BOSS_SNAKE", leftCloud, 10, 5, false);
 
 	int rightCloud[] = { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
-	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_RIGHT_CLOUD", "BOSS_SNAKE", rightCloud, 10, 8, false);
+	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_RIGHT_CLOUD", "BOSS_SNAKE", rightCloud, 10, 5, false);
 
 	int leftPoison[] = { 109, 108, 107, 106, 105, 104, 103, 102, 104, 103, 102, 101, 100, 99 };
 	KEYANIMANAGER->addArrayFrameAnimation("SNAKE_LEFT_POISON", "BOSS_SNAKE", leftPoison, 14, 8, false);
@@ -368,19 +368,19 @@ RECT Boss_Snake::AttackRC(Player * player)
 	else if (_attack == 2)
 	{
 		_attackCount++;
-		if (_attackCount > 15)
+		if (_attackCount > 50)
 		{
 			switch (_direction)
 			{
 			case SNAKE_LEFT:
-				_attackRC = { _rc.left - 80, _rc.top - 40, _rc.right + 60, _rc.bottom + 30 };
+				_attackRC = { _rc.left - 50, _rc.top - 40, _rc.right + 30, _rc.bottom + 30 };
 			break;
 			case SNAKE_RIGHT:
-				_attackRC = { _rc.left - 60, _rc.top - 40, _rc.right + 80, _rc.bottom + 30 };
+				_attackRC = { _rc.left - 30, _rc.top - 40, _rc.right + 50, _rc.bottom + 30 };
 			break;
 			}
 		}
-		if (_attackCount > 45)
+		if (_attackCount > 55)
 		{
 			_attackCount = 0;
 			_attack = 0;

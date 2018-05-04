@@ -69,6 +69,7 @@ void gameNode::release(void)
         CAMERA->releaseSingleton();
         POPUP->release();
         POPUP->releaseSingleton();
+		WORLDXY->releaseSingleton();
 	}
 	
 	ReleaseDC(_hWnd, _hdc);

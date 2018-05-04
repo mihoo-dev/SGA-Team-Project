@@ -14,7 +14,7 @@ struct tagMoney
 {
 	image*	img;
 	float	x, y;
-	float	saveY;
+	float	probeY;
 	float	angle;
 	float	power;
 	float	gravity;
@@ -59,7 +59,7 @@ public:
 	void SetSnake(float x, float y);
 
 	//Make Money
-	void MoveMoney();
+	void MoveMoney(string colPixelName);
 	void MakeMoney(float x, float y);
 
 	//PM 전방선언 주소 연결

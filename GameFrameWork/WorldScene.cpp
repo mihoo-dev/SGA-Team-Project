@@ -13,12 +13,14 @@ WorldScene::~WorldScene()
 
 HRESULT WorldScene::init()
 {
+
 	_world = new World;
-	_world->init();
+	_world->init(WORLDXY->GetWorldX(), WORLDXY->GetWorldY());
 
 	CAMERA->SetSize(2793, 2111);
+	CAMERA->SetPos(0, 0);
 
-	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
+	
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("WORLDMAP", 0.5f);
 

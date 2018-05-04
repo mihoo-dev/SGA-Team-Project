@@ -178,6 +178,8 @@ void StoreScene::updateBackBtn()
 		isClicked = false;
         _store->GetPlayerManager()->GetPlayer()->SaveData();
         TXTDATA->txtSave("ItemInfo.txt", _vItem);
+		WORLDXY->SetWorldX(2430);
+		WORLDXY->SetWorldY(840);
 		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
 	}
 }

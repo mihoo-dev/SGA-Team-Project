@@ -58,6 +58,8 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("GRAVEYARD", "sound\\Graveyard.mp3", true, true);
 	SOUNDMANAGER->addSound("SNAKE", "sound\\Red Rock Pass VS.mp3", true, true);
 	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
+	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);
+	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
 
 	return S_OK;
 }

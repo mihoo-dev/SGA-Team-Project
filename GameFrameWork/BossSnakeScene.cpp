@@ -19,7 +19,7 @@ BossSnakeScene::~BossSnakeScene()
 HRESULT BossSnakeScene::init()
 {
 	CAMERA->SetSize(1100, 510);
-	CAMERA->SetPos(WINSIZEX / 2, WINSIZEY / 2);
+	CAMERA->SetPos(0, 0);
 
 	_pm = new PlayerManager;
 	_pm->init();
@@ -28,6 +28,8 @@ HRESULT BossSnakeScene::init()
 	_em->init();
 	_em->SetAdressPM(_pm);
 	_em->SetSnake(CAMERA->GetX() + WINSIZEX + 300, 418 - 125);
+
+	SOUNDMANAGER->allStop();
 
 	return S_OK;
 }

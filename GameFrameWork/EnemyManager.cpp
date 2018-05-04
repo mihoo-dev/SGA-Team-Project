@@ -30,7 +30,6 @@ HRESULT EnemyManager::init()
 		money.y = 0;
 		money.angle = 0;
 		money.power = 0;
-		money.saveY = 0;
 		money.speed = 3;
 		money.gravity = 0.2f;
 		money.isActive = 0;
@@ -66,16 +65,18 @@ void EnemyManager::update(string colPixelName)
 		if (_snake->GetState() == SNAKE_LEFT_DIE || _snake->GetState() == SNAKE_RIGHT_DIE)
 		{
 			_endCount++;
-			if (_endCount > 50 && _endCount < 300 && _endCount % 20 == 0) MakeMoney(_snake->GetX() + 50, 418 - 20);
+			if (_endCount > 50 && _endCount < 250 && _endCount % 10 == 0) MakeMoney(_snake->GetX() + 50, 418 - 20);
 			if (_endCount > 1000)
 			{
 				_endCount = 0;
+				WORLDXY->SetWorldX(2520);
+				WORLDXY->SetWorldY(1364);
 				SCENEMANAGER->changeScene("WorldScene");
 			}
 		}
 	}
 
-	MoveMoney();
+	MoveMoney(colPixelName);
 
 	if (KEYMANAGER->isOnceKeyDown('N')) MakeMoney(CAMERA->GetX() + WINSIZEX / 2, CAMERA->GetY() + WINSIZEY / 2);
 
@@ -141,19 +142,23 @@ void EnemyManager::playDieEffect(float x, float y)
 	
 }
 
-void EnemyManager::MoveMoney()
+void EnemyManager::MoveMoney(string colPixelName)
 {
 	for (int ii = 0; ii < _vMoney.size(); ++ii)
 	{
+		_vMoney[ii].probeY = _vMoney[ii].y + 20;
+
 		if (_vMoney[ii].isActive)
 		{
 			_vMoney[ii].x += cosf(_vMoney[ii].angle) * _vMoney[ii].speed;
 			_vMoney[ii].y -= sinf(_vMoney[ii].angle) * _vMoney[ii].speed;
 			_vMoney[ii].y -= _vMoney[ii].power;
 			_vMoney[ii].power -= _vMoney[ii].gravity;
+			COLORREF pixel = GetPixel(IMAGEMANAGER->findImage(colPixelName)->getMemDC(), _vMoney[ii].x, _vMoney[ii].probeY);
 
-			if (_vMoney[ii].y >= _vMoney[ii].saveY)
+			if (pixel == RGB(0,255,255) || pixel == RGB(255,255,0))
 			{
+				if (_vMoney[ii].power > 0) return;
 				_vMoney[ii].gravity = 0;
 				_vMoney[ii].speed = 0;
 				_vMoney[ii].power = 0;
@@ -170,7 +175,6 @@ void EnemyManager::MakeMoney(float x, float y)
 {
 	_vMoney[_moneyIndex].x = x;
 	_vMoney[_moneyIndex].y = y;
-	_vMoney[_moneyIndex].saveY = y;
 	_vMoney[_moneyIndex].isActive = true;
 	_vMoney[_moneyIndex].angle = RND->getFromFloatTo(PI / 4, (PI / 4) * 3);
 	_vMoney[_moneyIndex].power = RND->getFromFloatTo(0.1, 2.0);
