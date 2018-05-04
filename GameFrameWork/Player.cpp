@@ -1350,6 +1350,12 @@ void Player::GroundCollision(string pixelName)
 void Player::UpdateInfo()
 {
     _item = (ITEM)_status.weapon;
+    if (_item == DEFFAULT)
+    {
+        if(_status.atk > 10)
+            _status.atk -= 10;
+    }
+    else if (_item == SWORD) _status.atk += 10;
 }
 
 void Player::SaveData()

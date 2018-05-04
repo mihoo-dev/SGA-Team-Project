@@ -252,6 +252,8 @@ void PlayerUI::UpdateInven()
                                         _playerInfo->SetHP(++_playerHP);
                                     else if (_inventory[i][j].type == (int)Inven::STAR)
                                         _playerInfo->SetStar(++_star);
+                                    else if (_inventory[i][j].type == (int)Inven::SWORD)
+                                        _playerInfo->SetSword(true);
 
                                     _vInven.erase(_vInven.begin() + (i + (j * 8)));
                                     _loadInven.erase(_loadInven.begin() + (i + (j * 8)));
@@ -260,6 +262,8 @@ void PlayerUI::UpdateInven()
                                     _isOnceClicked = false;
                                     InitInvenPos();
 
+
+                                    _playerInfo->UpdateInfo();
                                     _playerInfo->SaveData();
                                     TXTDATA->txtSave("ItemInfo.txt", _loadInven);
                                 }

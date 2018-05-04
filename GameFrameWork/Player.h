@@ -121,6 +121,7 @@ public:
     }
     void SetAtk(int atk) { _status.atk += atk; }
     void SetSpeed(float speed) { _status.speed += speed; }
+    void SetSword(bool sword) { _status.weapon = sword; }
 
     void UpdateInfo();
     void SaveData();
