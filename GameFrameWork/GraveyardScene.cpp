@@ -23,11 +23,24 @@ HRESULT GraveyardScene::init()
 	SOUNDMANAGER->play("GRAVEYARD", 0.5f);
 	CAMERA->SetSize(7168, 510);
 
+	//_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
+	//_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
+	//_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
+	//_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
+	//_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
+
 	_pm = new PlayerManager;
 	_pm->init();
 
 	_em = new EnemyManager;
 	_em->init();
+
+	_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
 
 	return S_OK;
 }

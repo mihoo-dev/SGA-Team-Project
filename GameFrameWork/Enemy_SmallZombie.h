@@ -40,8 +40,12 @@ public:
 
 	// getter
 	bool getIsDie() { return isDie; }
+	bool getIsDead() { return isDead; }
 	int getX() { return x; }
 	int getY() { return y; }
+
+	//setter
+	void setIsDead(bool isDead) { this->isDead = isDead; }
 
 private:
 	int x, y;
@@ -65,6 +69,7 @@ private:
 	bool cliffIsInRight;
 
 	bool isDie;
+	bool isDead;
 	bool isHit;
 
 	int moveX;
@@ -124,5 +129,6 @@ private:
 	void changeState(states state, imageStates imgState, string animKeyName); // 상태와 animation 변경
 
 	void CheckIsDie(int hp); // HP <= 0 이면 isDie = true
+
 };
 

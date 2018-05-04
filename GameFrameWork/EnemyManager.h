@@ -23,6 +23,8 @@ private:
 	Boss_Snake*		_snake;
 	BOOL			_isSnakeStage;
 
+	void checkDie();
+	void playDieEffect(float x, float y);
 public:
 	EnemyManager();
 	~EnemyManager();

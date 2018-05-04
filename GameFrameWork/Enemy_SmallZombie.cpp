@@ -6,7 +6,7 @@ Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
 	maxHp(10), hp(10), isDie(false), isHit(false),
-	hitTime(0), hitTimeLimit(30),
+	hitTime(0), hitTimeLimit(20),
 	isOnGroundLeft(false), isOnGroundRight(false),
 	spd(1), gravity(4), isOnGround(false),
 	groundIsInLeft(false), groundIsInRight(false),
@@ -94,7 +94,11 @@ void Enemy_SmallZombie::GetPlayerInfo(Player * player)
 	playerY = player->GetY();
 	//playerAttackPower = player->getAttackPower();
 	playerAttackBox = player->GetHitRC();
+	playerHitBox = player->GetColRC();
 
+
+
+	
 }
 
 void Enemy_SmallZombie::CollisionUpdate(string pixelName)
@@ -262,8 +266,6 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 
 void Enemy_SmallZombie::render(HDC hdc)
 {
-	DrawFocusRect(hdc, &hitBox); // test box
-
 	img->aniRender(hdc, x - (img->getFrameWidth() / 2), y - (img->getFrameHeight() / 2), anim);
 }
 
@@ -296,6 +298,16 @@ void Enemy_SmallZombie::idle_behavior()
 	}
 #pragma endregion
 
+	#pragma region IdleToGetHit
+
+	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
+		hp -= 1; // 맞으면 hp 감소
+		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
+		else changeState(getHit, right_getHit, "SZ_rightGetHit");
+	}
+
+#pragma endregion
+
 }
 
 void Enemy_SmallZombie::patrol_behavior()
@@ -320,12 +332,24 @@ void Enemy_SmallZombie::patrol_behavior()
 		if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
 	}
 #pragma endregion
+
+	#pragma region PatrolToGetHit
+
+	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
+		hp -= 1; // 맞으면 hp 감소
+		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
+		else changeState(getHit, right_getHit, "SZ_rightGetHit");
+	}
+
+#pragma endregion
 }
 
 void Enemy_SmallZombie::alert_behavior()
 {
-	moveX = (x > playerX) ? -spd : spd;
+	if (distFromPlayer <= 30) { moveX = 0; }
+	else moveX = (x > playerX) ? -spd : spd;
 	moveY = isOnGround ? 0 : gravity;
+
 
 	#pragma region changeDirection
 	Directions TempDir = direction;
@@ -337,6 +361,12 @@ void Enemy_SmallZombie::alert_behavior()
 	}
 	#pragma endregion
 
+#pragma region AlertToIdle
+	if (distFromPlayer > alertRange) {
+		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
+		else if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+	}
+#pragma endregion
 	#pragma region AlertToJump 
 	/*
 	jumpCount++;
@@ -356,7 +386,7 @@ void Enemy_SmallZombie::alert_behavior()
 	#pragma region AlertToGetHit
 	
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
-		//hp -= playerAttackPower; // 맞으면 hp 감소
+		hp -= 1; // 맞으면 hp 감소
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -382,8 +412,8 @@ void Enemy_SmallZombie::getHit_behavior()
 	{
 		knockBackDistance = 0;
 		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
-		if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+		if (direction == LEFT) changeState(alert, left_walk, "SZ_leftWalk");
+		if (direction == RIGHT) changeState(alert, right_walk, "SZ_rightWalk");
 	}
 	
 	if (groundIsInLeft || groundIsInRight)
@@ -391,8 +421,8 @@ void Enemy_SmallZombie::getHit_behavior()
 		moveX = 0;
 		knockBackDistance = 0;
 		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
-		if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+		if (direction == LEFT) changeState(alert, left_walk, "SZ_leftWalk");
+		if (direction == RIGHT) changeState(alert, right_walk, "SZ_rightWalk");
 	}
 	
 }
@@ -414,7 +444,7 @@ void Enemy_SmallZombie::changeState(states state, imageStates imgState, string a
 	case Enemy_SmallZombie::right_jump: img = IMAGEMANAGER->findImage("SmallZombie_jump");
 		break;
 	case Enemy_SmallZombie::left_getHit:
-	case Enemy_SmallZombie::right_getHit: img = IMAGEMANAGER->findImage("SmallZombie_getHit"); isHit == true;
+	case Enemy_SmallZombie::right_getHit: img = IMAGEMANAGER->findImage("SmallZombie_getHit"); isHit = true;
 		break;
 	}
 
@@ -435,7 +465,7 @@ void Enemy_SmallZombie::PreventFastAttack()
 
 		if (hitTime >= hitTimeLimit) {
 			hitTime = 0;
-			isHit == false;
+			isHit = false;
 		}
 	}
 }
