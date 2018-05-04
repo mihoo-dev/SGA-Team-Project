@@ -44,7 +44,9 @@ private:
     {
         RECT rc;
         bool isClicked;
+        int star = 0;
     }Button;
+
 private:
 	int _playerHP;
 	bool _weapon;
@@ -54,6 +56,7 @@ private:
 	bool _isInven;
 
     Button _button[2];
+    Button _statBtn[3];
 	Inven _inventory[8][5];
 	vector<string> _loadInven;
 	vector<int> _vInven;
@@ -77,5 +80,7 @@ public:
 	void DrawInventory();
 
 	void UpdateInven();
+
+    bool IsInRect(RECT rc);
 };
 

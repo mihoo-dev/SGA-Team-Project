@@ -23,6 +23,7 @@ HRESULT PlayerUI::init()
     IMAGEMANAGER->addImage("Status", "PlayerStatus.bmp", 600, 500, false, NULL);
     IMAGEMANAGER->addFrameImage("InventoryButton", "InventoryButton.bmp", 150, 100, 2, 1, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("ButtonOff", "InvenButtonOff.bmp", 100, 100, true, RGB(255, 0, 255));
+    IMAGEMANAGER->addImage("StatStar", "StatStar.bmp", 34, 36, true, RGB(255, 0, 255));
 
 	if(TXTDATA->txtLoad("ItemInfo.txt").size() > 0)
 		_loadInven = TXTDATA->txtLoad("ItemInfo.txt");
@@ -42,6 +43,11 @@ HRESULT PlayerUI::init()
 	}*/
     _button[0].isClicked = true;
     _button[1].isClicked = false;
+
+    for (int i = 0; i < 3; i++)
+        _statBtn[i].isClicked = false;
+
+    _statBtn[0].star = 3;
 
 	return S_OK;
 }
@@ -94,12 +100,25 @@ void PlayerUI::render()
         else if (_button[0].isClicked)
         {
             IMAGEMANAGER->findImage("Status")->render(getMemDC(), CAMERA->GetX(), CAMERA->GetY());
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < _statBtn[i].star; j++)
+                {
+                    IMAGEMANAGER->findImage("StatStar")->render(getMemDC(),
+                        CAMERA->GetCenterX() + 44 + (j * 40), CAMERA->GetY() + 166 + (i * 62));
+                }
+            }
             IMAGEMANAGER->findImage("ButtonOff")->render(getMemDC(), CAMERA->GetRC().right - 100, CAMERA->GetY() + 200);
         }
         
 
         IMAGEMANAGER->findImage("InventoryButton")->frameRender(getMemDC(), CAMERA->GetRC().right - 75, CAMERA->GetY() + 84, 0, 0);
         IMAGEMANAGER->findImage("InventoryButton")->frameRender(getMemDC(), CAMERA->GetRC().right - 75, CAMERA->GetY() + 200, 1, 0);   
+    
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    Rectangle(getMemDC(), _statBtn[i].rc.left, _statBtn[i].rc.top, _statBtn[i].rc.right, _statBtn[i].rc.bottom);
+        //}
     }
 }
 
@@ -125,7 +144,10 @@ void PlayerUI::InitInvenPos()
         _button[i].rc = RectMake(CAMERA->GetRC().right - 75, CAMERA->GetY() + 84 + (i * 116), 75, 100);
     }
 
-   
+    for (int i = 0; i < 3; i++)
+    {
+        _statBtn[i].rc = RectMake(CAMERA->GetCenterX() + 40, CAMERA->GetY() + 155 + (i * 63), 120, 50);
+    }
 
 	int num = 0;
 	for (int i = 0; i < 5; i++)
@@ -172,10 +194,7 @@ void PlayerUI::UpdateInven()
         {
             for (int i = 0; i < 2; i++)
             {
-                if (CAMERA->GetX() + _ptMouse.x > _button[i].rc.left &&
-                    CAMERA->GetX() + _ptMouse.x < _button[i].rc.right &&
-                    CAMERA->GetY() + _ptMouse.y > _button[i].rc.top &&
-                    CAMERA->GetY() + _ptMouse.y < _button[i].rc.bottom)
+                if (IsInRect(_button[i].rc))
                 {
                     _button[i].isClicked = true;
                 }
@@ -189,16 +208,21 @@ void PlayerUI::UpdateInven()
         {
             if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
             {
-                if (_button[1].isClicked)
+                if (_button[0].isClicked)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (IsInRect(_statBtn[i].rc))
+                            _statBtn[i].isClicked = true;
+                    }
+                }
+                else if (_button[1].isClicked)
                 {
                     for (int i = 0; i < 8; i++)
                     {
                         for (int j = 0; j < 5; j++)
                         {
-                            if (CAMERA->GetX() + _ptMouse.x > _inventory[i][j].rc.left &&
-                                CAMERA->GetX() + _ptMouse.x < _inventory[i][j].rc.right &&
-                                CAMERA->GetY() + _ptMouse.y > _inventory[i][j].rc.top &&
-                                CAMERA->GetY() + _ptMouse.y < _inventory[i][j].rc.bottom)
+                            if (IsInRect(_inventory[i][j].rc))
                             {
                                 if (_inventory[i][j].type == (int)Inven::DEFFAULT) continue;
 
@@ -220,17 +244,14 @@ void PlayerUI::UpdateInven()
                     {
                         for (int j = 0; j < 5; j++)
                         {
-                            if (CAMERA->GetX() + _ptMouse.x > _inventory[i][j].rc.left &&
-                                CAMERA->GetX() + _ptMouse.x < _inventory[i][j].rc.right &&
-                                CAMERA->GetY() + _ptMouse.y > _inventory[i][j].rc.top &&
-                                CAMERA->GetY() + _ptMouse.y < _inventory[i][j].rc.bottom)
+                            if (IsInRect(_inventory[i][j].rc))
                             {
                                 if (_inventory[i][j].isOnceClicked)
                                 {
                                     if (_inventory[i][j].type == (int)Inven::POTION)
                                         _playerInfo->SetHP(++_playerHP);
-                                    /*else if (_inventory[i][j].type == (int)Inven::STAR)
-                                        _playerInfo->SetStar(++_star);*/
+                                    else if (_inventory[i][j].type == (int)Inven::STAR)
+                                        _playerInfo->SetStar(++_star);
 
                                     _vInven.erase(_vInven.begin() + (i + (j * 8)));
                                     _loadInven.erase(_loadInven.begin() + (i + (j * 8)));
@@ -239,6 +260,7 @@ void PlayerUI::UpdateInven()
                                     _isOnceClicked = false;
                                     InitInvenPos();
 
+                                    _playerInfo->SaveData();
                                     TXTDATA->txtSave("ItemInfo.txt", _loadInven);
                                 }
                             }
@@ -256,5 +278,45 @@ void PlayerUI::UpdateInven()
             }
         }
     }
-    
+    if (_button[0].isClicked)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (_statBtn[i].star < 3)
+            {
+                if (_playerInfo->GetInfo().star > 0)
+                {
+                    if (_statBtn[1].isClicked)
+                    {
+                        _statBtn[1].star++;
+                        _playerInfo->SetStar(--_star);
+                        _playerInfo->SetAtk(1);
+                        _playerInfo->SaveData();
+                        _statBtn[1].isClicked = false;
+                        break;
+                    }
+                    else if (_statBtn[2].isClicked)
+                    {
+                        _statBtn[2].star++;
+                        _playerInfo->SetStar(--_star);
+                        _playerInfo->SetSpeed(1.0f);
+                        _playerInfo->SaveData();
+                        _statBtn[2].isClicked = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool PlayerUI::IsInRect(RECT rc)
+{
+    if (CAMERA->GetX() + _ptMouse.x > rc.left &&
+        CAMERA->GetX() + _ptMouse.x < rc.right &&
+        CAMERA->GetY() + _ptMouse.y > rc.top &&
+        CAMERA->GetY() + _ptMouse.y < rc.bottom)
+        return true;
+
+    return false;
 }

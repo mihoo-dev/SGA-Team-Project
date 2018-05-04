@@ -112,8 +112,15 @@ public:
 
     inline PlayerStat GetInfo() { return _status; }
     void SetCoin(int coin){ _status.coin = coin; }
-    void SetHP(int hp) { _status.hp = hp; }
-    void SetStar(int star) { _status.star = star; }
+    void SetHP(int hp) { 
+        if(_status.hp < 3)
+            _status.hp = hp; 
+    }
+    void SetStar(int star) { _status.star = star;
+    if (_status.star <= 0) _status.star = 0;
+    }
+    void SetAtk(int atk) { _status.atk += atk; }
+    void SetSpeed(float speed) { _status.speed += speed; }
 
     void UpdateInfo();
     void SaveData();
