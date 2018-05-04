@@ -12,6 +12,8 @@ private:
 	{
 		enum TYPE
 		{
+            HOTSAUCE,
+            SWORD,
 			STAR,
 			POTION,
 			DEFFAULT
@@ -37,6 +39,12 @@ private:
 			this->y = y;
 		}
 	}Inven;
+
+    typedef struct tagButton
+    {
+        RECT rc;
+        bool isClicked;
+    }Button;
 private:
 	int _playerHP;
 	bool _weapon;
@@ -45,6 +53,7 @@ private:
 
 	bool _isInven;
 
+    Button _button[2];
 	Inven _inventory[8][5];
 	vector<string> _loadInven;
 	vector<int> _vInven;

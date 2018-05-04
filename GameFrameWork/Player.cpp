@@ -393,63 +393,7 @@ void Player::update()
         }
     }
 
-    if (KEYMANAGER->isOnceKeyDown('A'))
-    {
-        if (_state != RIGHT_HIT && _state != LEFT_HIT)
-        {
-            _speed = 0;
-            if (_direction == RIGHT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(RIGHT_HIT, "PlayerRightHit");
-            }
-            else if (_direction == LEFT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(LEFT_HIT, "PlayerLeftHit");
-            }
-        }
-    }
-    if (KEYMANAGER->isOnceKeyDown('S'))
-    {
-        _speed = 0;
-        if (_state != RIGHT_KNOCK && _state != LEFT_KNOCK)
-        {
-            if (_direction == RIGHT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(RIGHT_KNOCK, "PlayerRightKnock");
-            }
-            else if (_direction == LEFT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(LEFT_KNOCK, "PlayerLeftKnock");
-            }
-        }
-    }
-    if (KEYMANAGER->isOnceKeyDown('D'))
-    {
-        _speed = 0;
-        if (_state != RIGHT_DIE && _state != LEFT_DIE)
-        {
-            if (_direction == RIGHT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(RIGHT_DIE, "PlayerRightDie");
-            }
-            else if (_direction == LEFT)
-            {
-                _img = IMAGEMANAGER->findImage("PlayerHitItem");
-                _y = _rc.bottom - _img->getFrameHeight() / 2;
-                ChangeAnim(LEFT_DIE, "PlayerLeftDie");
-            }
-        }
-    }
+    
     if (KEYMANAGER->isOnceKeyDown('C'))
     {
         _speed = 0;
@@ -1458,4 +1402,67 @@ void Player::LoadData()
     UpdateInfo();
 
     fclose(fp);
+}
+
+void Player::SetPlayerHit()
+{
+    if (_status.hp == 3)
+    {
+        _status.hp--;
+        if (_state != RIGHT_HIT && _state != LEFT_HIT)
+        {
+            _speed = 0;
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_HIT, "PlayerRightHit");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_HIT, "PlayerLeftHit");
+            }
+        }
+    }
+    else if (_status.hp >= 1 && _status.hp < 3)
+    {
+        _status.hp--;
+        _speed = 0;
+        if (_state != RIGHT_KNOCK && _state != LEFT_KNOCK)
+        {
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_KNOCK, "PlayerRightKnock");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_KNOCK, "PlayerLeftKnock");
+            }
+        }
+    }
+    if (_status.hp == 0)
+    {
+        _speed = 0;
+        if (_state != RIGHT_DIE && _state != LEFT_DIE)
+        {
+            if (_direction == RIGHT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(RIGHT_DIE, "PlayerRightDie");
+            }
+            else if (_direction == LEFT)
+            {
+                _img = IMAGEMANAGER->findImage("PlayerHitItem");
+                _y = _rc.bottom - _img->getFrameHeight() / 2;
+                ChangeAnim(LEFT_DIE, "PlayerLeftDie");
+            }
+        }
+    }
 }

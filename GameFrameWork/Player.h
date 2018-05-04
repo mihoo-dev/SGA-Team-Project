@@ -118,5 +118,7 @@ public:
     void UpdateInfo();
     void SaveData();
     void LoadData();
+
+    void SetPlayerHit();
 };
 
