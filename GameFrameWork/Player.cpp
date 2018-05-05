@@ -1042,6 +1042,7 @@ void Player::update()
         }
         break;
     case Player::RIGHT_HIT:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
@@ -1050,6 +1051,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_HIT:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
@@ -1058,6 +1060,7 @@ void Player::update()
         }
         break;
     case Player::RIGHT_KNOCK:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
@@ -1066,6 +1069,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_KNOCK:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
@@ -1074,6 +1078,7 @@ void Player::update()
         }
         break;
     case Player::RIGHT_DIE:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
@@ -1082,6 +1087,7 @@ void Player::update()
         }
         break;
     case Player::LEFT_DIE:
+        _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
             _img = IMAGEMANAGER->findImage("Player");
