@@ -46,7 +46,7 @@ HRESULT GraveyardScene::init()
 
 	_alpha = 255;
 	_sceneStart = true;
-
+    _sceneChange = false;
 
 	return S_OK;
 }
@@ -62,15 +62,17 @@ void GraveyardScene::update()
 {
 	SceneStart();
 
+    _vDoor[0]->update();
+    _vDoor[0]->Collision(_pm->GetPlayer()->GetColRC());
+
+    DoorEnter();
+
     _pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
 	_pm->update();
 
 	_em->update("STAGE_GRAVEYARD_PIXEL");
 
-	_vDoor[0]->update();
-	_vDoor[0]->Collision(_pm->GetPlayer()->GetColRC());
-
-	DoorEnter();
+	
 	GoSnakeStage();
 }
 
@@ -113,11 +115,14 @@ void GraveyardScene::SceneStart()
 
 void GraveyardScene::DoorEnter()
 {
-	if (_pm->GetPlayer()->GetX() > 6345)
+	if (_pm->GetPlayer()->GetX() > 6399 && !_sceneChange)
 	{
-		_pm->GetPlayer()->ChangeAnim(Player::RIGHT_DOOR_ENTER, "PlayerRightDoorEnter");
-		FadeIn(&_alpha);
+        _sceneChange = true;
+		_pm->GetPlayer()->ChangeAnim(Player::RIGHT_DOOR_ENTER, "PlayerRightDoorEnter");	
 	}
+
+    if(_sceneChange)
+        FadeIn(&_alpha);
 }
 
 void GraveyardScene::GoSnakeStage()

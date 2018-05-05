@@ -16,6 +16,7 @@ private:
 	//페이드 화면
 	int					_alpha;
 	BOOL				_sceneStart;
+    BOOL                _sceneChange;
 
 public:
 	GraveyardScene();

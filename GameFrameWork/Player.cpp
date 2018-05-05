@@ -20,8 +20,8 @@ Player::~Player()
 
 HRESULT Player::init(float x, float y)
 {
-    _x = _colX = WINSIZEX / 2;
-    _y = _colY = WINSIZEY / 2;
+    _x = _colX = x;
+    _y = _colY = y;
 
     _status = PlayerStat();
     LoadData();
@@ -244,7 +244,8 @@ void Player::update()
         _state != RIGHT_HIT && _state != LEFT_HIT &&
         _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
         _state != RIGHT_DIE && _state != LEFT_DIE &&
-        _state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM)
+        _state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM && 
+        _state != RIGHT_DOOR_ENTER && _state != LEFT_DOOR_ENTER)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
         {
@@ -1114,19 +1115,21 @@ void Player::update()
         }
         break;
     case Player::RIGHT_DOOR_ENTER:
-        Friction("left", 0);
+        _speed = 0;
+        _friction = 0;
         _alpha -= 2;
         if (!_anim->isPlay())
         {
             if (_alpha <= 0)
             {
                 _alpha = 0;
-                SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+                //SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
             }
         }
         break;
     case Player::LEFT_DOOR_ENTER:
-        Friction("right", 0);
+        _speed = 0;
+        _friction = 0;
         _alpha -= 2;
         if (!_anim->isPlay())
         {
