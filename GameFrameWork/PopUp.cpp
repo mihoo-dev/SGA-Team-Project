@@ -62,12 +62,12 @@ void PopUp::Move()
     }
 }
 
-void PopUp::Fire(float x, float y, string str)
+void PopUp::Fire(float x, float y, int num)
 {
     for (int i = 0; i < _vPopUp.size(); i++)
     {
         if (_vPopUp[i].inUse) continue;
 
-        _vPopUp[i] = PopUps(x, y, str, true);
+        _vPopUp[i] = PopUps(x, y - 50, string("-") + to_string(num), true);
     }
 }

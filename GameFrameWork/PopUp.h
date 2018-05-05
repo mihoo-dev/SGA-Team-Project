@@ -31,6 +31,6 @@ public:
     void render(HDC hdc);
 
     void Move();
-    void Fire(float x, float y, string str);
+    void Fire(float x, float y, int num);
 };
 

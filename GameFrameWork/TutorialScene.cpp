@@ -101,10 +101,8 @@ void TutorialScene::update()
         }
     }
 
-    if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-        POPUP->Fire(CAMERA->GetX() + _ptMouse.x, CAMERA->GetY() + _ptMouse.y, "-10");
 
-    POPUP->update();
+    
 
     FadeOut(&_alpha);
 }
@@ -126,7 +124,7 @@ void TutorialScene::render()
 
     _pm->render();
 
-    POPUP->render(getMemDC());
+    
 
     IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 }

@@ -1167,6 +1167,7 @@ void Player::update()
     _colRC = RectMakeCenter(_colX, _colY, 100, 100);
 
     KEYANIMANAGER->update();
+    POPUP->update();
 }
 
 void Player::render()
@@ -1174,6 +1175,7 @@ void Player::render()
     Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
     //Rectangle(getMemDC(), _hitRC.left, _hitRC.top, _hitRC.right, _hitRC.bottom);
     _img->alphaAniRender(getMemDC(), _rc.left, _rc.top, _anim, _alpha);
+    POPUP->render(getMemDC());
 }
 
 void Player::ChangeAnim(STATE state, string animKeyName)
@@ -1355,7 +1357,11 @@ void Player::UpdateInfo()
         if(_status.atk > 10)
             _status.atk -= 10;
     }
-    else if (_item == SWORD) _status.atk += 10;
+    else if (_item == SWORD)
+    {
+        if(_status.atk < 10)
+            _status.atk += 10;
+    }
 }
 
 void Player::SaveData()
@@ -1412,6 +1418,8 @@ void Player::LoadData()
 
 void Player::SetPlayerHit()
 {
+    POPUP->Fire(_x, _y, 10);
+
     if (_status.hp == 3)
     {
         _status.hp--;
