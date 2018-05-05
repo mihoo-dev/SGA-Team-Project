@@ -409,7 +409,7 @@ void Boss_Snake::GetDamage()
 	if (IntersectRect(&temp, &playerAttackBox, &DamageRC()) && _isDamage == false)
 	{
 		PlayDamage();
-		POPUP->Fire((temp.left + temp.right) / 2, (temp.top + temp.bottom) / 2, "1");
+		POPUP->Fire((temp.left + temp.right) / 2, (temp.top + temp.bottom) / 2, 1);
 	}	
 }
 
