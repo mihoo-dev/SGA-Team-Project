@@ -19,11 +19,7 @@ HRESULT GraveyardScene::init()
 	CAMERA->SetSize(7168, 510);
 	CAMERA->SetPos(0, 0);
 
-	//_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
+
 
 	_pm = new PlayerManager;
 	_pm->init();
@@ -33,7 +29,18 @@ HRESULT GraveyardScene::init()
 	_em->SetAdressPM(_pm);
 
 	_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
-
+	_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 250, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
+	_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
 	_em->setSmallZombie(WINSIZEX / 2 + 250, WINSIZEY / 2);
 
 

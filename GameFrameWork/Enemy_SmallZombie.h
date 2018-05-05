@@ -90,6 +90,8 @@ private:
 	int hitTime;		//연속 타격 방지
 	int hitTimeLimit;
 
+	int count;
+
 	UINT period_idleToPatrol;
 	UINT check_idleToPatrol;
 	UINT jumpCount;
@@ -105,6 +107,7 @@ private:
 	COLORREF pixelColor; // COLERREF for PixelCollision
 
 private: // 다른 객체에서 받아올 것들
+	Player * player;
 	float playerX;
 	float playerY;
 	float playerAttackPower;
@@ -119,6 +122,8 @@ private:
 	void alert_behavior();
 	void alertJump_behavior();
 	void getHit_behavior();
+
+	void GetDamage();
 
 	void GetPlayerInfo(Player * player);
 	void CollisionUpdate(string pixelName);

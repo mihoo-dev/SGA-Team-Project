@@ -6,7 +6,7 @@ Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
 	maxHp(10), hp(5), isDead(false), isHit(false),
-	hitTime(0), hitTimeLimit(30),
+	hitTime(0), hitTimeLimit(30), count(0),
 	isOnGroundLeft(false), isOnGroundRight(false),
 	spd(1), gravity(4), isOnGround(false),
 	groundIsInLeft(false), groundIsInRight(false),
@@ -90,6 +90,7 @@ void Enemy_SmallZombie::release()
 
 void Enemy_SmallZombie::GetPlayerInfo(Player * player)
 {
+	this->player = player;
 	playerX = player->GetX();
 	playerY = player->GetY();
 	//playerAttackPower = player->getAttackPower();
@@ -231,6 +232,9 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 {
 	GetPlayerInfo(player);
 
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F1)) { player->SetPlayerHit(); }
+
 	distFromPlayer = getDistance(x, y, playerX, playerY);
 
 	switch (state)
@@ -261,6 +265,8 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 
 void Enemy_SmallZombie::render(HDC hdc)
 {
+	//Rectangle(hdc, hitBox.left, hitBox.top, hitBox.right, hitBox.bottom);
+
 	img->aniRender(hdc, x - (img->getFrameWidth() / 2), y - (img->getFrameHeight() / 2), anim);
 }
 
@@ -297,7 +303,7 @@ void Enemy_SmallZombie::idle_behavior()
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
-		SOUNDMANAGER->play("HURT", 0.5f);
+		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -333,7 +339,7 @@ void Enemy_SmallZombie::patrol_behavior()
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
-		SOUNDMANAGER->play("HURT", 0.5f);
+		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -384,7 +390,7 @@ void Enemy_SmallZombie::alert_behavior()
 	
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
-		SOUNDMANAGER->play("HURT", 0.5f);
+		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -442,7 +448,7 @@ void Enemy_SmallZombie::changeState(states state, imageStates imgState, string a
 	case Enemy_SmallZombie::right_jump: img = IMAGEMANAGER->findImage("SmallZombie_jump");
 		break;
 	case Enemy_SmallZombie::left_getHit:
-	case Enemy_SmallZombie::right_getHit: img = IMAGEMANAGER->findImage("SmallZombie_getHit"); isHit = true;
+	case Enemy_SmallZombie::right_getHit: img = IMAGEMANAGER->findImage("SmallZombie_getHit"); GetDamage(); isHit = true;
 		break;
 	}
 
@@ -460,5 +466,14 @@ void Enemy_SmallZombie::PreventFastAttack()
 			hitTime = 0;
 			isHit = false;
 		}
+	}
+}
+
+
+void Enemy_SmallZombie::GetDamage()
+{
+	if (IntersectRect(&Temp, &playerAttackBox, &hitBox) && !isHit)
+	{
+		POPUP->Fire(x, y, 1);
 	}
 }

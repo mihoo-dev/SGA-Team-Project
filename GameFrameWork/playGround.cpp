@@ -81,6 +81,7 @@ HRESULT playGround::init()
     SOUNDMANAGER->addSound("BUTTON", "sound\\Button.mp3", false, false);
     SOUNDMANAGER->addSound("ITEM", "sound\\ItemGet.mp3", false, false);
     SOUNDMANAGER->addSound("GAMEOVER", "sound\\GameOver.mp3", false, false);
+	SOUNDMANAGER->addSound("ENEMY_HURT", "sound\\ENEMY_HURT.mp3", false, false);
 
 
 

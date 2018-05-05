@@ -7,8 +7,8 @@
 
 using namespace FMOD;
 
-#define SOUNDBUFFER				25
-#define EXTRACHANNELBUFFER		25		//여분 버퍼 25
+#define SOUNDBUFFER				50
+#define EXTRACHANNELBUFFER		50		//여분 버퍼 25
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
 

@@ -1211,7 +1211,7 @@ void Player::update()
     }
 
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-    _colRC = RectMakeCenter(_colX, _colY, 100, 100);
+    _colRC = RectMakeCenter(_colX, _colY, 50, 100);
 
     KEYANIMANAGER->update();
     POPUP->update();
