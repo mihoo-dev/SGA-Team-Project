@@ -81,9 +81,11 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="ArmorItem.h" />
+    <ClInclude Include="BossBearScene.h" />
     <ClInclude Include="BossSnakeScene.h" />
     <ClInclude Include="Boss_Snake.h" />
     <ClInclude Include="Bubble.h" />
+    <ClInclude Include="BunnyScene.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -145,9 +147,11 @@
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="ArmorItem.cpp" />
+    <ClCompile Include="BossBearScene.cpp" />
     <ClCompile Include="BossSnakeScene.cpp" />
     <ClCompile Include="Boss_Snake.cpp" />
     <ClCompile Include="Bubble.cpp" />
+    <ClCompile Include="BunnyScene.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Door.cpp" />

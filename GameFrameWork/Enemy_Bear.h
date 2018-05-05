@@ -3,6 +3,8 @@
 
 class Enemy_Bear : public gameNode
 {
+private:
+	//곰의 상태 이넘
 	enum STATE
 	{
 		LEFT_IDLE, RIGHT_IDLE,
@@ -12,55 +14,83 @@ class Enemy_Bear : public gameNode
 		LEFT_JUMP, RIGHT_JUMP,
 		LEFT_ROAR, RIGHT_ROAR,
 		LEFT_ATTACK, RIGHT_ATTACK,
-		LEFT_DAMAGE, RIGHT_DAMAGE,
 		LEFT_DIE, RIGHT_DIE,
 		DEFAULT
 	};
 
 private:
-	image * _img;
-	float _x, _y;
-	RECT _rc;
-	STATE _state;
-	float _moveSpeed;
-	RECT _hitRc;
+	image * _img;		//곰 이미지
+	float _x, _y;		//곰의 좌표
+	RECT _rc;			//곰 렉트
+	STATE _state;		//곰 상태
+	float _moveSpeed;	//곰 이동속도
+	RECT _weaponRc;		//곰 무기 렉트
+	RECT _hitRc;		//곰 할퀴기 렉트
 
-	BOOL _isRight;
-	int _countTime;
-	int _frameSpeed;
-	int _currentFrameX;
+	int _hp;			//곰 HP
 
-	BOOL _isJump;
-	float _jumpPower;
-	float _gravity;
+	BOOL _isAttack;		//공격했었는가
+	int _delay;			//공격 딜레이
+	float _saveX;
+	float _saveY;
 
-	int _time;
+	float _probeX;
+	float _probeY;
 
-	float _playerX;
-	float _playerY;
-	RECT _playerRc;
+	BOOL _isRight;		//곰 방향
+	int _countTime;		//프레임 카운트
+	int _frameSpeed;	//프레임 속도
+	int _currentFrameX;	//현재 프레임 번호
+
+	BOOL _isJump;		//점프 유무
+	float _jumpPower;	//점프력
+	float _gravity;		//중력
+
+	int _time;			//다용도
+	int _rndTime;		//여러 대기 시간 랜덤
+	int _rndPattern;	//토끼의 공격패턴 랜덤
+
+	float _playerX;		//플레이어 x좌표
+	float _playerY;		//플레이어 y좌표
+	RECT _playerRc;		//플레이어 렉트
+	RECT _playerHitRc;	//플레이어 때리는 렉트
+	BOOL _isDamage;
+	BOOL _isHit;
 
 public:
 	Enemy_Bear();
 	~Enemy_Bear();
 
-	HRESULT init();
+	HRESULT init(float x, float y);
 	void release();
 	void update();
 	void render();
 
-	void move();
-	void draw();
+	void Move();
+	void Draw();
 
-	RECT GetRect() { return _rc; }
+	void Pattern1();
+	void Pattern2();
+	void Pattern3();
+	void Pattern4();
 
+	void Jump();
+
+	void Die();
+
+	void LoopAnimation(UINT value1 = 0);	//계속 루프
+	void OneShotAnimation();				//한번만 애니
+
+	void SetPlayerInfo(float x, float y, RECT rc, RECT hitRc) { _playerX = x; _playerY = y; _playerRc = rc; _playerHitRc = hitRc; }
 	void SetState(STATE state, UINT frameSpeed = 5);
 	STATE GetState() { return _state; }
 
-	void LoopAnimation(UINT value1 = 0);
-	void OneShotAnimation(STATE state = RIGHT_IDLE);
+	RECT GetRect() { return _rc; }
 
-	void SetPlayerPos(float x, float y) { _playerX = x; _playerY = y; }
-	void SetPlayerRc(RECT rc) { _playerRc = rc; }
+	void SetHp(int hp) { _hp = hp; }
+	int GetHp() { return _hp; }
+
+	RECT GetWeaponRect() { return _weaponRc; }
+	RECT GetHitRect() { return _hitRc; }
 };
 

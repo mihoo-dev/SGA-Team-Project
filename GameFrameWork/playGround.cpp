@@ -32,12 +32,16 @@ HRESULT playGround::init()
 	_graveyardScene = new GraveyardScene;
 	_snakeScene = new BossSnakeScene;
 	_hotdogScene = new HotDogScene;
+	_bearScene = new BossBearScene;
+	_bunnyScene = new BunnyScene;
 
 	//스테이지씬 씬매니져에 추가
 	SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
 	SCENEMANAGER->addScene("GraveyardScene", _graveyardScene);
 	SCENEMANAGER->addScene("SnakeScene", _snakeScene);
 	SCENEMANAGER->addScene("HotDogScene", _hotdogScene);
+	SCENEMANAGER->addScene("BearScene", _bearScene);
+	SCENEMANAGER->addScene("BunnyScene", _bunnyScene);
 
     SCENEMANAGER->addScene("StartScene", _startScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
@@ -53,6 +57,8 @@ HRESULT playGround::init()
 	_sceneChange4 = false;
 	_sceneChange5 = false;
 	_sceneChange6 = false;
+	_sceneChange7 = false;
+	_sceneChange8 = false;
 
 	//사운드 추가
 	//씬 백그라운드
@@ -104,6 +110,10 @@ void playGround::update()
 		_sceneChange5 = true;
 	if (KEYMANAGER->isOnceKeyDown('Y'))
 		_sceneChange6 = true;
+	if (KEYMANAGER->isOnceKeyDown('K'))
+		_sceneChange7 = true;
+	if (KEYMANAGER->isOnceKeyDown('L'))
+		_sceneChange8 = true;
 
     if (_sceneChange1)
     {
@@ -153,12 +163,30 @@ void playGround::update()
 			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
 		}
 	}
+	if (_sceneChange7)
+	{
+		if (FadeIn(&_alpha))
+		{
+			_sceneChange7 = false;
+			SCENEMANAGER->changeScene("BearScene", "LoadingScene");
+		}
+	}
+	if (_sceneChange8)
+	{
+		if (FadeIn(&_alpha))
+		{
+			_sceneChange8 = false;
+			SCENEMANAGER->changeScene("BunnyScene", "LoadingScene");
+		}
+	}
     if(!_sceneChange1 
 		&& !_sceneChange2 
 		&& !_sceneChange3 
 		&& !_sceneChange4 
 		&& !_sceneChange5
-		&& !_sceneChange6)
+		&& !_sceneChange6
+		&& !_sceneChange7
+		&& !_sceneChange8)
 
         FadeOut(&_alpha);
         

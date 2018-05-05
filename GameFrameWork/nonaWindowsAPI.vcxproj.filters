@@ -288,6 +288,12 @@
     <ClInclude Include="WorldXY.h">
       <Filter>playGround\World</Filter>
     </ClInclude>
+    <ClInclude Include="BunnyScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBearScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -460,6 +466,12 @@
     </ClCompile>
     <ClCompile Include="WorldXY.cpp">
       <Filter>playGround\World</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBearScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BunnyScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

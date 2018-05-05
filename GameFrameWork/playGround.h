@@ -11,6 +11,8 @@
 #include "GraveyardScene.h"
 #include "BossSnakeScene.h"
 #include "HotDogScene.h"
+#include "BossBearScene.h"
+#include "BunnyScene.h"
 
 class playGround : public gameNode
 {
@@ -26,6 +28,8 @@ private:
 	gameNode * _graveyardScene;
 	gameNode * _snakeScene;
 	gameNode * _hotdogScene;
+	gameNode * _bearScene;
+	gameNode * _bunnyScene;
 
     int _alpha;
 
@@ -35,6 +39,8 @@ private:
 	bool _sceneChange4;
 	bool _sceneChange5;
 	bool _sceneChange6;
+	bool _sceneChange7;
+	bool _sceneChange8;
 
 public:
 	virtual HRESULT init();
