@@ -77,6 +77,9 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("GROWL", "sound\\EFFECT_GROWL.mp3", false, false);
 	SOUNDMANAGER->addSound("GETBRIDGE", "sound\\EFFECT_GETBRIDGE.mp3", false, false);
 	SOUNDMANAGER->addSound("START", "sound\\EFFECT_START.mp3", false, false);
+    SOUNDMANAGER->addSound("JUMP", "sound\\Jump.mp3", false, false);
+    SOUNDMANAGER->addSound("BUTTON", "sound\\Button.mp3", false, false);
+    SOUNDMANAGER->addSound("ITEM", "sound\\ItemGet.mp3", false, false);
 
 
 

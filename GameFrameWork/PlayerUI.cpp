@@ -196,6 +196,7 @@ void PlayerUI::UpdateInven()
             {
                 if (IsInRect(_button[i].rc))
                 {
+                    SOUNDMANAGER->play("BUTTON", 1.0f);
                     _button[i].isClicked = true;
                 }
                 else _button[i].isClicked = false;
@@ -248,6 +249,8 @@ void PlayerUI::UpdateInven()
                             {
                                 if (_inventory[i][j].isOnceClicked)
                                 {
+                                    SOUNDMANAGER->play("BUTTON", 1.0f);
+
                                     if (_inventory[i][j].type == (int)Inven::POTION)
                                         _playerInfo->SetHP(++_playerHP);
                                     else if (_inventory[i][j].type == (int)Inven::STAR)
@@ -292,6 +295,7 @@ void PlayerUI::UpdateInven()
                 {
                     if (_statBtn[1].isClicked)
                     {
+                        SOUNDMANAGER->play("ITEM", 1.0f);
                         _statBtn[1].star++;
                         _playerInfo->SetStar(--_star);
                         _playerInfo->SetAtk(1);
@@ -301,6 +305,7 @@ void PlayerUI::UpdateInven()
                     }
                     else if (_statBtn[2].isClicked)
                     {
+                        SOUNDMANAGER->play("ITEM", 1.0f);
                         _statBtn[2].star++;
                         _playerInfo->SetStar(--_star);
                         _playerInfo->SetSpeed(1.0f);

@@ -305,8 +305,11 @@ void Player::update()
     }
     if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
     {
-        if (_state != RIGHT_LAND && _state != LEFT_LAND)
+        if (_state != RIGHT_LAND && _state != LEFT_LAND && 
+            _state != RIGHT_JUMP && _state != LEFT_JUMP &&
+            _state != RIGHT_MID && _state != LEFT_MID)
         {
+            SOUNDMANAGER->play("JUMP", 1.0f);
             _jumpPower = 7;
             _gravity = 0.3f;
             _img = IMAGEMANAGER->findImage("Player");
@@ -333,6 +336,7 @@ void Player::update()
             {
                 if (_item == DEFFAULT)
                 {
+                    SOUNDMANAGER->play("PUNCH1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
                     ChangeAnim(RIGHT_PUNCH_1, "PlayerRightPunch1");
                 }
@@ -347,6 +351,7 @@ void Player::update()
             {
                 if (_item == DEFFAULT)
                 {
+                    SOUNDMANAGER->play("PUNCH1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
                     ChangeAnim(LEFT_PUNCH_1, "PlayerLeftPunch1");
                 }
@@ -376,6 +381,7 @@ void Player::update()
     {
         if (KEYMANAGER->isOnceKeyDown('Z'))
         {
+            
             if (_item == DEFFAULT)
             {
                 _img = IMAGEMANAGER->findImage("PlayerAttack1");
@@ -797,7 +803,10 @@ void Player::update()
     case Player::RIGHT_PUNCH_1:
         _hitRC = RectMakeCenter(_x + 50, _y-5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+            SOUNDMANAGER->play("PUNCH1", 1.0f);
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
@@ -819,7 +828,10 @@ void Player::update()
     case Player::LEFT_PUNCH_1:
         _hitRC = RectMakeCenter(_x - 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+            SOUNDMANAGER->play("PUNCH1", 1.0f);
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
@@ -841,7 +853,10 @@ void Player::update()
     case Player::RIGHT_PUNCH_2:
         _hitRC = RectMakeCenter(_x + 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+            SOUNDMANAGER->play("PUNCH2", 1.0f);
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
@@ -863,7 +878,10 @@ void Player::update()
     case Player::LEFT_PUNCH_2:
         _hitRC = RectMakeCenter(_x - 50, _y - 5, 30, 20);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+            SOUNDMANAGER->play("PUNCH2", 1.0f);
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
@@ -1242,7 +1260,7 @@ void Player::GroundCollision(string pixelName)
     //아래
     COLORREF color = RGB(255, 255, 0);
 
-    for (int i = _probeY; i <= _probeY + _img->getFrameHeight() / 2; i++)
+    for (int i = _probeY; i <= _probeY + 50; i++)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 
@@ -1266,7 +1284,7 @@ void Player::GroundCollision(string pixelName)
                 {
                     _onGround = true;
                     _colY = i - 50 + 5;
-                    _y = i - _img->getFrameHeight() / 2 + 5;
+                    _y = i - 50 + 5;
                     _jumpPower = 0;
                 }
             }
@@ -1319,7 +1337,7 @@ void Player::GroundCollision(string pixelName)
     }
 
     //위
-    for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2 + 10; i--)
+    for (int i = _probeY; i >= _probeY - 50 + 10; i--)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 
@@ -1343,28 +1361,28 @@ void Player::GroundCollision(string pixelName)
     color = RGB(0, 255, 255);
 
     //오른쪽
-    for (int i = _probeX; i < _probeX + _img->getFrameHeight() / 2; i++)
+    for (int i = _probeX; i < _probeX + 50; i++)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {
             _colX = i - 50;
-            _x = i - _img->getFrameWidth() / 2;
+            _x = i - 50;
             _friction = 0;
             _speed = 0;
         }
     }
 
     //왼쪽
-    for (int i = _probeX; i > _probeX - _img->getFrameHeight() / 2; i--)
+    for (int i = _probeX; i > _probeX - 50; i--)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {
             _colX = i + 50;
-            _x = i + _img->getFrameWidth() / 2;
+            _x = i + 50;
             _friction = 0;
             _speed = 0;
         }
