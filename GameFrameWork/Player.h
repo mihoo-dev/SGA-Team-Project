@@ -3,26 +3,7 @@
 class Player :
     public gameNode
 {
-private:
-    typedef struct tagPlayerStat
-    {
-        int hp;
-        int atk;
-        float speed;
-        int weapon;
-        int coin;
-        int star;
-
-        tagPlayerStat() :
-            hp(3), atk(1), speed(3), weapon((int)Player::DEFFAULT), coin(10000), star(0)
-        {}
-
-        tagPlayerStat(int _hp, 
-            float _speed, int _atk, int _weapon, int _coin, int _star) :
-            hp(_hp), speed(_speed), atk(_atk), weapon(_weapon), coin(_coin), star(_star)
-        {}
-    } PlayerStat;
-
+public :
     //캐릭터 상태
     enum STATE {
         RIGHT_IDLE, LEFT_IDLE,
@@ -53,6 +34,27 @@ private:
         RIGHT_USE_ITEM, LEFT_USE_ITEM,
         RIGHT_DOOR_ENTER, LEFT_DOOR_ENTER
     };
+private:
+    typedef struct tagPlayerStat
+    {
+        int hp;
+        int atk;
+        float speed;
+        int weapon;
+        int coin;
+        int star;
+
+        tagPlayerStat() :
+            hp(3), atk(1), speed(3), weapon((int)Player::DEFFAULT), coin(10000), star(0)
+        {}
+
+        tagPlayerStat(int _hp, 
+            float _speed, int _atk, int _weapon, int _coin, int _star) :
+            hp(_hp), speed(_speed), atk(_atk), weapon(_weapon), coin(_coin), star(_star)
+        {}
+    } PlayerStat;
+
+    
     //캐릭터 방향
     enum DIRECTION {
         LEFT, RIGHT
@@ -90,6 +92,7 @@ private:
     bool _isCombo;          //콤보
     int _alpha;
 public:
+    
     Player();
     ~Player();
 
