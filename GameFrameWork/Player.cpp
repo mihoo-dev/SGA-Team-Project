@@ -3,8 +3,7 @@
 
 
 Player::Player()
-    : _x(WINSIZEX / 2), _y(WINSIZEY / 2),
-    _colX(WINSIZEX / 2), _colY(WINSIZEY / 2),
+    : 
     _speed(0.0f), _friction(0.0f),
     _jumpPower(0), _gravity(0.3f),
     _direction(LEFT), _rc({ 0, 0, 0, 0 }),
@@ -19,8 +18,11 @@ Player::~Player()
 {
 }
 
-HRESULT Player::init()
+HRESULT Player::init(float x, float y)
 {
+    _x = _colX = WINSIZEX / 2;
+    _y = _colY = WINSIZEY / 2;
+
     _status = PlayerStat();
     LoadData();
     UpdateInfo();
