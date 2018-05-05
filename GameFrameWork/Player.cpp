@@ -1102,18 +1102,24 @@ void Player::update()
         _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
-            _img = IMAGEMANAGER->findImage("Player");
+            _status = PlayerStat();
+            SaveData();
+            SCENEMANAGER->changeScene("EndScene", "LoadingScene");
+            /*_img = IMAGEMANAGER->findImage("Player");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
-            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");*/
         }
         break;
     case Player::LEFT_DIE:
         _hitRC = RectMakeCenter(0, 0, 0, 0);
         if (!_anim->isPlay())
         {
-            _img = IMAGEMANAGER->findImage("Player");
-            _y = _rc.bottom - _img->getFrameHeight() / 2;
-            ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
+            _status = PlayerStat();
+            SaveData();
+            SCENEMANAGER->changeScene("EndScene", "LoadingScene");
+            //_img = IMAGEMANAGER->findImage("Player");
+            //_y = _rc.bottom - _img->getFrameHeight() / 2;
+            //ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
     case Player::RIGHT_USE_ITEM:
@@ -1329,7 +1335,7 @@ void Player::GroundCollision(string pixelName)
             }
             _onGround = true;
             _colY = i - 50 + 5;
-            _y = i - _img->getFrameHeight() / 2 + 5;
+            _y = i - 50 + 5;
             _jumpPower = 0;
             break;
         }
@@ -1410,7 +1416,7 @@ void Player::SaveData()
     FILE * fp;
     fopen_s(&fp, "PlayerInfo.txt", "wt");
 
-    string temp = "HP\tAtkPwr\tSpeed\tWeapon\tCoin\tStar\n";
+    string temp = "HP\tAtkPwr\tSpeed\tWeapon\tCoin\tStar\tatkLV\tspeedLV\n";
 
     fputs(temp.c_str(), fp);
 
@@ -1422,7 +1428,9 @@ void Player::SaveData()
            to_string((int)_status.speed) + tab +
            to_string(_status.weapon) + tab +
            to_string(_status.coin) + tab +
-           to_string(_status.star) + endl;
+           to_string(_status.star) + tab +
+           to_string(_status.atkLV) + tab + 
+           to_string(_status.speedLV) + endl;
 
     //fputs(temp.c_str(), fp);
     fwrite(temp.c_str(), temp.size(), 1, fp);
@@ -1436,7 +1444,7 @@ void Player::LoadData()
     fopen_s(&fp, "PlayerInfo.txt", "rt");
 
     char temp[256];
-    int star, hp, atk, speed, weapon, coin;
+    int star, hp, atk, speed, weapon, coin, atkLV, speedLV;
 
     while (true)
     {
@@ -1448,10 +1456,10 @@ void Player::LoadData()
     while (true)
     {
         if (fscanf_s(fp, "%d", &hp) == EOF) break;
-        fscanf_s(fp, "%d%d%d%d%d", &atk, &speed, &weapon, &coin, &star);
+        fscanf_s(fp, "%d%d%d%d%d%d%d", &atk, &speed, &weapon, &coin, &star, &atkLV, &speedLV);
     }
 
-    _status = PlayerStat(hp, speed, atk, weapon, coin, star);
+    _status = PlayerStat(hp, speed, atk, weapon, coin, star, atkLV, speedLV);
     UpdateInfo();
 
     fclose(fp);

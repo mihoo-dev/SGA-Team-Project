@@ -43,14 +43,18 @@ private:
         int weapon;
         int coin;
         int star;
+        int atkLV;
+        int speedLV;
 
         tagPlayerStat() :
-            hp(3), atk(1), speed(3), weapon((int)Player::DEFFAULT), coin(10000), star(0)
+            hp(3), atk(1), speed(3), weapon((int)Player::DEFFAULT), 
+            coin(10000), star(0), atkLV(0), speedLV(0)
         {}
 
         tagPlayerStat(int _hp, 
-            float _speed, int _atk, int _weapon, int _coin, int _star) :
-            hp(_hp), speed(_speed), atk(_atk), weapon(_weapon), coin(_coin), star(_star)
+            float _speed, int _atk, int _weapon, int _coin, int _star, int _atkLv, int _speedLv) :
+            hp(_hp), speed(_speed), atk(_atk), weapon(_weapon), coin(_coin), star(_star),
+            atkLV(_atkLv), speedLV(_speedLv)
         {}
     } PlayerStat;
 
@@ -113,6 +117,7 @@ public:
     inline float GetX() { return _x; }
     inline float GetY() { return _y; }
 
+    inline STATE GetState() { return _state; }
     inline PlayerStat GetInfo() { return _status; }
     void SetCoin(int coin){ _status.coin = coin; }
     void SetHP(int hp) { 
@@ -125,6 +130,8 @@ public:
     void SetAtk(int atk) { _status.atk += atk; }
     void SetSpeed(float speed) { _status.speed += speed; }
     void SetSword(bool sword) { _status.weapon = sword; }
+    void SetAtkLv(int lv) { _status.atkLV = lv; }
+    void SetSpeedLv(int lv) { _status.speedLV = lv; }
 
     void UpdateInfo();
     void SaveData();

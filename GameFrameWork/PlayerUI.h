@@ -52,6 +52,8 @@ private:
 	bool _weapon;
     int _coin;
     int _star;
+    int _atkLv;
+    int _speedLv;
 
 	bool _isInven;
 

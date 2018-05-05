@@ -17,6 +17,7 @@ HRESULT PlayerManager::init()
     _player->init(WINSIZEX/2, WINSIZEY/2);
 
     _pu = new PlayerUI;
+    _pu->SetPlayerInfo(_player);
     _pu->init();
 
     return S_OK;
@@ -28,6 +29,7 @@ HRESULT PlayerManager::init(float x, float y)
     _player->init(x, y);
 
     _pu = new PlayerUI;
+    _pu->SetPlayerInfo(_player);
     _pu->init();
 
     return S_OK;

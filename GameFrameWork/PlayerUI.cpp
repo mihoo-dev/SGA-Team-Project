@@ -48,6 +48,8 @@ HRESULT PlayerUI::init()
         _statBtn[i].isClicked = false;
 
     _statBtn[0].star = 3;
+    _statBtn[1].star = _playerInfo->GetInfo().atkLV;
+    _statBtn[2].star = _playerInfo->GetInfo().speedLV;
 
 	return S_OK;
 }
@@ -72,6 +74,13 @@ void PlayerUI::update()
 
 	if (_isInven)
 		UpdateInven();
+
+    if (_playerInfo->GetState() == Player::RIGHT_DIE ||
+        _playerInfo->GetState() == Player::LEFT_DIE)
+    {
+        _loadInven.clear();
+        TXTDATA->txtSave("ItemInfo.txt", _loadInven);
+    }
 }
 
 void PlayerUI::render()
@@ -297,6 +306,7 @@ void PlayerUI::UpdateInven()
                     {
                         SOUNDMANAGER->play("ITEM", 1.0f);
                         _statBtn[1].star++;
+                        _playerInfo->SetAtkLv(_statBtn[1].star);
                         _playerInfo->SetStar(--_star);
                         _playerInfo->SetAtk(1);
                         _playerInfo->SaveData();
@@ -307,6 +317,7 @@ void PlayerUI::UpdateInven()
                     {
                         SOUNDMANAGER->play("ITEM", 1.0f);
                         _statBtn[2].star++;
+                        _playerInfo->SetSpeedLv(_statBtn[2].star);
                         _playerInfo->SetStar(--_star);
                         _playerInfo->SetSpeed(1.0f);
                         _playerInfo->SaveData();

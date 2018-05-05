@@ -3,6 +3,9 @@
 class EndScene :
     public gameNode
 {
+private:
+    bool _sceneStart;
+    int _alpha;
 public:
     EndScene();
     ~EndScene();
