@@ -1,2 +1,2 @@
 HP	AtkPwr	Speed	Weapon	Coin	Star
-3	73	3	1	8840	0
+3	293	3	1	8840	0

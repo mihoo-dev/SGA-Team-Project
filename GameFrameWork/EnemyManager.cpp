@@ -55,6 +55,8 @@ void EnemyManager::release()
 }
 void EnemyManager::update(string colPixelName)
 {
+	POPUP->update();
+
 	//스네이크 스테이지일 경우
 	if (_isSnakeStage)
 	{
@@ -108,6 +110,8 @@ void EnemyManager::render()
 			_vMoney[ii].img->render(getMemDC(), _vMoney[ii].x - 20, _vMoney[ii].y - 20);
 		}
 	}
+
+	POPUP->render(getMemDC());
 }
 
 void EnemyManager::setSmallZombie(int x, int y)

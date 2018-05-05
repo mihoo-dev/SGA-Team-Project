@@ -14,9 +14,10 @@ World_Character::World_Character()
 	, _followTrace(true), _traceIndex(SIZEOFTRACE)
 	, _bridgeState(NOTHING_TO_DO)
 	, _jakeMotion(KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE"))
-	, _canMakeBridge(false), _meetDog(true)
+	, _canMakeBridge(WORLDXY->GetCanMakeBridge()), _meetDog(true)
 	, _pressX(false), _Xframe(0), _Xcount(0)
 	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1)), _colorGraveyard(RGB(2,2,2))
+	, _colorHotdog(RGB(3,3,3)), _colorOutHotdog(RGB(4,4,4))
 {
 }
 
@@ -55,6 +56,8 @@ void World_Character::release()
 
 void World_Character::update()
 {
+	_canMakeBridge = WORLDXY->GetCanMakeBridge();
+
 	if (_bridgeState == NOTHING_TO_DO)
 	{
 		Move();
@@ -78,8 +81,17 @@ void World_Character::update()
 			case MAKE_BRIDGE:
 				MakeBridge();
 			break;
-			default:
-				break;
+			case GO_HOTDOG:
+				SOUNDMANAGER->stop("WORLDMAP");
+				SOUNDMANAGER->play("ENTER");
+				SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
+			case OUT_HOTDOG:
+				SOUNDMANAGER->stop("WORLDMAP");
+				SOUNDMANAGER->play("ENTER");
+				WORLDXY->SetWorldX(2488);
+				WORLDXY->SetWorldY(1174);
+				SCENEMANAGER->changeScene("WorldMap", "LoadingScene");
+			break;
 			}
 		}
 	}
@@ -252,6 +264,19 @@ void World_Character::CheckPixel()
 	{
 		_pressX = true;
 		_buttonState = GO_GRAVEYARD;
+	}
+
+	//ÇÖµµ±×
+	else if (RIGHT == _colorHotdog || LEFT == _colorHotdog || UP == _colorHotdog || DOWN == _colorHotdog)
+	{
+		_pressX = true;
+		_buttonState = GO_HOTDOG;
+	}
+	//ÇÖµµ±×
+	else if (RIGHT == _colorOutHotdog || LEFT == _colorOutHotdog || UP == _colorOutHotdog || DOWN == _colorOutHotdog)
+	{
+		_pressX = true;
+		_buttonState = OUT_HOTDOG;
 	}
 	else
 	{

@@ -4,9 +4,9 @@
 #define SIZEOFTRACE			22
 #define BRIDGEX				2010
 #define BRIDGETOPSTART		1484
-#define BRIDGETOPEND		1630
+#define BRIDGETOPEND		1640
 #define BRIDGEBOTTOMSTART	1600
-#define BRIDGEBOTTOMEND		1450
+#define BRIDGEBOTTOMEND		1420
 
 //클래스 전방선언
 class World_Bridge;
@@ -59,6 +59,8 @@ private:
 	COLORREF					_colorStore;
 	COLORREF					_colorBridge;
 	COLORREF					_colorGraveyard;
+	COLORREF					_colorHotdog;
+	COLORREF					_colorOutHotdog;
 
 public:
 	World_Character();

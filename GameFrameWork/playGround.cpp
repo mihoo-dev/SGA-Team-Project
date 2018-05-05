@@ -60,6 +60,14 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
 	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);
 	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
+	SOUNDMANAGER->addSound("HOTDOG", "sound\\Housie Village.mp3", true, true);
+	SOUNDMANAGER->addSound("PUNCH1", "sound\\EFFECT_PUNCH1.mp3", false, false);
+	SOUNDMANAGER->addSound("PUNCH2", "sound\\EFFECT_PUNCH2.mp3", false, false);
+	SOUNDMANAGER->addSound("GROWL", "sound\\EFFECT_GROWL.mp3", false, false);
+	SOUNDMANAGER->addSound("GETBRIDGE", "sound\\EFFECT_GETBRIDGE.mp3", false, false);
+
+
+
 
 	return S_OK;
 }
@@ -135,7 +143,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
+			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
 		}
 	}
     if(!_sceneChange1 

@@ -387,7 +387,10 @@ RECT Boss_Snake::AttackRC(Player * player)
 		}
 	}
 
-	if (IntersectRect(&temp, &playerDamageBox, &_attackRC)) player->SetPlayerHit();
+	if (IntersectRect(&temp, &playerDamageBox, &_attackRC))
+	{
+		player->SetPlayerHit();
+	}
 
 	return _attackRC;
 }
@@ -406,6 +409,7 @@ void Boss_Snake::GetDamage()
 	if (IntersectRect(&temp, &playerAttackBox, &DamageRC()) && _isDamage == false)
 	{
 		PlayDamage();
+		POPUP->Fire((temp.left + temp.right) / 2, (temp.top + temp.bottom) / 2, "1");
 	}	
 }
 
@@ -413,10 +417,8 @@ void Boss_Snake::GetPlayerInfo(Player * player)
 {
 	playerX = player->GetX();
 	playerY = player->GetY();
-	//playerAttackPower = player->getAttackPower();
 	playerAttackBox = player->GetHitRC();
 	playerDamageBox = player->GetColRC();
-
 }
 
 void Boss_Snake::PlayDamage()
