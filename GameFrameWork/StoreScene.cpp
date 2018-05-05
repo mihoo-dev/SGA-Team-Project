@@ -19,6 +19,7 @@ StoreScene::~StoreScene()
 
 HRESULT StoreScene::init()
 {
+	SOUNDMANAGER->play("STORE", 0.5f);
 	IMAGEMANAGER->addImage("storeBackground", "storeBackground.bmp", 600, 500, false, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("speechBalloon", "speechBalloon.bmp", 480, 60, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("priceTags", "priceTag.bmp", 70, 54, true, RGB(255, 0, 255));
@@ -181,6 +182,7 @@ void StoreScene::updateBackBtn()
 		WORLDXY->SetWorldX(2430);
 		WORLDXY->SetWorldY(840);
 		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+		SOUNDMANAGER->stop("STORE");
 	}
 }
 

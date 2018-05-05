@@ -68,7 +68,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("SNAKE", "sound\\Red Rock Pass VS.mp3", true, true);
 	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
 	SOUNDMANAGER->addSound("HOTDOG", "sound\\Housie Village.mp3", true, true);
-
+	SOUNDMANAGER->addSound("STORE", "sound\\Grass Lands.mp3", true, true);
 
 	//ÀÌÆåÆ®
 	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);	
