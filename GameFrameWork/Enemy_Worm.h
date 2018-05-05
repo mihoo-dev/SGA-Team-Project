@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-
+class Player;
 class Enemy_Worm
 {
 	enum WORM_STATE
@@ -16,6 +16,14 @@ class Enemy_Worm
 		HIT_RIGHT,
 		DIE,
 		DEFAULT
+	};
+
+	enum PHASE
+	{
+		IDLE,
+		LEFT,
+		RIGHT,
+		ATTACK
 	};
 
 	struct KeyInfo
@@ -54,6 +62,15 @@ private:
 	float x, y;
 	float wSpeed;
 	float wPower;
+	int hp;
+	int atk;
+	bool isAttack;
+	bool isHit;
+	RECT hitRect;
+	float range;
+	RECT rc;
+	int count;
+	int phase;
 
 	WORM_STATE Status;
 	AnimKeyFrame CurrentFrame;
@@ -67,7 +84,7 @@ public:
 	Enemy_Worm();
 	~Enemy_Worm();
 
-	HRESULT init(void);
+	HRESULT init(int x, int y);
 	void AddAnimation(WORM_STATE FrameName, KeyInfo key[], UINT ArraySize);
 	void release(void);
 	void update(void);
@@ -78,6 +95,7 @@ public:
 	void LoopAnimation(UINT value = 0);
 
 	void WormController(void);
+
 
 };
 
