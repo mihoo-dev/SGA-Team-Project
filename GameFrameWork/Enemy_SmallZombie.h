@@ -33,44 +33,48 @@ public:
 	Enemy_SmallZombie();
 	~Enemy_SmallZombie();
 
-	HRESULT init(int x, int y);
-	void release();
-	void update(Player * player, string pixelName);
-	void render(HDC hdc);
+	HRESULT	init(int x, int y);
+	void	release();
+	void	update(Player * player, string pixelName);
+	void	render(HDC hdc);
 
 	// getter
-	bool getIsDie() { return isDie; }
+	bool getHp() { return hp; }
 	bool getIsDead() { return isDead; }
-	int getX() { return x; }
-	int getY() { return y; }
+	int	getX() { return x; }
+	int	getY() { return y; }
+
+	RECT	getHitBox() { return hitBox; }
 
 	//setter
-	void setIsDead(bool isDead) { this->isDead = isDead; }
+	void	setIsDead(bool isDead) { this->isDead = isDead; }
 
 private:
-	int x, y;
-	int spd;
-	int gravity;
+	states state;
+	imageStates imageState;
 
-	int hp;
-	int maxHp;
+	int	x, y;		//좌표
+	int	spd;		//스피드
+	int	gravity;	//중력값
 
-	int jumpPower;
-	int knockBackPower;
-	int knockBackDistance;
-	int maxKnockBackDistance;
+	int	hp;		//체력
+	int	maxHp;	//최대체력
 
-	bool isOnGroundLeft;
-	bool isOnGroundRight;
-	bool isOnGround;
+	int	jumpPower;				//점프력
+	int	knockBackPower;			//넉백파워
+	int	knockBackDistance;		//넉백거리
+	int	maxKnockBackDistance;	//최대 넉백거리
+
+	bool isOnGroundLeft;	
+	bool isOnGroundRight;	
+	bool isOnGround;		
 	bool groundIsInLeft;	
-	bool groundIsInRight;
-	bool cliffIsInLeft;
-	bool cliffIsInRight;
+	bool groundIsInRight;	
+	bool cliffIsInLeft;		
+	bool cliffIsInRight;	
 
-	bool isDie;
-	bool isDead;
-	bool isHit;
+	bool isDead;	
+	bool isHit;		
 
 	int moveX;
 	int moveY;
@@ -78,13 +82,22 @@ private:
 	image * img;
 	animation * anim;
 
-	RECT hitBox;
-	int width;
-	int height;
-	Directions direction;
+	RECT hitBox;	// == collision box
+	int width;		// hitBox 넓이
+	int height;		// hitBox 높이
+	Directions direction;	
 
-	int hitTime;
+	int hitTime;		//연속 타격 방지
 	int hitTimeLimit;
+
+	UINT period_idleToPatrol;
+	UINT check_idleToPatrol;
+	UINT jumpCount;
+	UINT jumpCountLimit;
+	int maxMoveDistance;
+	int moveDistance;
+
+	float distFromPlayer;
 
 	float alertRange;
 
@@ -101,23 +114,11 @@ private: // 다른 객체에서 받아올 것들
 
 private:
 
-	states state;
-	imageStates imageState;
-
 	void idle_behavior();
 	void patrol_behavior();
 	void alert_behavior();
 	void alertJump_behavior();
 	void getHit_behavior();
-
-	UINT period_idleToPatrol;
-	UINT check_idleToPatrol;
-	UINT jumpCount;
-	UINT jumpCountLimit;
-	int maxMoveDistance;
-	int moveDistance;
-
-	float distFromPlayer;
 
 	void GetPlayerInfo(Player * player);
 	void CollisionUpdate(string pixelName);
@@ -128,7 +129,6 @@ private:
 
 	void changeState(states state, imageStates imgState, string animKeyName); // 상태와 animation 변경
 
-	void CheckIsDie(int hp); // HP <= 0 이면 isDie = true
-
+	
 };
 

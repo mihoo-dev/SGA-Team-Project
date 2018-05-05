@@ -33,11 +33,11 @@ HRESULT GraveyardScene::init()
 	_em->SetAdressPM(_pm);
 
 	_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
-	_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
-	_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
-	_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
-	_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
-	_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
+
+	_em->setSmallZombie(WINSIZEX / 2 + 250, WINSIZEY / 2);
+
+
+
 
 	Object * _door = new Door;
 	_door->init(6400, 295);

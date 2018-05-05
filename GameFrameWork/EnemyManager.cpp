@@ -3,9 +3,7 @@
 #include "PlayerManager.h"
 
 EnemyManager::EnemyManager()
-	:_isSnakeStage(false),
-	_isBearStage(false),
-	_isBunnyStage(false)
+	:_isSnakeStage(false)
 {
 }
 
@@ -16,20 +14,17 @@ EnemyManager::~EnemyManager()
 
 HRESULT EnemyManager::init()
 {
-	IMAGEMANAGER->addImage("Dark Forest", "Dark Forest.bmp", 7000, 512, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("Tree", "Tree.bmp", 7000, 512, true, RGB(255, 0, 255));
-
-	IMAGEMANAGER->addFrameImage("bunny_idle", "Knife Bunny_Idle.bmp", 376, 128, 4, 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("bunny_jump", "Knife Bunny_Jump.bmp", 460, 144, 5, 2, true, RGB(255, 0, 255));
-
 	IMAGEMANAGER->addImage("STAGE_GRAVEYARD_BACKGROUND", "image\\STAGE_GRAVEYARD_BACKGROUND.bmp", 7168, 510, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("STAGE_GRAVEYARD", "image\\STAGE_GRAVEYARD.bmp", 7168, 510, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("STAGE_GRAVEYARD_PIXEL", "image\\STAGE_GRAVEYARD_PIXEL.bmp", 7168, 510, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addFrameImage("BOSS_SNAKE", "BOSS_SNAKE.bmp", 3828, 3000, 11, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("MONEY", "coin.bmp", 40, 40, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("DIE_EFFECT", "DIE_EFFECT.bmp", 625, 75, 9, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("EFFECT_DIE", "EFFECT_DIE.bmp", 675, 75, 9, 1, true, RGB(255, 0, 255));
+
+	EFFECTMANAGER->addEffect("dieEffect", "EFFECT_DIE", 675, 75, 75, 75, 20, TIMEMANAGER->getElapsedTime(), 10);
 	
+
 	for (int ii = 0; ii < 20; ++ii)
 	{
 		tagMoney money;
@@ -47,8 +42,6 @@ HRESULT EnemyManager::init()
 
 	_moneyIndex = 0;
 	_endCount = 0;
-	_bear = NULL;
-
 	return S_OK;
 }
 
@@ -60,13 +53,6 @@ void EnemyManager::release()
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
 			if (_vSmallZombie[i]) SAFE_DELETE(_vSmallZombie[i]);
 		}
-	}
-
-	if (_bear) SAFE_DELETE(_bear);
-
-	for (int i = 0; i < _vBunny.size(); ++i)
-	{
-		if (_vBunny[i]) SAFE_DELETE(_vBunny[i]);
 	}
 	
 }
@@ -95,28 +81,19 @@ void EnemyManager::update(string colPixelName)
 		}
 	}
 
-	if (_isBearStage)
-	{
-		_bear->update();
-	}
-	else if (_isBunnyStage)
-	{
-		for (int i = 0; i < _vBunny.size(); ++i)
-		{
-			_vBunny[i]->update();
-		}
-	}
-
 	MoveMoney(colPixelName);
 
 	if (KEYMANAGER->isOnceKeyDown('N')) MakeMoney(CAMERA->GetX() + WINSIZEX / 2, CAMERA->GetY() + WINSIZEY / 2);
 
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
-			if (_vSmallZombie[i]->getIsDie() == true) continue;
+			if (_vSmallZombie[i]->getIsDead() == true) continue;
 			_vSmallZombie[i]->update(_pm->GetPlayer(), colPixelName);
 		}
 	}
+	
+	checkIsDie();
+	EFFECTMANAGER->update();
 }
 
 
@@ -126,20 +103,8 @@ void EnemyManager::render()
 
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
-			if (_vSmallZombie[i]->getIsDie() == true) continue;
+			if (_vSmallZombie[i]->getIsDead() == true) continue;
 			_vSmallZombie[i]->render(getMemDC());
-		}
-	}
-
-	if (_isBearStage)
-	{
-		_bear->render();
-	}
-	else if (_isBunnyStage)
-	{
-		for (int i = 0; i < _vBunny.size(); ++i)
-		{
-			_vBunny[i]->render();
 		}
 	}
 
@@ -152,6 +117,7 @@ void EnemyManager::render()
 		}
 	}
 
+	EFFECTMANAGER->render();
 	POPUP->render(getMemDC());
 }
 
@@ -169,40 +135,19 @@ void EnemyManager::SetSnake(float x, float y)
 	_isSnakeStage = true;
 }
 
-void EnemyManager::checkDie()
+void EnemyManager::checkIsDie()
 {
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
-			if (_vSmallZombie[i]->getIsDie() == true && _vSmallZombie[i]->getIsDead() == false) {
-				playDieEffect(_vSmallZombie[i]->getX(),_vSmallZombie[i]->getY());
+			if (_vSmallZombie[i]->getHp() <= 0 && _vSmallZombie[i]->getIsDead() == false) {
+				EFFECTMANAGER->play("dieEffect",_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
 				MakeMoney(_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
 				_vSmallZombie[i]->setIsDead(true);
+				break;
 			}
 		}
 	}
 }
-
-void EnemyManager::playDieEffect(float x, float y)
-{
-	
-}
-
-void EnemyManager::SetBear(float x, float y)
-{
-	_bear = new Enemy_Bear;
-	_bear->init(x, y);
-
-	_isBearStage = true;
-}
-
-void EnemyManager::SetBunny(float x, float y)
-{
-	_vBunny.push_back(new Enemy_Bunny);
-	_vBunny[_vBunny.size() - 1]->init(x, y);
-
-	_isBunnyStage = true;
-}
-
 
 void EnemyManager::MoveMoney(string colPixelName)
 {

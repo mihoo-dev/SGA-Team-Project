@@ -5,8 +5,8 @@
 Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
-	maxHp(10), hp(10), isDie(false), isHit(false),
-	hitTime(0), hitTimeLimit(20),
+	maxHp(10), hp(5), isDead(false), isHit(false),
+	hitTime(0), hitTimeLimit(30),
 	isOnGroundLeft(false), isOnGroundRight(false),
 	spd(1), gravity(4), isOnGround(false),
 	groundIsInLeft(false), groundIsInRight(false),
@@ -19,7 +19,7 @@ Enemy_SmallZombie::Enemy_SmallZombie()
 	hitBox({ x,y,x + width,y + height }),
 	playerHitBox({ 0,0,0,0 }),
 	direction(RIGHT),
-	alertRange(130),
+	alertRange(150),
 	maxMoveDistance(150),
 	moveDistance(0),
 	period_idleToPatrol(120)
@@ -106,76 +106,72 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 
 	#pragma region GroundCollision
 	//Bottom
-	for (int i = hitBox.top; i <= hitBox.bottom + moveY; i++)
+	
+	pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.left , hitBox.bottom + moveY);
+
+	if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
 	{
-		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.left , i);
+		if (!isOnGroundLeft) isOnGroundLeft = true;
+	}
+	else if (pixelColor == RGB(255, 0, 255))
+	{
+		if (isOnGroundLeft) isOnGroundLeft = false;
+	}
 
-		if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
-		{
-			if (!isOnGroundLeft) isOnGroundLeft = true;
-		}
-		else if (pixelColor == RGB(255, 0, 255))
-		{
-			if (isOnGroundLeft) isOnGroundLeft = false;
-		}
+	pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.right, hitBox.bottom + moveY);
 
-		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.right, i);
-
-		if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
-		{
-			if (!isOnGroundRight) isOnGroundRight = true;
-		}
-		else if (pixelColor == RGB(255, 0, 255))
-		{
-			if (isOnGroundRight) isOnGroundRight = false;
-		}
+	if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
+	{
+		if (!isOnGroundRight) isOnGroundRight = true;
+	}
+	else if (pixelColor == RGB(255, 0, 255))
+	{
+		if (isOnGroundRight) isOnGroundRight = false;
+	}
 
 		
-		if (isOnGroundLeft || isOnGroundRight) {
-			if (!isOnGround) {
-				isOnGround = true;
-				moveY = 0;
-			}
+	if (isOnGroundLeft || isOnGroundRight) {
+		if (!isOnGround) {
+			isOnGround = true;
+			moveY = 0;
 		}
-		else if (!isOnGroundLeft && !isOnGroundRight ) {
-			if (isOnGround) isOnGround = false;
-		}
-
 	}
+	else if (!isOnGroundLeft && !isOnGroundRight ) {
+		if (isOnGround) isOnGround = false;
+	}
+
+	
+	
 	//left
-	for (int i = x; i >= hitBox.left + moveX; i--)
-	{
-		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, hitBox.bottom - 1);
+	
+	pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.left + moveX, hitBox.bottom);
 
-		if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
-		{
-			moveX = 0;
-			groundIsInLeft = true;
-			x = i + (width / 2);
-		}
-		else if (pixelColor == RGB(255, 0, 255))
-		{
-			if (groundIsInLeft) groundIsInLeft = false;
-		}
+	if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
+	{
+		moveX = 0;
+		groundIsInLeft = true;
 	}
+	else if (pixelColor == RGB(255, 0, 255))
+	{
+		if (groundIsInLeft) groundIsInLeft = false;
+	}
+	
 		
 	//right
 
-	for (int i = x; i <= hitBox.right + moveX; i++)
-	{
-		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, hitBox.bottom - 1);
+	
+	pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.right + moveX, hitBox.bottom);
 
-		if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
-		{
-			moveX = 0;
-			groundIsInRight = true;
-			x = i - (width / 2);
-		}
-		else if (pixelColor == RGB(255, 0, 255))
-		{
-			if (groundIsInRight) groundIsInRight = false;
-		}
+	if (pixelColor == RGB(255, 255, 0) || pixelColor == RGB(0, 255, 255))
+	{
+		moveX = 0;
+		groundIsInRight = true;
 	}
+	else if (pixelColor == RGB(255, 0, 255))
+	{
+		if (groundIsInRight) groundIsInRight = false;
+	}
+	
 		
 	
 	#pragma endregion
@@ -227,14 +223,12 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 		moveX = 0;
 	}
 	#pragma endregion
-
+	
 }
 
 
 void Enemy_SmallZombie::update(Player * player, string colPixelName)
 {
-	CheckIsDie(hp);
-
 	GetPlayerInfo(player);
 
 	distFromPlayer = getDistance(x, y, playerX, playerY);
@@ -262,6 +256,7 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 
 	hitBox = RectMakeCenter(x, y, width, height); // update hitBox
 
+	if (hitBox.top > WINSIZEY) isDead = true;
 }
 
 void Enemy_SmallZombie::render(HDC hdc)
@@ -302,6 +297,7 @@ void Enemy_SmallZombie::idle_behavior()
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
+		SOUNDMANAGER->play("HURT", 0.5f);
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -337,6 +333,7 @@ void Enemy_SmallZombie::patrol_behavior()
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
+		SOUNDMANAGER->play("HURT", 0.5f);
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -387,6 +384,7 @@ void Enemy_SmallZombie::alert_behavior()
 	
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
 		hp -= 1; // 맞으면 hp 감소
+		SOUNDMANAGER->play("HURT", 0.5f);
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
@@ -451,11 +449,6 @@ void Enemy_SmallZombie::changeState(states state, imageStates imgState, string a
 	anim = KEYANIMANAGER->findAnimation(animKeyName);
 	anim->start();
 
-}
-
-void Enemy_SmallZombie::CheckIsDie(int hp)
-{
-	if (hp <= 0) isDie = true;
 }
 
 void Enemy_SmallZombie::PreventFastAttack()

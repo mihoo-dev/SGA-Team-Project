@@ -3,8 +3,6 @@
 
 #include "Enemy_SmallZombie.h"
 #include "Boss_Snake.h"
-#include "Enemy_Bear.h"
-#include "Enemy_Bunny.h"
 
 #include <vector>
 
@@ -39,21 +37,13 @@ private:
 	Boss_Snake*		_snake;
 	BOOL			_isSnakeStage;
 
+	image * dieImg;
+
 	vector<tagMoney>	_vMoney;
 	int					_moneyIndex;
 	int					_endCount;
 
-	void checkDie();
-	void playDieEffect(float x, float y);
-
-private:
-	Enemy_Bear * _bear;
-	BOOL _isBearStage;
-
-	vector<Enemy_Bunny*> _vBunny;
-	BOOL _isBunnyStage;
-
-
+	void checkIsDie();
 public:
 	EnemyManager();
 	~EnemyManager();
@@ -68,13 +58,6 @@ public:
 
 	//Boss Snake
 	void SetSnake(float x, float y);
-
-	//Bear & Bunny
-	Enemy_Bear* GetBear() { return _bear; }
-	vector<Enemy_Bunny*> GetBunny() { return _vBunny; }
-
-	void SetBear(float x, float y);
-	void SetBunny(float x, float y);
 
 	//Make Money
 	void MoveMoney(string colPixelName);
