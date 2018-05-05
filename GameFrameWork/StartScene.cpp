@@ -49,6 +49,7 @@ void StartScene::update()
     {
         if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
         {
+			SOUNDMANAGER->play("START", 1.0f);
             _sceneChange = true;
         }
     }

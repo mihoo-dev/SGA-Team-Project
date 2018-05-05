@@ -14,6 +14,10 @@ TutorialScene::~TutorialScene()
 
 HRESULT TutorialScene::init()
 {
+	SOUNDMANAGER->addSound("TUTORIAL", "sound\\Candy Kingdom.mp3", true, true);
+	SOUNDMANAGER->allStop();
+	SOUNDMANAGER->play("TUTORIAL", 0.5f);
+
     IMAGEMANAGER->addImage("TutoBackground", "TutoBackground.bmp", 1374, 688, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));

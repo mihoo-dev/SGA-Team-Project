@@ -85,15 +85,6 @@
     <Filter Include="playGround\Scene\PlayScene\StageScene">
       <UniqueIdentifier>{3a65bad2-8e14-4fb0-9919-63e92a771330}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage1">
-      <UniqueIdentifier>{d48904d4-76e5-4193-969a-9217173fb7c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage2">
-      <UniqueIdentifier>{412b35f5-3244-470e-b7eb-4c069e8e14e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\Scene\PlayScene\StageScene\Stage3">
-      <UniqueIdentifier>{a3bb126f-d10f-40e6-afb1-a255429149f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Object">
       <UniqueIdentifier>{26fed11c-5964-4cfc-bae8-485c065949b8}</UniqueIdentifier>
     </Filter>

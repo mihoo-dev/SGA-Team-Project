@@ -65,6 +65,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("PUNCH2", "sound\\EFFECT_PUNCH2.mp3", false, false);
 	SOUNDMANAGER->addSound("GROWL", "sound\\EFFECT_GROWL.mp3", false, false);
 	SOUNDMANAGER->addSound("GETBRIDGE", "sound\\EFFECT_GETBRIDGE.mp3", false, false);
+	SOUNDMANAGER->addSound("START", "sound\\EFFECT_START.mp3", false, false);
 
 
 

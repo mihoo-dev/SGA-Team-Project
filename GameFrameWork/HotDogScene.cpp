@@ -7,6 +7,7 @@ HotDogScene::HotDogScene()
 	:_loopX(0)
 	, _pressX(false), _Xframe(0), _Xcount(0)
 	, _scriptX(WINSIZEX), _scriptState(0)
+	, _count(0), _alpha(255)
 {
 }
 
@@ -17,6 +18,8 @@ HotDogScene::~HotDogScene()
 
 HRESULT HotDogScene::init()
 {
+	_sceneStart = true;
+
 	CAMERA->SetSize(WINSIZEX, WINSIZEY);
 	CAMERA->SetPos(0, 0);
 	IMAGEMANAGER->addImage("STAGE_HOTDOG", "STAGE_HOTDOG.bmp", 674, 510, true, RGB(255, 0, 255));
@@ -44,21 +47,28 @@ void HotDogScene::release()
 
 void HotDogScene::update()
 {
+	SceneStart();
+
 	KEYANIMANAGER->update();
 	_loopX += 0.2;
 
 	_pm->GetPlayer()->GroundCollision("STAGE_HOTDOG_PIXEL");
-	_pm->update();
+	
+	if (_scriptState == 0 || _scriptState == 7)	_pm->update();
 
 	if (KEYMANAGER->isOnceKeyDown('M') && _pressX)
 	{
 		if (_scriptState == 0)	_scriptState = 1;
 		else if (_scriptState == 2)	_scriptState = 3;
 		else if (_scriptState == 3) _scriptState = 4;
+		else if (_scriptState == 6) _scriptState = 7;
 	}
 
+	OutStage();
 	button();
-	Script();
+	MoveScript();
+
+
 }
 
 void HotDogScene::render()
@@ -84,9 +94,33 @@ void HotDogScene::render()
 	}
 	
 	Script();
-	MoveScript();
+
+	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 
 	CheckStatus();
+}
+
+void HotDogScene::OutStage()
+{
+	if (_pm->GetPlayer()->GetX() < 100)
+	{
+		FadeIn(&_alpha);
+	}
+	if (_alpha == 255 && _sceneStart == false)
+	{
+		WORLDXY->SetWorldX(2510);
+		WORLDXY->SetWorldY(1583);
+		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+	}
+}
+
+void HotDogScene::SceneStart()
+{
+	if (_sceneStart)
+	{
+		FadeOut(&_alpha);
+		if (_alpha == 0) _sceneStart = false;
+	}
 }
 
 void HotDogScene::Script()
@@ -127,13 +161,18 @@ void HotDogScene::Script()
 	{
 		sprintf_s(talk, "길어져라! 허리허리!!");
 		sprintf_s(talk2, "");
-		if (SOUNDMANAGER->isPlaySound("GETBRIDGE") == false) _scriptState == 6;
+		_count++;
+		if (_count > 350) _scriptState = 6;
 	}
 	else if (_scriptState == 6)
 	{
-
 		sprintf_s(talk, "이제 너는 서쪽에 있는");
 		sprintf_s(talk2, "부서진 다리를 건널 수 있을거야.");
+	}
+	else if (_scriptState == 7)
+	{
+		sprintf_s(talk, "너의 여정에 행운이 함께 하기를 기도할께.");
+		sprintf_s(talk2, "");
 	}
 	TextOut(getMemDC(), _scriptX + 20, 130, talk, strlen(talk));
 	TextOut(getMemDC(), _scriptX + 20, 160, talk2, strlen(talk2));
@@ -143,10 +182,8 @@ void HotDogScene::Script()
 
 	SetBkMode(getMemDC(), OPAQUE);
 
-	if (_scriptState != 0 && _scriptState != 1)
-	{
-		IMAGEMANAGER->findImage("PRESS_X")->frameRender(getMemDC(), 35, 212, _Xframe, 0);
-	}
+	if (_scriptState == 0 || _scriptState == 1 || _scriptState == 4 || _scriptState == 5 || _scriptState == 7) return;
+	IMAGEMANAGER->findImage("PRESS_X")->frameRender(getMemDC(), 35, 212, _Xframe, 0);
 }
 
 void HotDogScene::MoveScript()
