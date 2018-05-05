@@ -1113,6 +1113,18 @@ void Player::update()
             ChangeAnim(LEFT_IDLE, "PlayerLeftIdle");
         }
         break;
+    case Player::RIGHT_DOOR_ENTER:
+        Friction("left", 0);
+        _alpha -= 2;
+        if (!_anim->isPlay())
+        {
+            if (_alpha <= 0)
+            {
+                _alpha = 0;
+                SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+            }
+        }
+        break;
     case Player::LEFT_DOOR_ENTER:
         Friction("right", 0);
         _alpha -= 2;
