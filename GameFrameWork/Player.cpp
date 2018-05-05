@@ -307,10 +307,13 @@ void Player::update()
     {
         if (_state != RIGHT_LAND && _state != LEFT_LAND && 
             _state != RIGHT_JUMP && _state != LEFT_JUMP &&
-            _state != RIGHT_MID && _state != LEFT_MID)
+            _state != RIGHT_MID && _state != LEFT_MID &&
+            _state != RIGHT_HIT && _state != LEFT_HIT &&
+            _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
+            _state != RIGHT_DIE && _state != LEFT_DIE)
         {
             SOUNDMANAGER->play("JUMP", 1.0f);
-            _jumpPower = 7;
+            _jumpPower = 8.5f;
             _gravity = 0.3f;
             _img = IMAGEMANAGER->findImage("Player");
 
@@ -381,7 +384,7 @@ void Player::update()
     {
         if (KEYMANAGER->isOnceKeyDown('Z'))
         {
-            
+            SOUNDMANAGER->play("PUNCH1", 1.0f);
             if (_item == DEFFAULT)
             {
                 _img = IMAGEMANAGER->findImage("PlayerAttack1");
@@ -1328,16 +1331,29 @@ void Player::GroundCollision(string pixelName)
                 if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
                 {
                     if (_direction == RIGHT)
+                    {
+                        _speed = 0;
+                        _friction = 0;
                         ChangeAnim(RIGHT_DUCK, "PlayerRightDuck");
+                    }
                     else if (_direction == LEFT)
+                    {
+                        _speed = 0;
+                        _friction = 0;
                         ChangeAnim(LEFT_DUCK, "PlayerLeftDuck");
+                    }
                 }
             }
-            _onGround = true;
-            _colY = i - 50 + 5;
-            _y = i - _img->getFrameHeight()/2 + 5;
-            _jumpPower = 0;
-            break;
+            if (_jumpPower <= 0 && _state != RIGHT_JUMP && _state != LEFT_JUMP &&
+                _state != RIGHT_MID && _state != LEFT_MID)
+            {
+                _onGround = true;
+                _colY = i - 50 + 5;
+                _y = i - _img->getFrameHeight() / 2 + 5;
+                _jumpPower = 0;
+                break;
+            }
+            
         }
         else _onGround = false;
     }
@@ -1367,28 +1383,28 @@ void Player::GroundCollision(string pixelName)
     color = RGB(0, 255, 255);
 
     //¿À¸¥ÂÊ
-    for (int i = _probeX; i < _probeX + 50; i++)
+    for (int i = _probeX; i < _probeX + 25; i++)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {
-            _colX = i - 50;
-            _x = i - 50;
+            _colX = i - 25;
+            _x = i - 25;
             _friction = 0;
             _speed = 0;
         }
     }
 
     //¿ÞÂÊ
-    for (int i = _probeX; i > _probeX - 50; i--)
+    for (int i = _probeX; i > _probeX - 25; i--)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
 
         if (pixelColor == color)
         {
-            _colX = i + 50;
-            _x = i + 50;
+            _colX = i + 25;
+            _x = i + 25;
             _friction = 0;
             _speed = 0;
         }
@@ -1467,13 +1483,16 @@ void Player::LoadData()
 
 void Player::SetPlayerHit()
 {
-    POPUP->Fire(_x, _y, 1);
-
-    if (_status.hp == 3)
+    if (_state != RIGHT_HIT && _state != LEFT_HIT &&
+        _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
+        _state != RIGHT_DIE && _state != LEFT_DIE )
     {
-        _status.hp--;
-        if (_state != RIGHT_HIT && _state != LEFT_HIT)
+        POPUP->Fire(_x, _y, 1);
+
+        if (_status.hp == 3)
         {
+            _status.hp--;
+
             _speed = 0;
             if (_direction == RIGHT)
             {
@@ -1487,14 +1506,13 @@ void Player::SetPlayerHit()
                 _y = _rc.bottom - _img->getFrameHeight() / 2;
                 ChangeAnim(LEFT_HIT, "PlayerLeftHit");
             }
+
         }
-    }
-    else if (_status.hp >= 1 && _status.hp < 3)
-    {
-        _status.hp--;
-        _speed = 0;
-        if (_state != RIGHT_KNOCK && _state != LEFT_KNOCK)
+        else if (_status.hp >= 1 && _status.hp < 3)
         {
+            _status.hp--;
+            _speed = 0;
+            
             if (_direction == RIGHT)
             {
                 _img = IMAGEMANAGER->findImage("PlayerHitItem");
@@ -1508,12 +1526,10 @@ void Player::SetPlayerHit()
                 ChangeAnim(LEFT_KNOCK, "PlayerLeftKnock");
             }
         }
-    }
-    if (_status.hp == 0)
-    {
-        _speed = 0;
-        if (_state != RIGHT_DIE && _state != LEFT_DIE)
+        if (_status.hp == 0)
         {
+            _speed = 0;
+            SOUNDMANAGER->play("DIE", 1.0f);
             if (_direction == RIGHT)
             {
                 _img = IMAGEMANAGER->findImage("PlayerHitItem");
@@ -1526,6 +1542,7 @@ void Player::SetPlayerHit()
                 _y = _rc.bottom - _img->getFrameHeight() / 2;
                 ChangeAnim(LEFT_DIE, "PlayerLeftDie");
             }
+            
         }
     }
 }
