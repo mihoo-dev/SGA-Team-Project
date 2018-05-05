@@ -65,6 +65,7 @@ HRESULT TutorialScene::init()
 
     _vObject.push_back(door);
 
+    _alpha = 255;
     return S_OK;
 }
 

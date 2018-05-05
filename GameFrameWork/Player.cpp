@@ -1266,7 +1266,7 @@ void Player::GroundCollision(string pixelName)
     //¾Æ·¡
     COLORREF color = RGB(255, 255, 0);
 
-    for (int i = _probeY; i <= _probeY + 50; i++)
+    for (int i = _probeY; i <= _probeY + _img->getFrameHeight() / 2; i++)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 
@@ -1290,7 +1290,7 @@ void Player::GroundCollision(string pixelName)
                 {
                     _onGround = true;
                     _colY = i - 50 + 5;
-                    _y = i - 50 + 5;
+                    _y = i - _img->getFrameHeight() / 2 + 5;
                     _jumpPower = 0;
                 }
             }
@@ -1335,7 +1335,7 @@ void Player::GroundCollision(string pixelName)
             }
             _onGround = true;
             _colY = i - 50 + 5;
-            _y = i - 50 + 5;
+            _y = i - _img->getFrameHeight()/2 + 5;
             _jumpPower = 0;
             break;
         }
@@ -1343,7 +1343,7 @@ void Player::GroundCollision(string pixelName)
     }
 
     //À§
-    for (int i = _probeY; i >= _probeY - 50 + 10; i--)
+    for (int i = _probeY; i >= _probeY - _img->getFrameHeight() / 2 + 10; i--)
     {
         COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), _x, i);
 

@@ -21,6 +21,9 @@ HRESULT EndScene::init()
     _sceneStart = true;
     _alpha = 255;
 
+    SOUNDMANAGER->allStop();
+    SOUNDMANAGER->play("GAMEOVER", 1.0f);
+
     return S_OK;
 }
 

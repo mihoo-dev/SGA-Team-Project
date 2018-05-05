@@ -24,6 +24,8 @@ HRESULT StartScene::init()
     IMAGEMANAGER->addImage("StartScene", "StartScene.bmp", 600, 500, false, RGB(0, 0, 0));
     IMAGEMANAGER->addImage("PressStartButton", "PressStartButton.bmp", 379, 62, true, RGB(255, 0, 255), true);
 
+    _alpha2 = 255;
+
     return S_OK;
 }
 
@@ -33,6 +35,9 @@ void StartScene::release()
 
 void StartScene::update()
 {
+    if(!_sceneChange)
+        FadeOut(&_alpha2);
+
     _alphaCount += TIMEMANAGER->getElapsedTime();
     if (_alphaCount >= 0.5f)
     {

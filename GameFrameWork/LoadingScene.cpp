@@ -4,6 +4,7 @@
 
 LoadingScene::LoadingScene()
 {
+    
 }
 
 
@@ -13,7 +14,7 @@ LoadingScene::~LoadingScene()
 
 HRESULT LoadingScene::init()
 {
-    
+    CAMERA->SetPos(0, 0);
     
     return S_OK;
 }
@@ -28,5 +29,5 @@ void LoadingScene::update()
 
 void LoadingScene::render()
 {
-    IMAGEMANAGER->findImage("fade")->render(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top);
+    IMAGEMANAGER->findImage("fade")->render(getMemDC(), 0, 0);
 }
