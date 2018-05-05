@@ -1,2 +1,2 @@
 HP	AtkPwr	Speed	Weapon	Coin	Star
-3	0	3	1	10000	0
+3	1	3	0	10000	0

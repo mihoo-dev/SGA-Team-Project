@@ -1424,7 +1424,7 @@ void Player::LoadData()
 
 void Player::SetPlayerHit()
 {
-    POPUP->Fire(_x, _y, 10);
+    POPUP->Fire(_x, _y, 1);
 
     if (_status.hp == 3)
     {
