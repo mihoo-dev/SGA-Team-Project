@@ -14,7 +14,6 @@ TutorialScene::~TutorialScene()
 
 HRESULT TutorialScene::init()
 {
-	SOUNDMANAGER->addSound("TUTORIAL", "sound\\Candy Kingdom.mp3", true, true);
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("TUTORIAL", 0.5f);
 

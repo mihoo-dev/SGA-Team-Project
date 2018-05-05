@@ -18,7 +18,7 @@ HRESULT WorldScene::init()
 	_world->init(WORLDXY->GetWorldX(), WORLDXY->GetWorldY());
 
 	CAMERA->SetSize(2793, 2111);
-	CAMERA->SetPos(0, 0);
+	CAMERA->SetPos(-(WORLDXY->GetWorldX() - WINSIZEX / 2), -(WORLDXY->GetWorldY() - WINSIZEY / 2));
 
 	
 	SOUNDMANAGER->allStop();

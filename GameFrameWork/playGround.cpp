@@ -55,17 +55,23 @@ HRESULT playGround::init()
 	_sceneChange6 = false;
 
 	//사운드 추가
+	//씬 백그라운드
+	SOUNDMANAGER->addSound("TUTORIAL", "sound\\Candy Kingdom.mp3", true, true);
+	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
 	SOUNDMANAGER->addSound("GRAVEYARD", "sound\\Graveyard.mp3", true, true);
 	SOUNDMANAGER->addSound("SNAKE", "sound\\Red Rock Pass VS.mp3", true, true);
 	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
-	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);
-	SOUNDMANAGER->addSound("WORLDMAP", "sound\\Grasslands Overworld Theme.mp3", true, true);
 	SOUNDMANAGER->addSound("HOTDOG", "sound\\Housie Village.mp3", true, true);
+
+
+	//이펙트
+	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);	
 	SOUNDMANAGER->addSound("PUNCH1", "sound\\EFFECT_PUNCH1.mp3", false, false);
 	SOUNDMANAGER->addSound("PUNCH2", "sound\\EFFECT_PUNCH2.mp3", false, false);
 	SOUNDMANAGER->addSound("GROWL", "sound\\EFFECT_GROWL.mp3", false, false);
 	SOUNDMANAGER->addSound("GETBRIDGE", "sound\\EFFECT_GETBRIDGE.mp3", false, false);
 	SOUNDMANAGER->addSound("START", "sound\\EFFECT_START.mp3", false, false);
+
 
 
 

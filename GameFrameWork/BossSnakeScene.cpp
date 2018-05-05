@@ -31,6 +31,9 @@ HRESULT BossSnakeScene::init()
 
 	SOUNDMANAGER->allStop();
 
+	_alpha = 255;
+	_sceneStart = true;
+
 	return S_OK;
 }
 
@@ -65,3 +68,13 @@ void BossSnakeScene::render()
 
 	EFFECTMANAGER->render();
 }
+
+void BossSnakeScene::SceneStart()
+{
+	if (_sceneStart)
+	{
+		FadeOut(&_alpha);
+		if (_alpha == 0) _sceneStart = false;
+	}
+}
+

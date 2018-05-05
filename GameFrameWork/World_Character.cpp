@@ -76,7 +76,7 @@ void World_Character::update()
 			case GO_GRAVEYARD:
 				SOUNDMANAGER->stop("WORLDMAP");
 				SOUNDMANAGER->play("ENTER");
-				SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
+				SCENEMANAGER->changeScene("GraveyardScene", "LoadingScene");
 			break;
 			case MAKE_BRIDGE:
 				MakeBridge();
