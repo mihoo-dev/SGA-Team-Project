@@ -101,6 +101,7 @@ void World_Character::update()
 				SCENEMANAGER->changeScene("BunnyScene", "LoadingScene");
 			break;
 			case GO_FOUNTAIN:
+				SCENEMANAGER->changeScene("FountainScene", "LoadingScene");
 			break;
 			}
 		}

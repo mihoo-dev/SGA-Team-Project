@@ -329,7 +329,8 @@ void EnemyManager::MoveMoney(string colPixelName)
 			if (IntersectRect(&temp, &_vMoney[ii].rc, &_pm->GetPlayer()->GetColRC()))
 			{
 				_vMoney[ii].isActive = false;
-				SOUNDMANAGER->play("GETMONEY");
+				_pm->GetPlayer()->SetCoin(_pm->GetPlayer()->GetInfo().coin + 1);
+				SOUNDMANAGER->play("GETMONEY", 0.3f);
 			}
 		}
 		else

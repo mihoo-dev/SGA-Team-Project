@@ -14,6 +14,7 @@
 #include "HotDogScene.h"
 #include "BossBearScene.h"
 #include "BunnyScene.h"
+#include "FountainScene.h"
 
 class playGround : public gameNode
 {
@@ -32,6 +33,7 @@ private:
 	gameNode * _hotdogScene;
 	gameNode * _bearScene;
 	gameNode * _bunnyScene;
+	gameNode * _fountainScene;
 
     int _alpha;
 

@@ -100,6 +100,7 @@
     <ClInclude Include="Enemy_SmallZombie.h" />
     <ClInclude Include="Enemy_Worm.h" />
     <ClInclude Include="enum.h" />
+    <ClInclude Include="FountainScene.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="GraveyardScene.h" />
     <ClInclude Include="HotDogScene.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Enemy_Bunny.cpp" />
     <ClCompile Include="Enemy_SmallZombie.cpp" />
     <ClCompile Include="Enemy_Worm.cpp" />
+    <ClCompile Include="FountainScene.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GraveyardScene.cpp" />
     <ClCompile Include="HotDogScene.cpp" />

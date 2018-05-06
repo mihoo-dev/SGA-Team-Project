@@ -38,7 +38,7 @@ void PopUp::render(HDC hdc)
     {
         if (!_vPopUp[i].inUse) continue;
 
-        HFONT hFont = CreateFont(20, 0, 0, 0, 100, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, "±Ã¼­Ã¼");
+        HFONT hFont = CreateFont(30, 0, 0, 0, 100, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Poplar Std");
         HFONT hOFont = (HFONT)SelectObject(hdc, hFont);
         SetTextColor(hdc, RGB(255, 0, 0));
         TextOut(hdc, _vPopUp[i].x, _vPopUp[i].y, _vPopUp[i].str.c_str(), _vPopUp[i].str.size());

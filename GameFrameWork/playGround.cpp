@@ -35,6 +35,7 @@ HRESULT playGround::init()
 	_hotdogScene = new HotDogScene;
 	_bearScene = new BossBearScene;
 	_bunnyScene = new BunnyScene;
+	_fountainScene = new FountainScene;
 
 	//½ºÅ×ÀÌÁö¾À ¾À¸Å´ÏÁ®¿¡ Ãß°¡
 	SCENEMANAGER->addScene("TutorialScene", _tutorialScene);
@@ -43,6 +44,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("HotDogScene", _hotdogScene);
 	SCENEMANAGER->addScene("BearScene", _bearScene);
 	SCENEMANAGER->addScene("BunnyScene", _bunnyScene);
+	SCENEMANAGER->addScene("FountainScene", _fountainScene);
 
     SCENEMANAGER->addScene("StartScene", _startScene);
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
@@ -73,6 +75,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("HOTDOG", "sound\\Housie Village.mp3", true, true);
 	SOUNDMANAGER->addSound("STORE", "sound\\Grass Lands.mp3", true, true);
     SOUNDMANAGER->addSound("CLEAR", "sound\\Rainicorn Song.mp3", true, true);
+	SOUNDMANAGER->addSound("FOUNTAIN", "sound\\Candy Kingdom Overworld.mp3", true, true);
 
 	//ÀÌÆåÆ®
 	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);	
@@ -174,7 +177,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
+			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
 		}
 	}
 	if (_sceneChange7)

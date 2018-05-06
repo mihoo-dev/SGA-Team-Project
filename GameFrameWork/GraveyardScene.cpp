@@ -88,7 +88,7 @@ void GraveyardScene::render()
 {
 	IMAGEMANAGER->findImage("STAGE_GRAVEYARD_BACKGROUND")->render(getMemDC()
 		, CAMERA->GetX(), CAMERA->GetY()
-		, CAMERA->GetX(), CAMERA->GetY()
+		, CAMERA->GetX() * 0.1, CAMERA->GetY()* 0.00001
 		, WINSIZEX, WINSIZEY);
 	IMAGEMANAGER->findImage("STAGE_GRAVEYARD")->render(getMemDC()
 		, CAMERA->GetX(), CAMERA->GetY()

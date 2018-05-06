@@ -444,7 +444,6 @@ void Boss_Snake::GetDamage()
 	if (IntersectRect(&temp, &playerAttackBox, &DamageRC()) && _isDamage == false)
 	{
 		PlayDamage();
-		POPUP->Fire((temp.left + temp.right) / 2, (temp.top + temp.bottom) / 2, 1);
 	}	
 }
 
@@ -461,6 +460,9 @@ void Boss_Snake::PlayDamage()
 {
 	_isDamage = true;
 	_HP -= playerAtk;
+	int rndX = RND->getInt(30);
+	int rndY = RND->getInt(30);
+	POPUP->Fire(_rc.left + rndX, _rc.top + rndY, playerAtk);
 
 	if (_state == SNAKE_LEFT_CLOUD || _state == SNAKE_RIGHT_CLOUD
 		|| _state == SNAKE_LEFT_DAMAGED || _state == SNAKE_RIGHT_DAMAGED) return;

@@ -300,6 +300,9 @@
     <ClInclude Include="ClearScene.h">
       <Filter>playGround\Scene\ClearScene</Filter>
     </ClInclude>
+    <ClInclude Include="FountainScene.h">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -481,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="ClearScene.cpp">
       <Filter>playGround\Scene\ClearScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FountainScene.cpp">
+      <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

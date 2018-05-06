@@ -19,7 +19,6 @@ HRESULT WorldScene::init()
 
 	CAMERA->SetSize(2793, 2111);
 	CAMERA->SetPos(-(WORLDXY->GetWorldX() - WINSIZEX / 2), -(WORLDXY->GetWorldY() - WINSIZEY / 2));
-
 	
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("WORLDMAP", 0.5f);

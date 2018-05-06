@@ -108,8 +108,8 @@ void HotDogScene::OutStage()
 	}
 	if (_alpha == 255 && _sceneStart == false)
 	{
-		WORLDXY->SetWorldX(2510);
-		WORLDXY->SetWorldY(1083);
+		WORLDXY->SetWorldX(2490);
+		WORLDXY->SetWorldY(1143);
 		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
 	}
 }
