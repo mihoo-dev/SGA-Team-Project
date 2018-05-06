@@ -1216,6 +1216,8 @@ void Player::update()
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
     _colRC = RectMakeCenter(_colX, _colY, 50, 100);
 
+    OutOfMap();
+
     KEYANIMANAGER->update();
     POPUP->update();
 }
@@ -1385,7 +1387,7 @@ void Player::GroundCollision(string pixelName)
     //오른쪽
     for (int i = _probeX; i < _probeX + 25; i++)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y + 25);
 
         if (pixelColor == color)
         {
@@ -1399,7 +1401,7 @@ void Player::GroundCollision(string pixelName)
     //왼쪽
     for (int i = _probeX; i > _probeX - 25; i--)
     {
-        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y);
+        COLORREF pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), i, _y + 25);
 
         if (pixelColor == color)
         {
@@ -1544,5 +1546,13 @@ void Player::SetPlayerHit()
             }
             
         }
+    }
+}
+
+void Player::OutOfMap()
+{
+    if (_colRC.top > CAMERA->GetRC().bottom + 200)
+    {
+        init(WINSIZEX/2, WINSIZEY/2);
     }
 }
