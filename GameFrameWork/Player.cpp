@@ -441,6 +441,7 @@ void Player::update()
             ChangeAnim(LEFT_DOOR_ENTER, "PlayerLeftDoorEnter");
     }
 
+#pragma region PlayerState
     switch (_state)
     {
     case Player::RIGHT_IDLE:
@@ -1197,6 +1198,7 @@ void Player::update()
         }
         break;
     }
+#pragma endregion
 
     switch (_direction)
     {
