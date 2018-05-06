@@ -61,6 +61,7 @@ HRESULT playGround::init()
 	_sceneChange6 = false;
 	_sceneChange7 = false;
 	_sceneChange8 = false;
+    _sceneChange9 = false;
 
 	//사운드 추가
 	//씬 백그라운드
@@ -71,6 +72,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("VICTORY", "sound\\Victory (VS).mp3", true, false);
 	SOUNDMANAGER->addSound("HOTDOG", "sound\\Housie Village.mp3", true, true);
 	SOUNDMANAGER->addSound("STORE", "sound\\Grass Lands.mp3", true, true);
+    SOUNDMANAGER->addSound("CLEAR", "sound\\Rainicorn Song.mp3", true, true);
 
 	//이펙트
 	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);	
@@ -87,11 +89,8 @@ HRESULT playGround::init()
     SOUNDMANAGER->addSound("DIE", "sound\\DIE.mp3", false, false);
     SOUNDMANAGER->addSound("SWORD1", "sound\\SWORD1.mp3", false, false);
     SOUNDMANAGER->addSound("SWORD2", "sound\\SWORD2.mp3", false, false);
-
-
-
-
-
+    SOUNDMANAGER->addSound("JAKEATTACK", "sound\\JAKEATTACK.mp3", false, false);
+    
 	return S_OK;
 }
 
@@ -124,6 +123,8 @@ void playGround::update()
 		_sceneChange7 = true;
 	if (KEYMANAGER->isOnceKeyDown('L'))
 		_sceneChange8 = true;
+    if (KEYMANAGER->isOnceKeyDown('J'))
+        _sceneChange9 = true;
 
     if (_sceneChange1)
     {
@@ -189,6 +190,14 @@ void playGround::update()
 			SCENEMANAGER->changeScene("BunnyScene", "LoadingScene");
 		}
 	}
+    if (_sceneChange9)
+    {
+        if (FadeIn(&_alpha))
+        {
+            _sceneChange9 = false;
+            SCENEMANAGER->changeScene("ClearScene", "LoadingScene");
+        }
+    }
     if(!_sceneChange1 
 		&& !_sceneChange2 
 		&& !_sceneChange3 
@@ -196,7 +205,8 @@ void playGround::update()
 		&& !_sceneChange5
 		&& !_sceneChange6
 		&& !_sceneChange7
-		&& !_sceneChange8)
+		&& !_sceneChange8
+        && !_sceneChange9)
 
         FadeOut(&_alpha);
         

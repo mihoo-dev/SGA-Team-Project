@@ -23,6 +23,7 @@ HRESULT ClearScene::init()
     _alpha = 255;
 
     SOUNDMANAGER->allStop();
+    SOUNDMANAGER->play("CLEAR", 1.0f);
 
     return S_OK;
 }

@@ -209,6 +209,11 @@ HRESULT Player::init(float x, float y)
 
     //==============================================================================//
 
+    //ÇÃ·¹ÀÌ¾î Ãã
+    IMAGEMANAGER->addFrameImage("PlayerDance", "PlayerDance.bmp", 3429, 114, 27, 1, true, RGB(255, 0, 255), true);
+
+    KEYANIMANAGER->addDefaultFrameAnimation("PlayerDance", "PlayerDance", 10, false, false);
+
     _state = RIGHT_IDLE;
     _img = IMAGEMANAGER->findImage("Player");
     _anim = KEYANIMANAGER->findAnimation("PlayerRightIdle");
@@ -245,7 +250,7 @@ void Player::update()
         _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
         _state != RIGHT_DIE && _state != LEFT_DIE &&
         _state != RIGHT_USE_ITEM && _state != LEFT_USE_ITEM && 
-        _state != RIGHT_DOOR_ENTER && _state != LEFT_DOOR_ENTER)
+        _state != RIGHT_DOOR_ENTER && _state != LEFT_DOOR_ENTER && _state != DANCE)
     {
         if (!KEYMANAGER->isStayKeyDown(VK_LSHIFT))
         {
@@ -310,7 +315,7 @@ void Player::update()
             _state != RIGHT_MID && _state != LEFT_MID &&
             _state != RIGHT_HIT && _state != LEFT_HIT &&
             _state != RIGHT_KNOCK && _state != LEFT_KNOCK &&
-            _state != RIGHT_DIE && _state != LEFT_DIE)
+            _state != RIGHT_DIE && _state != LEFT_DIE && _state != DANCE)
         {
             SOUNDMANAGER->play("JUMP", 1.0f);
             _jumpPower = 8.5f;
@@ -370,6 +375,7 @@ void Player::update()
         }
         if (KEYMANAGER->isOnceKeyDown('X'))
         {
+            SOUNDMANAGER->play("JAKEATTACK", 1.0f);
             _speed = 0;
             _img = IMAGEMANAGER->findImage("PlayerAttack2");
             _y = _rc.bottom - _img->getFrameHeight() / 2;
@@ -1180,6 +1186,16 @@ void Player::update()
             }
         }
         break;
+    case Player::DANCE:
+        _speed = 0;
+        _friction = 0;
+        if (!_anim->isPlay())
+        {
+            _img = IMAGEMANAGER->findImage("Player");
+            _y = _rc.bottom - _img->getFrameHeight() / 2;
+            ChangeAnim(RIGHT_IDLE, "PlayerRightIdle");
+        }
+        break;
     }
 
     switch (_direction)
@@ -1576,6 +1592,13 @@ void Player::SetPlayerHit()
             
         }
     }
+}
+
+void Player::SetPlayerDance()
+{
+    _img = IMAGEMANAGER->findImage("PlayerDance");
+    _y = _rc.bottom - _img->getFrameHeight() / 2;
+    ChangeAnim(DANCE, "PlayerDance");
 }
 
 void Player::OutOfMap()

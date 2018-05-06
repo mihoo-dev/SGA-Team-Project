@@ -43,6 +43,7 @@ private:
 	bool _sceneChange6;
 	bool _sceneChange7;
 	bool _sceneChange8;
+    bool _sceneChange9;
 
 public:
 	virtual HRESULT init();

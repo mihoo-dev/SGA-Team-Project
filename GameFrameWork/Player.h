@@ -32,7 +32,8 @@ public :
         RIGHT_KNOCK, LEFT_KNOCK,
         RIGHT_DIE, LEFT_DIE,
         RIGHT_USE_ITEM, LEFT_USE_ITEM,
-        RIGHT_DOOR_ENTER, LEFT_DOOR_ENTER
+        RIGHT_DOOR_ENTER, LEFT_DOOR_ENTER,
+        DANCE
     };
 private:
     typedef struct tagPlayerStat
@@ -138,6 +139,7 @@ public:
     void LoadData();
 
     void SetPlayerHit();
+    void SetPlayerDance();
     void OutOfMap();
 };
 
