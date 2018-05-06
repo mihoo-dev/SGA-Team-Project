@@ -13,10 +13,10 @@ private:
         float jumpPower;
         float gravity;
 
-        tagPopUp() : x(0), y(0), str(""), inUse(false), jumpPower(3), gravity(0.3f)
+        tagPopUp() : x(0), y(0), str(""), inUse(false), jumpPower(3), gravity(0.1f)
         {}
         tagPopUp(float _x, float _y, string _str, bool _inUse)
-            : x(_x), y(_y), str(_str), inUse(_inUse), jumpPower(3), gravity(0.3f)
+            : x(_x), y(_y), str(_str), inUse(_inUse), jumpPower(3), gravity(0.1f)
         {}
     }PopUps;
     
