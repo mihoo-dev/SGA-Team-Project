@@ -75,13 +75,12 @@ void GraveyardScene::update()
 
     DoorEnter();
 
-    _pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
-	_pm->update();
-
 	_em->update("STAGE_GRAVEYARD_PIXEL");
-
 	
 	GoSnakeStage();
+
+	_pm->GetPlayer()->GroundCollision("STAGE_GRAVEYARD_PIXEL");
+	_pm->update();
 }
 
 void GraveyardScene::render()

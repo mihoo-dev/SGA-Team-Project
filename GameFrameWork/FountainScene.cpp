@@ -4,7 +4,7 @@
 
 
 FountainScene::FountainScene()
-	:_dance(false)
+	:_dance(false), _endingCreditY(600)
 {
 }
 
@@ -62,6 +62,10 @@ HRESULT FountainScene::init()
 	_aniNymph2->setFPS(6);
 	_aniNymph2->start();
 
+	_alpha = 255;
+	_sceneStart = true;
+	_sceneChange = false;
+
 	return S_OK;
 }
 
@@ -77,13 +81,12 @@ void FountainScene::release()
 
 void FountainScene::update()
 {
+	SceneStart();
+
 	_aniFountain->frameUpdate(TIMEMANAGER->getElapsedTime());
 	_aniNymph1->frameUpdate(TIMEMANAGER->getElapsedTime());
 	_aniNymph2->frameUpdate(TIMEMANAGER->getElapsedTime());
 	_aniNymph1Idle->frameUpdate(TIMEMANAGER->getElapsedTime());
-
-	_pm->update();
-	_pm->GetPlayer()->GroundCollision("STAGE_FOUNTAIN_BACKGROUND_PIXEL");
 
 	if (_pm->GetPlayer()->GetX() < 200 && !_dance)
 	{
@@ -91,6 +94,15 @@ void FountainScene::update()
 		SOUNDMANAGER->play("FOUNTAIN", 0.5f);
 		_pm->GetPlayer()->SetPlayerDance();
 		_dance = true;
+	}
+
+	CreditEnd();
+	GoEndScene();
+
+	if (_alpha != 255)
+	{
+		_pm->update();
+		_pm->GetPlayer()->GroundCollision("STAGE_FOUNTAIN_BACKGROUND_PIXEL");
 	}
 }
 
@@ -111,6 +123,10 @@ void FountainScene::render()
 
 	_pm->render();
 
+	UpCredit();
+
+	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
+
 	char x[128];
 	sprintf_s(x, "x : %0.f, y : %0.f", _pm->GetPlayer()->GetX(), _pm->GetPlayer()->GetY());
 	TextOut(getMemDC(), 0, 100, x, strlen(x));
@@ -118,10 +134,14 @@ void FountainScene::render()
 
 void FountainScene::UpCredit()
 {
+	if (_dance) _endingCreditY--;
+
+
+	RECT credit = RectMake(400, _endingCreditY, 200, 600);
 
 	HFONT font, oldFont;
 
-	font = CreateFont(20, 0, 0, 0, 300, 0, 0, 0, DEFAULT_CHARSET,
+	font = CreateFont(30, 0, 0, 0, 300, 0, 0, 0, DEFAULT_CHARSET,
 		OUT_STRING_PRECIS, CLIP_CHARACTER_PRECIS, PROOF_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, TEXT("휴먼매직체"));
 
@@ -130,13 +150,41 @@ void FountainScene::UpCredit()
 
 	char talk[256];
 
-	sprintf_s(talk, "감사합니다 \n 줄띄기?");
+	sprintf_s(talk, "감사합니다\n플레이어 : 강동훈\n월드맵 : 권준형\n상점 : 남경태\n좀비 : 박요셉\n토끼 : 김진홍");
 
-	//DrawText(getMemDC(), )
+	DrawText(getMemDC(), talk, strlen(talk), &credit, DT_LEFT | DT_TOP);
 	//TextOut(getMemDC(), 20, 130, talk, strlen(talk));
 
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
 
 	SetBkMode(getMemDC(), OPAQUE);
+}
+
+void FountainScene::SceneStart()
+{
+	if (_sceneStart)
+	{
+		FadeOut(&_alpha);
+		if (_alpha == 0) _sceneStart = false;
+	}
+}
+
+void FountainScene::CreditEnd()
+{
+	if (_endingCreditY < -300 && !_sceneChange)
+	{
+		_sceneChange = true;
+	}
+
+	if (_sceneChange)
+		FadeIn(&_alpha);
+}
+
+void FountainScene::GoEndScene()
+{
+	if (!_sceneStart && _alpha == 255)
+	{
+		SCENEMANAGER->changeScene("ClearScene", "LoadingScene");
+	}
 }

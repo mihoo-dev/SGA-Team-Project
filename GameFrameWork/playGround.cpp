@@ -178,7 +178,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
+			SCENEMANAGER->changeScene("FountainScene", "LoadingScene");
 		}
 	}
 	if (_sceneChange7)

@@ -24,6 +24,12 @@ private:
 	BOOL			_dance;
 
 	int				_endingCreditY;
+
+	//페이드 화면
+	int					_alpha;
+	BOOL				_sceneStart;
+	BOOL                _sceneChange;
+
 public:
 	FountainScene();
 	~FountainScene();
@@ -32,6 +38,10 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void SceneStart();
+	void CreditEnd();
+	void GoEndScene();
 
 	void UpCredit();
 };

@@ -105,14 +105,13 @@ void BunnyScene::update()
 
 	DoorEnter();
 
-	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
-	_pm->update();
-
 	_em->update("Ground_Pixel");
 
 
 	GoBearStage();
 
+	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
+	_pm->update();
 
 	//FadeOut(&_alpha);
 }
