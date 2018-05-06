@@ -1192,13 +1192,25 @@ void Player::update()
         break;
     }
 
-    if (_state == RIGHT_JUMP || _state == LEFT_JUMP ||
-        _state == RIGHT_MID || _state == LEFT_MID ||
-        _state == RIGHT_FALL || _state == LEFT_FALL ||
-        _state == RIGHT_JUMP_PUNCH || _state == LEFT_JUMP_PUNCH)
+    if (_state == RIGHT_JUMP || _state == RIGHT_MID || _state == RIGHT_FALL ||
+        _state == RIGHT_JUMP_PUNCH || _state == RIGHT_JUMP_SWORD)
     {
         _colX += _speed;
         _x += _speed;
+        if(KEYMANAGER->isStayKeyDown(VK_RIGHT))
+            _speed += 0.5f;
+        if (_speed >= 6) _speed = 6;
+        else if (_speed >= 3) _speed = 3;
+    }
+    if (_state == LEFT_JUMP || _state == LEFT_MID || _state == LEFT_FALL ||
+        _state == LEFT_JUMP_PUNCH || _state == LEFT_JUMP_SWORD)
+    {
+        _colX += _speed;
+        _x += _speed;
+        if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+            _speed -= 0.5f;
+        if (_speed <= -6) _speed = -6;
+        else if (_speed <= -3) _speed = -3;
     }
     if (_state != RIGHT_LADDER_ON && _state != LEFT_LADDER_ON &&
         _state != LADDER_UP && _state != LADDER_DOWN &&
@@ -1227,7 +1239,11 @@ void Player::update()
     }
 
     _rc = RectMakeCenter(_x, _y, _img->getFrameWidth(), _img->getFrameHeight());
-    _colRC = RectMakeCenter(_colX, _colY, 50, 100);
+
+    if (_state != RIGHT_DUCK && _state != LEFT_DUCK)
+        _colRC = RectMakeCenter(_colX, _colY, 50, 100);
+    else if (_state == RIGHT_DUCK || _state == LEFT_DUCK)
+        _colRC = RectMakeCenter(_colX, _colY + 15, 50, 50);
 
     OutOfMap();
 

@@ -19,7 +19,7 @@ HRESULT Door::init(float x, float y)
     _img = IMAGEMANAGER->findImage("Door");
     _imgName = "Door";
 
-
+    _frameX = 0;
     _state = CLOSE;
 
     return S_OK;
