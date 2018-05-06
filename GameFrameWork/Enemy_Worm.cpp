@@ -34,6 +34,8 @@ HRESULT Enemy_Worm::init(int x, int y)
 
 	img_Attack = IMAGEMANAGER->addFrameImage("ENEMY_WORM_ATTACK", "ENEMY_WORM_ATTACK.bmp", 3168, 78, 36, 1, true, RGB(255, 0, 255));
 
+	img_Hit = IMAGEMANAGER->addFrameImage("ENEMY_WORM_HIT", "ENEMY_WORM_HIT.bmp", 1056, 78, 12, 1, true, RGB(255, 0, 255));
+
 	KeyInfo IDLE_LEFT[] = { KeyInfo(9),KeyInfo(8),KeyInfo(7),KeyInfo(6),KeyInfo(5) };
 	KeyInfo IDLE_RIGHT[] = { KeyInfo(0),KeyInfo(1),KeyInfo(2),KeyInfo(3),KeyInfo(4) };
 	KeyInfo MOVE_LEFT[] = { KeyInfo(13),KeyInfo(12),KeyInfo(11),KeyInfo(10),KeyInfo(9),
@@ -46,6 +48,8 @@ HRESULT Enemy_Worm::init(int x, int y)
 	KeyInfo ATTACK_RIGHT[] = { KeyInfo(0), KeyInfo(1), KeyInfo(2), KeyInfo(3), KeyInfo(4), KeyInfo(5),
 		KeyInfo(6), KeyInfo(7), KeyInfo(8), KeyInfo(9),  KeyInfo(10), KeyInfo(11),
 		KeyInfo(12), KeyInfo(13), KeyInfo(14), KeyInfo(15),  KeyInfo(16), KeyInfo(17) };
+	KeyInfo HIT_LEFT[] = { KeyInfo(11), KeyInfo(10), KeyInfo(9), KeyInfo(8), KeyInfo(7), KeyInfo(6) };
+	KeyInfo HIT_RIGHT[] = { KeyInfo(0), KeyInfo(1), KeyInfo(2), KeyInfo(3), KeyInfo(4), KeyInfo(5) };
 
 	AddAnimation(WORM_STATE::IDLE_LEFT, IDLE_LEFT, ARR_SIZE(IDLE_LEFT));
 	AddAnimation(WORM_STATE::IDLE_RIGHT, IDLE_RIGHT, ARR_SIZE(IDLE_RIGHT));
@@ -53,6 +57,8 @@ HRESULT Enemy_Worm::init(int x, int y)
 	AddAnimation(WORM_STATE::MOVE_RIGHT, MOVE_RIGHT, ARR_SIZE(MOVE_RIGHT));
 	AddAnimation(WORM_STATE::ATTACK_LEFT, ATTACK_LEFT, ARR_SIZE(ATTACK_LEFT));
 	AddAnimation(WORM_STATE::ATTACK_RIGHT, ATTACK_RIGHT, ARR_SIZE(ATTACK_RIGHT));
+	AddAnimation(WORM_STATE::HIT_LEFT, HIT_LEFT, ARR_SIZE(HIT_LEFT));
+	AddAnimation(WORM_STATE::HIT_RIGHT, HIT_RIGHT, ARR_SIZE(HIT_RIGHT));
 
 	ChangeAnimationFrame(WORM_STATE::IDLE_RIGHT);
 
@@ -98,7 +104,11 @@ void Enemy_Worm::update(void)
 		rc = RectMakeCenter(x, y, img_Attack->getFrameWidth(), img_Attack->getFrameHeight());
 		hitRect = RectMakeCenter(rc.left + (rc.right - rc.left) / 2, rc.top + (rc.bottom - rc.top) / 2 + 20, 40, 60);
 	}
-
+	else if ((Status = HIT_LEFT) || (Status = HIT_RIGHT))
+	{
+		rc = RectMakeCenter(x, y, img_Hit->getFrameWidth(), img_Hit->getFrameHeight());
+		hitRect = RectMakeCenter(rc.left + (rc.right - rc.left) / 2, rc.top + (rc.bottom - rc.top) / 2 + 20, 40, 60);
+	}
 
 
 	WormController();
@@ -118,6 +128,10 @@ void Enemy_Worm::render(HDC mDC)
 	else if ((Status = ATTACK_LEFT) || (Status = ATTACK_RIGHT))
 	{
 		img_Attack->frameRender(mDC, rc.left, rc.top, RenderFrame.FrameX, RenderFrame.FrameY);
+	}
+	else if ((Status = HIT_LEFT) || (Status = HIT_RIGHT))
+	{
+		img_Hit->frameRender(mDC, rc.left, rc.top, RenderFrame.FrameX, RenderFrame.FrameY);
 	}
 
 	if (KEYMANAGER->isToggleKey('L'))
@@ -148,7 +162,10 @@ void Enemy_Worm::WormAnimationUpdate(void)
 {
 	switch (Status)
 	{
-	case Enemy_Worm::IDLE_LEFT: case Enemy_Worm::IDLE_RIGHT: case Enemy_Worm::MOVE_LEFT: case Enemy_Worm::MOVE_RIGHT: case Enemy_Worm::ATTACK_LEFT: case Enemy_Worm::ATTACK_RIGHT:
+	case Enemy_Worm::IDLE_LEFT: case Enemy_Worm::IDLE_RIGHT:
+	case Enemy_Worm::MOVE_LEFT: case Enemy_Worm::MOVE_RIGHT: 
+	case Enemy_Worm::ATTACK_LEFT: case Enemy_Worm::ATTACK_RIGHT:
+	case Enemy_Worm::HIT_LEFT: case Enemy_Worm::HIT_RIGHT:
 		LoopAnimation();
 		break;
 	}

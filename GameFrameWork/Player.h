@@ -138,5 +138,6 @@ public:
     void LoadData();
 
     void SetPlayerHit();
+    void OutOfMap();
 };
 

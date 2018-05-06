@@ -5,6 +5,7 @@
 #include "EndScene.h"
 #include "LoadingScene.h"
 #include "StoreScene.h"
+#include "ClearScene.h"
 
 //스테이지
 #include "TutorialScene.h"
@@ -22,6 +23,7 @@ private:
     gameNode * _endScene;
     gameNode * _loadingScene;
 	gameNode * _storeScene;
+    gameNode * _clearScene;
 
 	//스테이지
 	gameNode * _tutorialScene;
