@@ -174,6 +174,7 @@ void EnemyManager::render()
 
 	EFFECTMANAGER->render();
 	POPUP->render(getMemDC());
+	TestText();
 }
 
 void EnemyManager::setSmallZombie(int x, int y)
@@ -197,6 +198,7 @@ bool EnemyManager::isCollideWithPlayer()
 	//	스몰 좀비 
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
+			if (_vSmallZombie[i]->getIsDead() == true) continue;
 			if (IntersectRect(&temp, &_vSmallZombie[i]->getHitBox(),
 				&_pm->GetPlayer()->GetColRC())) {
 				return true;
@@ -301,16 +303,18 @@ void EnemyManager::Die()
 
 void EnemyManager::MoveMoney(string colPixelName)
 {
+	RECT temp;
 	for (int ii = 0; ii < _vMoney.size(); ++ii)
 	{
 		_vMoney[ii].probeY = _vMoney[ii].y + 20;
-
+		
 		if (_vMoney[ii].isActive)
 		{
 			_vMoney[ii].x += cosf(_vMoney[ii].angle) * _vMoney[ii].speed;
 			_vMoney[ii].y -= sinf(_vMoney[ii].angle) * _vMoney[ii].speed;
 			_vMoney[ii].y -= _vMoney[ii].power;
 			_vMoney[ii].power -= _vMoney[ii].gravity;
+			_vMoney[ii].rc = RectMakeCenter(_vMoney[ii].x, _vMoney[ii].y, 15, 15);
 			COLORREF pixel = GetPixel(IMAGEMANAGER->findImage(colPixelName)->getMemDC(), _vMoney[ii].x, _vMoney[ii].probeY);
 
 			if (pixel == RGB(0,255,255) || pixel == RGB(255,255,0))
@@ -319,6 +323,13 @@ void EnemyManager::MoveMoney(string colPixelName)
 				_vMoney[ii].gravity = 0;
 				_vMoney[ii].speed = 0;
 				_vMoney[ii].power = 0;
+			}
+
+			//플레이어와 충돌처리
+			if (IntersectRect(&temp, &_vMoney[ii].rc, &_pm->GetPlayer()->GetColRC()))
+			{
+				_vMoney[ii].isActive = false;
+				SOUNDMANAGER->play("GETMONEY");
 			}
 		}
 		else
@@ -339,4 +350,15 @@ void EnemyManager::MakeMoney(float x, float y)
 	_vMoney[_moneyIndex].gravity = 0.2f;
 	_moneyIndex++;
 	if (_moneyIndex > _vMoney.size() - 1) _moneyIndex = 0;
+}
+
+void EnemyManager::GetMoney()
+{
+}
+
+void EnemyManager::TestText()
+{
+	char status[128];
+	sprintf_s(status, "_x : %0.f _y : %0.f", _pm->GetPlayer()->GetX(), _pm->GetPlayer()->GetY());
+	TextOut(getMemDC(), CAMERA->GetX(), -(CAMERA->GetY() - 200), status, strlen(status));
 }

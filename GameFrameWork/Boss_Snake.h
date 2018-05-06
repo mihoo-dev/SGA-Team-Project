@@ -16,6 +16,7 @@ private:
 	int						_HP;
 												
 	RECT					_rc;				//데미지 렉트
+	RECT					_bodyRC;			//몸통 렉트
 	RECT					_attackRC;			//독가스 렉트
 	int						_attack;			//공격 (0:공격 아님, 1:가스, 2:근접)
 	int						_attackCount;		//공격 카운트
@@ -26,8 +27,11 @@ private:
 	int						_startX, _endX;		//움직임 시작점 끝점
 
 	float					playerX, playerY;
+	int						playerAtk;
 	RECT					playerAttackBox;
 	RECT					playerDamageBox;
+	BOOL					_isInvincible;
+	int						_invincibleCount;
 
 public:
 	Boss_Snake();
@@ -56,5 +60,7 @@ public:
 
 	void SetDamage(int damage) { _HP -= damage; }
 	void PlayDamage();
+
+	void TestText();
 };
 

@@ -19,6 +19,7 @@ StoreScene::~StoreScene()
 
 HRESULT StoreScene::init()
 {
+	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("STORE", 0.5f);
 	IMAGEMANAGER->addImage("storeBackground", "storeBackground.bmp", 600, 500, false, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("speechBalloon", "speechBalloon.bmp", 480, 60, true, RGB(255, 0, 255));

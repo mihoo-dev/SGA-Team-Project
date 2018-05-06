@@ -21,7 +21,7 @@ HRESULT BunnyScene::init()
 	IMAGEMANAGER->addImage("Ground_Pixel", "Ground_Pixel.bmp", 0, 0, 6656, 512, true, RGB(255, 0, 255));
 
 	_pm = new PlayerManager;
-	_pm->init();
+	_pm->init(100, 403);
 
 	_em = new EnemyManager;
 	_em->init();

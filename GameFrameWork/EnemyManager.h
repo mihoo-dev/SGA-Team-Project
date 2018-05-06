@@ -82,11 +82,15 @@ public:
 
 	void Die();
 
-	//Make Money
+	//Money
 	void MoveMoney(string colPixelName);
 	void MakeMoney(float x, float y);
+	void GetMoney();
 
 	//PM 전방선언 주소 연결
 	void SetAdressPM(PlayerManager* PM) { _pm = PM; }
+
+	//테스트용 텍스트 출력
+	void TestText();
 };
 

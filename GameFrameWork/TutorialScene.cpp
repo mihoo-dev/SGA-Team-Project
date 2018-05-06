@@ -25,7 +25,7 @@ HRESULT TutorialScene::init()
     CAMERA->SetSize(1374, 1464);
     
     _pm = new PlayerManager;
-    _pm->init();
+    _pm->init(1220, 425);
 
     for (int i = 0; i < 13; i++)
     {
@@ -101,9 +101,6 @@ void TutorialScene::update()
         }
     }
 
-
-    
-
     FadeOut(&_alpha);
 }
 
@@ -124,7 +121,14 @@ void TutorialScene::render()
 
     _pm->render();
 
-    
+	TestText();
 
     IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
+}
+
+void TutorialScene::TestText()
+{
+	char status[128];
+	sprintf_s(status, "_x : %0.f, _y : %0.f", _pm->GetPlayer()->GetX(), _pm->GetPlayer()->GetY());
+	TextOut(getMemDC(), CAMERA->GetX(), CAMERA->GetY() + 200, status, strlen(status));
 }

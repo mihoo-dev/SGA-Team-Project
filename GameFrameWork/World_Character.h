@@ -61,6 +61,8 @@ private:
 	COLORREF					_colorGraveyard;
 	COLORREF					_colorHotdog;
 	COLORREF					_colorOutHotdog;
+	COLORREF					_colorRabbit;
+	COLORREF					_colorFountain;
 
 public:
 	World_Character();

@@ -14,10 +14,12 @@ World_Character::World_Character()
 	, _followTrace(true), _traceIndex(SIZEOFTRACE)
 	, _bridgeState(NOTHING_TO_DO)
 	, _jakeMotion(KEYANIMANAGER->findAnimation("WORLD_JAKE_WEST_MOVE"))
-	, _canMakeBridge(WORLDXY->GetCanMakeBridge()), _meetDog(true)
+	, _canMakeBridge(false)
+	, _meetDog(WORLDXY->GetMeetDog())
 	, _pressX(false), _Xframe(0), _Xcount(0)
 	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1)), _colorGraveyard(RGB(2,2,2))
-	, _colorHotdog(RGB(3,3,3)), _colorOutHotdog(RGB(4,4,4))
+	, _colorHotdog(RGB(3,3,3)), _colorOutHotdog(RGB(4,4,4)), _colorRabbit(RGB(5,5,5))
+	, _colorFountain(RGB(6,6,6))
 {
 }
 
@@ -56,7 +58,8 @@ void World_Character::release()
 
 void World_Character::update()
 {
-	_canMakeBridge = WORLDXY->GetCanMakeBridge();
+	//_canMakeBridge = WORLDXY->GetCanMakeBridge();
+	_meetDog = WORLDXY->GetMeetDog();
 
 	if (_bridgeState == NOTHING_TO_DO)
 	{
@@ -91,6 +94,13 @@ void World_Character::update()
 				WORLDXY->SetWorldX(2488);
 				WORLDXY->SetWorldY(1174);
 				SCENEMANAGER->changeScene("WorldMap", "LoadingScene");
+			break;
+			case GO_RABBIT:
+				SOUNDMANAGER->stop("WORLDMAP");
+				SOUNDMANAGER->play("ENTER");
+				SCENEMANAGER->changeScene("BunnyScene", "LoadingScene");
+			break;
+			case GO_FOUNTAIN:
 			break;
 			}
 		}
@@ -142,7 +152,7 @@ void World_Character::render(HDC hdc)
 		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x - 14, _y - 60 - 14, _Xframe, 0);
 	}
 
-	//CheckStatus(hdc);
+	CheckStatus(hdc);
 	//Rectangle(hdc, _rc.left, _rc.top, _rc.right, _rc.bottom);
 }
 
@@ -277,6 +287,18 @@ void World_Character::CheckPixel()
 	{
 		_pressX = true;
 		_buttonState = OUT_HOTDOG;
+	}
+	//Åä³¢
+	else if (RIGHT == _colorRabbit || LEFT == _colorRabbit || UP == _colorRabbit || DOWN == _colorRabbit)
+	{
+		_pressX = true;
+		_buttonState = GO_RABBIT;
+	}
+	//ºÐ¼ö
+	else if (RIGHT == _colorFountain || LEFT == _colorFountain || UP == _colorFountain || DOWN == _colorFountain)
+	{
+		_pressX = true;
+		_buttonState = GO_FOUNTAIN;
 	}
 	else
 	{
@@ -442,7 +464,7 @@ void World_Character::DrawJake(HDC hdc)
 void World_Character::MakeBridge()
 {
 	if (_canMakeBridge == false) return;
-
+	SOUNDMANAGER->play("GETBRIDGE");
 	_bridgeState = JAKE_HORIZONTAL_MOVE;
 }
 

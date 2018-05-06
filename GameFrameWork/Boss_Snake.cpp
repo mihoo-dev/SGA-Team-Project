@@ -5,13 +5,14 @@
 
 Boss_Snake::Boss_Snake()
 	: _img(IMAGEMANAGER->findImage("BOSS_SNAKE"))
-	, _startX(50), _endX(750)
+	, _startX(90), _endX(980)
 	, _x(_endX), _y(418+200)
 	, _state(SNAKE_LEFT_IDLE)
 	, _direction(SNAKE_LEFT)
 	, _count(0), _isPlay(false)
 	, _attack(0), _attackCount(0)
 	, _HP(20), _isDamage(false)
+	, _isInvincible(false), _invincibleCount(0)
 {
 }
 
@@ -96,6 +97,8 @@ void Boss_Snake::render()
 		, _x - _img->getFrameWidth() / 2
 		, _y - _img->getFrameHeight() / 2
 		, _motion);
+
+	TestText();
 }
 
 void Boss_Snake::Set(float x, float y)
@@ -163,6 +166,7 @@ void Boss_Snake::CheckState(Player* player)
 		{
 			if (!_isPlay)
 			{
+				SOUNDMANAGER->play("GROWL");
 				_motion->start();
 				_isPlay = true;
 				_attack = 2;
@@ -171,6 +175,7 @@ void Boss_Snake::CheckState(Player* player)
 			{
 				_state = SNAKE_LEFT_MOVE;
 				_isPlay = false;
+				_isDamage = false;
 			}
 		}
 		break;
@@ -183,6 +188,7 @@ void Boss_Snake::CheckState(Player* player)
 		{
 			if (!_isPlay)
 			{
+				SOUNDMANAGER->play("GROWL");
 				_motion->start();
 				_isPlay = true;
 				_attack = 2;
@@ -191,6 +197,7 @@ void Boss_Snake::CheckState(Player* player)
 			{
 				_state = SNAKE_RIGHT_MOVE;
 				_isPlay = false;
+				_isDamage = false;
 			}
 		}
 		break;
@@ -202,12 +209,14 @@ void Boss_Snake::CheckState(Player* player)
 		{
 			if (!_isPlay)
 			{
+				SOUNDMANAGER->play("MAKEPOISON");
 				_motion->start();
 				_isPlay = true;
 			}
 			else
 			{
 				_attack = 1;
+				SOUNDMANAGER->play("BUBBLE");
 				for (int ii = 0; ii < 11; ++ii)
 				{			
 					EFFECTMANAGER->play("EFFECT_POISON", 90 * (ii + 1), 368);
@@ -225,12 +234,14 @@ void Boss_Snake::CheckState(Player* player)
 		{
 			if (!_isPlay)
 			{
+				SOUNDMANAGER->play("MAKEPOISON");
 				_motion->start();
 				_isPlay = true;
 			}
 			else
 			{
 				_attack = 1;
+				SOUNDMANAGER->play("BUBBLE");
 				for (int ii = 0; ii < 11; ++ii)
 				{
 					EFFECTMANAGER->play("EFFECT_POISON", 90 * (ii + 1), 368);
@@ -255,7 +266,6 @@ void Boss_Snake::CheckState(Player* player)
 			{
 				_state = SNAKE_LEFT_CLOUD;
 				_isPlay = false;
-				_isDamage = false;
 			}
 		}
 		break;
@@ -356,10 +366,10 @@ RECT Boss_Snake::AttackRC(Player * player)
 	if (_attack == 0) _attackRC = { 0,0,0,0 };
 	else if (_attack == 1)
 	{
-		_attackRC = { 90, 318, 1030, 418 };
+		_attackRC = { 90, 340, 1030, 418 };
 		_attackCount++;
 		
-		if (_attackCount > 15)
+		if (_attackCount > 35)
 		{
 			_attackCount = 0;
 			_attack = 0;
@@ -380,16 +390,41 @@ RECT Boss_Snake::AttackRC(Player * player)
 			break;
 			}
 		}
-		if (_attackCount > 55)
+		if (_attackCount > 75)
 		{
 			_attackCount = 0;
 			_attack = 0;
 		}
 	}
 
-	if (IntersectRect(&temp, &playerDamageBox, &_attackRC))
+	if (IntersectRect(&temp, &playerDamageBox, &_attackRC) && !_isInvincible)
 	{
 		player->SetPlayerHit();
+		_isInvincible = true;
+	}
+
+	_bodyRC = RectMakeCenter((_rc.right + _rc.left) / 2, _rc.bottom + 40, 40, 80);
+	
+	if (_state == SNAKE_RIGHT_MOVE || _state == SNAKE_LEFT_MOVE)
+	{
+		if (IntersectRect(&temp, &playerDamageBox, &_bodyRC) && !_isInvincible)
+		{
+			player->SetPlayerHit();
+			_isInvincible = true;
+		}
+
+		else if (IntersectRect(&temp, &playerDamageBox, &_rc) && !_isInvincible)
+		{
+			player->SetPlayerHit();
+			_isInvincible = true;
+		}
+	}
+
+	if (_isInvincible) _invincibleCount++;
+	if (_invincibleCount > 50)
+	{
+		_isInvincible = false;
+		_invincibleCount = 0;
 	}
 
 	return _attackRC;
@@ -397,8 +432,8 @@ RECT Boss_Snake::AttackRC(Player * player)
 
 RECT Boss_Snake::DamageRC()
 {
-	if (_direction == SNAKE_RIGHT)	_rc = RectMakeCenter(_x + 15, _y, 110, 80);
-	else 	_rc = RectMakeCenter(_x - 15, _y, 110, 80);
+	if (_direction == SNAKE_RIGHT)	_rc = RectMakeCenter(_x + 15, _y - 10, 80, 80);
+	else 	_rc = RectMakeCenter(_x - 15, _y - 10, 80, 80);
 
 	return _rc;
 }
@@ -417,6 +452,7 @@ void Boss_Snake::GetPlayerInfo(Player * player)
 {
 	playerX = player->GetX();
 	playerY = player->GetY();
+	playerAtk = player->GetInfo().atk;
 	playerAttackBox = player->GetHitRC();
 	playerDamageBox = player->GetColRC();
 }
@@ -424,11 +460,21 @@ void Boss_Snake::GetPlayerInfo(Player * player)
 void Boss_Snake::PlayDamage()
 {
 	_isDamage = true;
-	_HP--;
+	_HP -= playerAtk;
+
+	if (_state == SNAKE_LEFT_CLOUD || _state == SNAKE_RIGHT_CLOUD
+		|| _state == SNAKE_LEFT_DAMAGED || _state == SNAKE_RIGHT_DAMAGED) return;
 
 	_motion->stop();			//이전 애니메이션 일시정지
 	_isPlay = false;			//애니메이션 플레이 중 아님
 
 	if (_direction == SNAKE_LEFT)			_state = SNAKE_LEFT_DAMAGED;
 	else if (_direction == SNAKE_RIGHT)		_state = SNAKE_RIGHT_DAMAGED;
+}
+
+void Boss_Snake::TestText()
+{
+	char status[128];
+	sprintf_s(status, "_x : %0.f, _y : %0.f", _x, _y);
+	TextOut(getMemDC(), CAMERA->GetX(), CAMERA->GetY() + 200, status, strlen(status));
 }

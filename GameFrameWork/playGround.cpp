@@ -90,6 +90,9 @@ HRESULT playGround::init()
     SOUNDMANAGER->addSound("SWORD1", "sound\\SWORD1.mp3", false, false);
     SOUNDMANAGER->addSound("SWORD2", "sound\\SWORD2.mp3", false, false);
     SOUNDMANAGER->addSound("JAKEATTACK", "sound\\JAKEATTACK.mp3", false, false);
+	SOUNDMANAGER->addSound("GETMONEY", "sound\\EFFECT_GETMONEY.mp3", false, false);
+	SOUNDMANAGER->addSound("BUBBLE", "sound\\EFFECT_BUBBLE.mp3", false, false);
+	SOUNDMANAGER->addSound("MAKEPOISON", "sound\\EFFECT_MAKEPOISON.mp3", false, false);
     
 	return S_OK;
 }
@@ -171,7 +174,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("HotDogScene", "LoadingScene");
+			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
 		}
 	}
 	if (_sceneChange7)

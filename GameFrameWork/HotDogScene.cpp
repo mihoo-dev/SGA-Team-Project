@@ -29,7 +29,7 @@ HRESULT HotDogScene::init()
 	IMAGEMANAGER->addImage("TALK_HOTDOG", "TALK_HOTDOG.bmp", 556, 154, false, NULL);
 
 	_pm = new PlayerManager;
-	_pm->init();
+	_pm->init(151, 437);
 	
 	SOUNDMANAGER->allStop();
 	SOUNDMANAGER->play("HOTDOG", 0.5f);
@@ -56,7 +56,7 @@ void HotDogScene::update()
 	
 	if (_scriptState == 0 || _scriptState == 7)	_pm->update();
 
-	if (KEYMANAGER->isOnceKeyDown('M') && _pressX)
+	if (KEYMANAGER->isOnceKeyDown('X') && _pressX)
 	{
 		if (_scriptState == 0)	_scriptState = 1;
 		else if (_scriptState == 2)	_scriptState = 3;
@@ -109,7 +109,7 @@ void HotDogScene::OutStage()
 	if (_alpha == 255 && _sceneStart == false)
 	{
 		WORLDXY->SetWorldX(2510);
-		WORLDXY->SetWorldY(1583);
+		WORLDXY->SetWorldY(1083);
 		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
 	}
 }
@@ -153,8 +153,10 @@ void HotDogScene::Script()
 	}
 	else if (_scriptState == 4)
 	{
+		sprintf_s(talk, "");
+		sprintf_s(talk2, "");
 		SOUNDMANAGER->play("GETBRIDGE");
-		WORLDXY->SetCanMakeBridge(true);
+		WORLDXY->SetMeetDog(true);
 		_scriptState = 5;
 	}
 	else if (_scriptState == 5)
