@@ -106,6 +106,8 @@ private:
 	RECT Temp; //Rect for IntersectRect
 	COLORREF pixelColor; // COLERREF for PixelCollision
 
+	
+
 private: // 다른 객체에서 받아올 것들
 	Player * player;
 	float playerX;

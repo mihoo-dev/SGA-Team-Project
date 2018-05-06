@@ -50,6 +50,13 @@ private:
 	int					_moneyIndex;
 	int					_endCount;
 
+	// 플레이어 무적 시간
+	int InvincibleCount;
+	int InvincibleTime;
+	bool isInvincible;
+
+	bool isCollideWithPlayer();
+	bool isPlayerDamaged();
 	void checkIsDie();
 public:
 	EnemyManager();
