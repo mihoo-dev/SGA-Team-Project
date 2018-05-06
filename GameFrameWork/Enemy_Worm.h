@@ -64,14 +64,22 @@ private:
 	float wPower;
 	int hp;
 	int atk;
-	bool isAttack;
-	bool isHit;
 	RECT hitRect;
 	float range;
 	RECT rc;
 	int count;
 	int phase;
+	bool isAttack;
+	bool isHit;
 
+private:
+	float playerX;
+	float playerY;
+	RECT _playerRect;
+	RECT _playerAtkRect;
+
+
+private:
 	WORM_STATE Status;
 	AnimKeyFrame CurrentFrame;
 	UINT CurrentFrameIndex;
@@ -96,6 +104,8 @@ public:
 
 	void WormController(void);
 
+	void SetHp(int _hp) { hp = _hp; }
+	int GetHp() { return hp; }
 
 };
 
