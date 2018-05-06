@@ -26,6 +26,7 @@ HRESULT playGround::init()
     _endScene = new EndScene;
     _loadingScene = new LoadingScene;
 	_storeScene = new StoreScene;
+    _clearScene = new ClearScene;
 
 	//스테이지씬 동적 할당
 	_tutorialScene = new TutorialScene;
@@ -47,6 +48,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("WorldScene", _worldScene);
     SCENEMANAGER->addScene("EndScene", _endScene);
 	SCENEMANAGER->addScene("StoreScene", _storeScene);
+    SCENEMANAGER->addScene("ClearScene", _clearScene);
     SCENEMANAGER->addLoadingScene("LoadingScene", _loadingScene);
 
     SCENEMANAGER->changeScene("StartScene");
