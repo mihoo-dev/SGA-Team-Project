@@ -345,6 +345,7 @@ void Player::update()
                 }
                 else if (_item == SWORD)
                 {
+                    SOUNDMANAGER->play("SWORD1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack2");
                     _y = _rc.bottom - _img->getFrameHeight() / 2;
                     ChangeAnim(RIGHT_SWORD_1, "PlayerRightSword1");
@@ -360,6 +361,7 @@ void Player::update()
                 }
                 else if (_item == SWORD)
                 {
+                    SOUNDMANAGER->play("SWORD1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack2");
                     _y = _rc.bottom - _img->getFrameHeight() / 2;
                     ChangeAnim(LEFT_SWORD_1, "PlayerLeftSword1");
@@ -384,9 +386,9 @@ void Player::update()
     {
         if (KEYMANAGER->isOnceKeyDown('Z'))
         {
-            SOUNDMANAGER->play("PUNCH1", 1.0f);
             if (_item == DEFFAULT)
             {
+                SOUNDMANAGER->play("PUNCH1", 1.0f);
                 _img = IMAGEMANAGER->findImage("PlayerAttack1");
                 if (_direction == RIGHT)
                     ChangeAnim(RIGHT_JUMP_PUNCH, "PlayerRightJumpPunch");
@@ -395,6 +397,7 @@ void Player::update()
             }
             else if (_item == SWORD)
             {
+                SOUNDMANAGER->play("SWORD1", 1.0f);
                 _img = IMAGEMANAGER->findImage("PlayerAttack2");
                 _y = _rc.bottom - _img->getFrameHeight() / 2;
                 if (_direction == RIGHT)
@@ -719,11 +722,13 @@ void Player::update()
                 _speed = 0;
                 if (_item == DEFFAULT)
                 {
+                    SOUNDMANAGER->play("PUNCH1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
                     ChangeAnim(RIGHT_DUCK_KICK, "PlayerRightDuckKick");
                 }
                 else if (_item == SWORD)
                 {
+                    SOUNDMANAGER->play("SWORD1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack2");
                     _y = _rc.bottom - _img->getFrameHeight() / 2;
                     ChangeAnim(RIGHT_DUCK_SWORD, "PlayerRightDuckSword");
@@ -751,11 +756,13 @@ void Player::update()
                 _speed = 0;
                 if (_item == DEFFAULT)
                 {
+                    SOUNDMANAGER->play("PUNCH1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack1");
                     ChangeAnim(LEFT_DUCK_KICK, "PlayerLeftDuckKick");
                 }
                 else if (_item == SWORD)
                 {
+                    SOUNDMANAGER->play("SWORD1", 1.0f);
                     _img = IMAGEMANAGER->findImage("PlayerAttack2");
                     _y = _rc.bottom - _img->getFrameHeight() / 2;
                     ChangeAnim(LEFT_DUCK_SWORD, "PlayerLeftDuckSword");
@@ -962,11 +969,14 @@ void Player::update()
     case Player::RIGHT_SWORD_1:
         _hitRC = RectMakeCenter(_x + 80, _y, 40, 80);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
             {
+                SOUNDMANAGER->play("SWORD1", 1.0f);
                 _isCombo = false;
                 ChangeAnim(RIGHT_SWORD_2, "PlayerRightSword2");
             }
@@ -985,11 +995,14 @@ void Player::update()
     case Player::LEFT_SWORD_1:
         _hitRC = RectMakeCenter(_x - 80, _y, 40, 80);
         if (KEYMANAGER->isOnceKeyDown('Z'))
+        {
             _isCombo = true;
+        }
         if (_isCombo)
         {
             if (!_anim->isPlay())
             {
+                SOUNDMANAGER->play("SWORD1", 1.0f);
                 _isCombo = false;
                 ChangeAnim(LEFT_SWORD_2, "PlayerLeftSword2");
             }
