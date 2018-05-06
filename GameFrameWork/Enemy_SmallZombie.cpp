@@ -232,9 +232,6 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 {
 	GetPlayerInfo(player);
 
-
-	if (KEYMANAGER->isOnceKeyDown(VK_F1)) { player->SetPlayerHit(); }
-
 	distFromPlayer = getDistance(x, y, playerX, playerY);
 
 	switch (state)

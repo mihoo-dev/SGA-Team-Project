@@ -48,6 +48,9 @@ HRESULT EnemyManager::init()
 		_vMoney.push_back(money);
 	}
 
+	InvincibleCount = 0;
+	InvincibleTime = 2000;
+	isInvincible = false;
 	_moneyIndex = 0;
 	_endCount = 0;
 	_bear = NULL;
@@ -113,14 +116,25 @@ void EnemyManager::update(string colPixelName)
 
 	if (KEYMANAGER->isOnceKeyDown('N')) MakeMoney(CAMERA->GetX() + WINSIZEX / 2, CAMERA->GetY() + WINSIZEY / 2);
 
-	if (_vSmallZombie.size() != 0) {
-		for (int i = 0; i < _vSmallZombie.size(); ++i) {
+	checkIsDie();
+
+	if (_vSmallZombie.size() != 0) 
+	{
+		for (int i = 0; i < _vSmallZombie.size(); ++i) 
+		{
 			if (_vSmallZombie[i]->getIsDead() == true) continue;
 			_vSmallZombie[i]->update(_pm->GetPlayer(), colPixelName);
+
+			if (isCollideWithPlayer() && !isPlayerDamaged() && !isInvincible) 
+			{
+				_pm->GetPlayer()->SetPlayerHit(); 
+				isInvincible = true; 
+			}
+			else if (isInvincible) { InvincibleCount++; }
+			if (InvincibleCount > InvincibleTime) { InvincibleCount = 0; isInvincible = false; }
 		}
 	}
-	
-	checkIsDie();
+
 	EFFECTMANAGER->update();
 }
 
@@ -163,12 +177,43 @@ void EnemyManager::SetSnake(float x, float y)
 	_isSnakeStage = true;
 }
 
+bool EnemyManager::isCollideWithPlayer()
+{
+	RECT temp;
+
+	//	½º¸ô Á»ºñ 
+	if (_vSmallZombie.size() != 0) {
+		for (int i = 0; i < _vSmallZombie.size(); ++i) {
+			if (IntersectRect(&temp, &_vSmallZombie[i]->getHitBox(),
+				&_pm->GetPlayer()->GetColRC())) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool EnemyManager::isPlayerDamaged()
+{
+	if (_pm->GetPlayer()->GetState() == Player::STATE::LEFT_HIT &&
+		_pm->GetPlayer()->GetState() == Player::STATE::RIGHT_HIT &&
+		_pm->GetPlayer()->GetState() == Player::STATE::LEFT_KNOCK &&
+		_pm->GetPlayer()->GetState() == Player::STATE::RIGHT_KNOCK &&
+		_pm->GetPlayer()->GetState() == Player::STATE::LEFT_DIE &&
+		_pm->GetPlayer()->GetState() == Player::STATE::RIGHT_DIE) 
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void EnemyManager::checkIsDie()
 {
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
 			if (_vSmallZombie[i]->getHp() <= 0 && _vSmallZombie[i]->getIsDead() == false) {
-				EFFECTMANAGER->play("dieEffect",_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
+				EFFECTMANAGER->play("dieEffect", _vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
 				MakeMoney(_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
 				_vSmallZombie[i]->setIsDead(true);
 				break;
