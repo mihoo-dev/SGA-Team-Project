@@ -10,10 +10,10 @@ private:
 	PlayerManager * _pm;
 	EnemyManager * _em;
 	Object * _door;
-
-	int _alpha;
-
 	int _time;
+	int _alpha;
+	BOOL _sceneStart;
+	BOOL _sceneChange;
 
 public:
 	BunnyScene();
@@ -23,5 +23,10 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void CheckStatus();
+	void SceneStart();
+	void DoorEnter();
+	void GoBearStage();
 };
 

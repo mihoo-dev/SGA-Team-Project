@@ -25,6 +25,7 @@ HRESULT BunnyScene::init()
 
 	_em = new EnemyManager;
 	_em->init();
+	_em->SetAdressPM(_pm);
 
 	_door = new Door;
 	_door->init(6600, 295);
@@ -32,6 +33,10 @@ HRESULT BunnyScene::init()
 	CAMERA->SetPos(0, 0);
 	CAMERA->SetSize(IMAGEMANAGER->findImage("Ground")->getWidth(),
 		IMAGEMANAGER->findImage("Ground")->getHeight());
+
+	_alpha = 255;
+	_sceneStart = true;
+	_sceneChange = false;
 
 	return S_OK;
 }
@@ -47,20 +52,33 @@ void BunnyScene::release()
 
 void BunnyScene::update()
 {
-	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
-	_pm->update();
+	if (KEYMANAGER->isOnceKeyDown(VK_F2)) _pm->GetPlayer()->SetPlayerHit();
 
-	_door->Collision(_pm->GetPlayer()->GetColRC());
-	_door->update();
-	if (!_door->GetInUse())
+	for (int i = 0; i < _em->GetBunny().size(); ++i)
 	{
-		_door->release();
-		SAFE_DELETE(_door);
+		if (!_em->GetBunny()[i]->GetIsPlayerDamage())
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBunny()[i]->GetHitRect()))
+			{
+				_em->GetBunny()[i]->SetIsPlayerDamage(true);
+				_pm->GetPlayer()->SetPlayerHit();
+			}
+		}
+		else
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBunny()[i]->GetHitRect()));
+			else
+			{
+				_em->GetBunny()[i]->SetIsPlayerDamage(false);
+			}
+		}
 	}
-	
+
 	if (_time >= 150)
 	{
-		if (_em->GetBunny().size() < 5)
+		if (_em->GetBunny().size() < 3)
 		{
 			_em->SetBunny(CAMERA->GetRC().right + 200, 200);
 		}
@@ -68,7 +86,7 @@ void BunnyScene::update()
 	}
 	_time++;
 
-	_em->update("Ground_Pixel");
+
 	for (int i = 0; i < _em->GetBunny().size(); ++i)
 	{
 		_em->GetBunny()[i]->SetPlayerInfo
@@ -80,7 +98,23 @@ void BunnyScene::update()
 		);
 	}
 
-	FadeOut(&_alpha);
+	SceneStart();
+
+	_door->update();
+	_door->Collision(_pm->GetPlayer()->GetColRC());
+
+	DoorEnter();
+
+	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
+	_pm->update();
+
+	_em->update("Ground_Pixel");
+
+
+	GoBearStage();
+
+
+	//FadeOut(&_alpha);
 }
 
 void BunnyScene::render()
@@ -116,4 +150,41 @@ void BunnyScene::render()
 	_em->render();
 	_pm->render();
 	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
+}
+
+
+void BunnyScene::CheckStatus()
+{
+	char status[128];
+	sprintf_s(status, "x : %0.f , y : %0.f", _pm->GetPlayer()->GetX(), _pm->GetPlayer()->GetY());
+	TextOut(getMemDC(), CAMERA->GetX(), CAMERA->GetY() - 200, status, strlen(status));
+}
+
+void BunnyScene::SceneStart()
+{
+	if (_sceneStart)
+	{
+		FadeOut(&_alpha);
+		if (_alpha == 0) _sceneStart = false;
+	}
+}
+
+void BunnyScene::DoorEnter()
+{
+	if (_pm->GetPlayer()->GetX() > 6600 && !_sceneChange)
+	{
+		_sceneChange = true;
+		_pm->GetPlayer()->ChangeAnim(Player::RIGHT_DOOR_ENTER, "PlayerRightDoorEnter");
+	}
+
+	if (_sceneChange)
+		FadeIn(&_alpha);
+}
+
+void BunnyScene::GoBearStage()
+{
+	if (!_sceneStart && _alpha == 255)
+	{
+		SCENEMANAGER->changeScene("BearScene", "LoadingScene");
+	}
 }

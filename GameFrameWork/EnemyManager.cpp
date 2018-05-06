@@ -111,6 +111,7 @@ void EnemyManager::update(string colPixelName)
 			_vBunny[i]->update();
 		}
 	}
+	Die();
 
 	MoveMoney(colPixelName);
 
@@ -147,6 +148,18 @@ void EnemyManager::render()
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
 			if (_vSmallZombie[i]->getIsDead() == true) continue;
 			_vSmallZombie[i]->render(getMemDC());
+		}
+	}
+
+	if (_isBearStage)
+	{
+		_bear->render();
+	}
+	else if (_isBunnyStage)
+	{
+		for (int i = 0; i < _vBunny.size(); ++i)
+		{
+			_vBunny[i]->render();
 		}
 	}
 
@@ -236,6 +249,53 @@ void EnemyManager::SetBunny(float x, float y)
 	_vBunny[_vBunny.size() - 1]->init(x, y);
 
 	_isBunnyStage = true;
+}
+
+void EnemyManager::Die()
+{
+	if (_isBearStage)
+	{
+		if (!_bear->GetIsDie())
+			if (_bear->GetHp() <= 0 || _bear->GetY() >= GAMESIZEY)
+			{
+				EFFECTMANAGER->play("dieEffect", _bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				_bear->SetIsDie(true);
+			}
+	}
+	if (_isBunnyStage)
+	{
+		for (int i = 0; i < _vBunny.size(); ++i)
+		{
+			if (_vBunny[i]->GetHp() <= 0)
+			{
+				EFFECTMANAGER->play("dieEffect", _vBunny[i]->GetX() + (_vBunny[i]->GetRect().right - _vBunny[i]->GetRect().left) / 2
+					, _vBunny[i]->GetY() + (_vBunny[i]->GetRect().bottom - _vBunny[i]->GetRect().top) / 2);
+				MakeMoney(_vBunny[i]->GetX() + (_vBunny[i]->GetRect().right - _vBunny[i]->GetRect().left) / 2
+					, _vBunny[i]->GetY() + (_vBunny[i]->GetRect().bottom - _vBunny[i]->GetRect().top) / 2);
+				MakeMoney(_vBunny[i]->GetX() + (_vBunny[i]->GetRect().right - _vBunny[i]->GetRect().left) / 2
+					, _vBunny[i]->GetY() + (_vBunny[i]->GetRect().bottom - _vBunny[i]->GetRect().top) / 2);
+				_vBunny.erase(_vBunny.begin() + i);
+			}
+			else if (_vBunny[i]->GetY() >= GAMESIZEY)
+			{
+				_vBunny.erase(_vBunny.begin() + i);
+			}
+			else if (_vBunny[i]->GetX() - 1000 > _pm->GetPlayer()->GetX() ||
+				_vBunny[i]->GetX() + 1000 < _pm->GetPlayer()->GetX())
+			{
+				_vBunny.erase(_vBunny.begin() + i);
+			}
+		}
+	}
 }
 
 

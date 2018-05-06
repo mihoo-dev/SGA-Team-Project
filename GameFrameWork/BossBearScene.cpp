@@ -4,7 +4,9 @@
 
 BossBearScene::BossBearScene()
 	:_alpha(255),
-	_isDone(false)
+	_isDone(false),
+	_isDamage(false),
+	_time(0)
 {
 }
 
@@ -23,9 +25,7 @@ HRESULT BossBearScene::init()
 
 	_em = new EnemyManager;
 	_em->init();
-
-	_door = new Door;
-	_door->init(1050, 196);
+	_em->SetAdressPM(_pm);
 
 	CAMERA->SetPos(0, 0);
 	CAMERA->SetSize(IMAGEMANAGER->findImage("BossRoom")->getWidth(),
@@ -41,14 +41,44 @@ void BossBearScene::release()
 	_pm->release();
 
 	_em->release();
-
-	_door->release();
 }
 
 void BossBearScene::update()
 {
+	_em->GetBear()->SetPlayerInfo
+	(
+		_pm->GetPlayer()->GetX(),
+		_pm->GetPlayer()->GetY(),
+		_pm->GetPlayer()->GetColRC(),
+		_pm->GetPlayer()->GetHitRC()
+	);
+
 	_pm->GetPlayer()->GroundCollision("BossRoom_Pixel");
 	_pm->update();
+
+	_em->update("BossRoom_Pixel");
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F2)) _pm->GetPlayer()->SetPlayerHit();
+	if (!_isDamage)
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetHitRect()) ||
+			IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetWeaponRect()))
+		{
+			_isDamage = true;
+			_pm->GetPlayer()->SetPlayerHit();
+		}
+	}
+	else
+	{
+		RECT temp;
+		if (IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetHitRect()) ||
+			IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetWeaponRect()));
+		else
+		{
+			_isDamage = false;
+		}
+	}
 
 	if (!_isDone)
 	{
@@ -60,23 +90,21 @@ void BossBearScene::update()
 	}
 	else
 	{
-		_door->Collision(_pm->GetPlayer()->GetColRC());
-	}
-	_door->update();
-	if (!_door->GetInUse())
-	{
-		_door->release();
+		if (_time == 0)
+			_pm->GetPlayer()->SetPlayerDance();
+		_time++;
+		if (_time >= 100)
+		{
+			_alpha++;
+			FadeIn(&_alpha);
+		}
+		if (_time >= 400)
+		{
+			SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+		}
 	}
 
-	_em->GetBear()->SetPlayerInfo
-	(
-		_pm->GetPlayer()->GetX(),
-		_pm->GetPlayer()->GetY(),
-		_pm->GetPlayer()->GetColRC(),
-		_pm->GetPlayer()->GetHitRC()
-	);
-	_em->update("BossRoom_Pixel");
-
+	
 	FadeOut(&_alpha);
 }
 
@@ -108,14 +136,20 @@ void BossBearScene::render()
 			IMAGEMANAGER->findImage("BossRoom_Pixel")->getWidth(),
 			IMAGEMANAGER->findImage("BossRoom_Pixel")->getHeight());
 	}
-	_door->render();
 
 	_em->render();
 	_pm->render();
 	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 
-	char str[128];
-	sprintf(str, "%d", _em->GetBear()->GetHp());
-	TextOut(getMemDC(), CAMERA->GetX() + 200, CAMERA->GetY() + 200, str, strlen(str));
+	char str[256];
+	sprintf(str, "x : %d", _pm->GetPlayer()->GetX());
+	TextOut(getMemDC(), CAMERA->GetX() + 100, 100, str, strlen(str));
 }
 
+void BossBearScene::GoWorldMap()
+{
+	if (_alpha == 255)
+	{
+		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+	}
+}

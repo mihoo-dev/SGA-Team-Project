@@ -40,7 +40,7 @@ private:
 	RECT _playerRc;		//플레이어 렉트
 	RECT _playerHitRc;	//플레이어 때리는 렉트
 	BOOL _isDamage;
-	BOOL _isHit;
+	BOOL _isPlayerDamage;
 
 	int _probeX;
 	int _probeY;
@@ -78,6 +78,10 @@ public:
 	void PixelCollision1();
 	void PixelCollision2();
 
+	float GetX() { return _x; }
 	float GetY() { return _y; }
+
+	BOOL GetIsPlayerDamage() { return _isPlayerDamage; }
+	void SetIsPlayerDamage(BOOL isPlayerDamage) { _isPlayerDamage = isPlayerDamage; }
 };
 

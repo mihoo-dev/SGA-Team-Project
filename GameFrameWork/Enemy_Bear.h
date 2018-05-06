@@ -55,7 +55,7 @@ private:
 	RECT _playerRc;		//플레이어 렉트
 	RECT _playerHitRc;	//플레이어 때리는 렉트
 	BOOL _isDamage;
-	BOOL _isHit;
+	BOOL _isDie;
 
 public:
 	Enemy_Bear();
@@ -92,5 +92,11 @@ public:
 
 	RECT GetWeaponRect() { return _weaponRc; }
 	RECT GetHitRect() { return _hitRc; }
+
+	BOOL GetIsDie() { return _isDie; }
+	void SetIsDie(BOOL isDie) { _isDie = isDie; }
+
+	float GetX() { return _x; }
+	float GetY() { return _y; }
 };
 

@@ -10,10 +10,12 @@ Enemy_Bunny::Enemy_Bunny()
 	_frameSpeed(5),
 	_moveSpeed(3),
 	_isJump(FALSE),
-	_jumpPower(0),_gravity(0),
+	_jumpPower(0), _gravity(0),
 	_time(0),
 	_rndTime(RND->getFromIntTo(100, 200)),
-	_hp(4)
+	_hp(4),
+	_isDamage(false),
+	_isPlayerDamage(false)
 {
 }
 
@@ -74,7 +76,7 @@ void Enemy_Bunny::Move()
 
 	_time++;
 	_countTime++;
-	
+
 	//렉트 설정
 	_rc = RectMake(_x + 10, _y + 5, _img->getFrameWidth() - 20, _img->getFrameHeight() - 10);
 	if (_isJump)

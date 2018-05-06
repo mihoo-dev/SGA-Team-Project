@@ -80,6 +80,8 @@ public:
 	void SetBear(float x, float y);
 	void SetBunny(float x, float y);
 
+	void Die();
+
 	//Make Money
 	void MoveMoney(string colPixelName);
 	void MakeMoney(float x, float y);

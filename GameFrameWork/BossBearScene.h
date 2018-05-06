@@ -9,12 +9,13 @@ class BossBearScene : public gameNode
 private:
 	PlayerManager* _pm;
 	EnemyManager* _em;
-	Object* _door;
 
 	int _alpha;
 
 	BOOL _isDamage;
 	BOOL _isDone;
+
+	int _time;
 
 public:
 	BossBearScene();
@@ -25,5 +26,6 @@ public:
 	void update();
 	void render();
 
+	void GoWorldMap();
 };
 

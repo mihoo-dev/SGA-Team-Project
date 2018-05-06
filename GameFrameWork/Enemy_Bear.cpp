@@ -16,7 +16,8 @@ Enemy_Bear::Enemy_Bear()
 	_rndPattern(4),
 	_hp(1),
 	_isAttack(FALSE),
-	_delay(0)
+	_delay(0),
+	_isDie(false)
 {
 }
 
@@ -148,6 +149,11 @@ void Enemy_Bear::Move()
 			_weaponRc = RectMakeCenter(_rc.left + (_rc.right - _rc.left) / 2 + 16, _rc.top + 50, 40, 100);
 		else
 			_weaponRc = RectMakeCenter(_rc.right - (_rc.right - _rc.left) / 2 - 16, _rc.top + 50, 40, 100);
+	}
+	else
+	{
+		_hitRc = RectMake(0, 0, 0, 0);
+		_weaponRc = RectMakeCenter(0, 0, 0, 0);
 	}
 	_countTime++;
 	_rc = RectMake(_x + 10, _y + 5, _img->getFrameWidth() - 20, _img->getFrameHeight() - 10);
@@ -373,16 +379,9 @@ void Enemy_Bear::Die()
 {
 	if (_state != LEFT_DIE && _state != RIGHT_DIE)
 	{
-		if (!_isRight)
-		{
-			SetState(LEFT_DIE, 8);
-		}
-		else
-		{
-			SetState(RIGHT_DIE, 8);
-		}
+		SetState(RIGHT_DIE, 8);
 		_saveX = _x;
-		_y -= 5;
+		_y -= 25;
 	}
 }
 
