@@ -97,6 +97,9 @@
     <Filter Include="playGround\Scene\StoreScene">
       <UniqueIdentifier>{deb323c9-9fdd-47c3-bda8-ec9088ffee09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Scene\ClearScene">
+      <UniqueIdentifier>{90ffac2e-fb92-4157-8d6b-05a4e961a042}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -294,6 +297,9 @@
     <ClInclude Include="BossBearScene.h">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
     </ClInclude>
+    <ClInclude Include="ClearScene.h">
+      <Filter>playGround\Scene\ClearScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -472,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="BunnyScene.cpp">
       <Filter>playGround\Scene\PlayScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
+      <Filter>playGround\Scene\ClearScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
