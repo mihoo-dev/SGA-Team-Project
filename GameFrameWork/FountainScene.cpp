@@ -137,7 +137,7 @@ void FountainScene::UpCredit()
 	if (_dance) _endingCreditY--;
 
 
-	RECT credit = RectMake(400, _endingCreditY, 200, 600);
+	RECT credit = RectMake(380, _endingCreditY, 200, 1600);
 
 	HFONT font, oldFont;
 
@@ -150,7 +150,7 @@ void FountainScene::UpCredit()
 
 	char talk[256];
 
-	sprintf_s(talk, "감사합니다\n플레이어 : 강동훈\n월드맵 : 권준형\n상점 : 남경태\n좀비 : 박요셉\n토끼 : 김진홍");
+	sprintf_s(talk, "감사합니다\n\n\n권준형\n  월드맵\n  핫도그씬\n  분수씬\n  보스스네이크\n\n강동훈\n  플레이어\n  UI\n  씬매니져\n  튜토리얼씬\n\n남경태\n  상점\n  아이템\n\n유민석\n  에너미뱀\n\n김진홍\n  에너미토끼\n  에너미곰\n\n박요셉\n  에너미매니져\n  에너미좀비");
 
 	DrawText(getMemDC(), talk, strlen(talk), &credit, DT_LEFT | DT_TOP);
 	//TextOut(getMemDC(), 20, 130, talk, strlen(talk));
@@ -172,7 +172,7 @@ void FountainScene::SceneStart()
 
 void FountainScene::CreditEnd()
 {
-	if (_endingCreditY < -300 && !_sceneChange)
+	if (_endingCreditY < -800 && !_sceneChange)
 	{
 		_sceneChange = true;
 	}

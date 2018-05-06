@@ -56,7 +56,7 @@ void HotDogScene::update()
 	
 	if (_scriptState == 0 || _scriptState == 7)	_pm->update();
 
-	if (KEYMANAGER->isOnceKeyDown('X') && _pressX)
+	if (KEYMANAGER->isOnceKeyDown('M') && _pressX)
 	{
 		if (_scriptState == 0)	_scriptState = 1;
 		else if (_scriptState == 2)	_scriptState = 3;

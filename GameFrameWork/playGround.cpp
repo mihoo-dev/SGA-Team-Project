@@ -97,6 +97,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("BUBBLE", "sound\\EFFECT_BUBBLE.mp3", false, false);
 	SOUNDMANAGER->addSound("MAKEPOISON", "sound\\EFFECT_MAKEPOISON.mp3", false, false);
     SOUNDMANAGER->addSound("BURST", "sound\\Burst.mp3", false, false);
+	SOUNDMANAGER->addSound("BELL", "sound\\EFFECT_BELL.mp3", false, false);
 
 	return S_OK;
 }
