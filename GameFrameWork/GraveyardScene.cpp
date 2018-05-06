@@ -71,7 +71,7 @@ void GraveyardScene::update()
 	SceneStart();
 
     _vDoor[0]->update();
-    _vDoor[0]->Collision(_pm->GetPlayer()->GetColRC());
+    _vDoor[0]->Collision(_pm->GetPlayer());
 
     DoorEnter();
 

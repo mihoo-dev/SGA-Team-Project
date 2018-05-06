@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Bubble.h"
-
+#include "Player.h"
 
 Bubble::Bubble()
 {
@@ -49,4 +49,18 @@ void Bubble::update()
 void Bubble::render()
 {
     Object::render();
+}
+
+void Bubble::Collision(Player * player)
+{
+    if (!_isCollided)
+    {
+        RECT temp;
+        if (IntersectRect(&temp, &_rc, &player->GetHitRC()))
+        {
+            POPUP->Fire(_x, _y, player->GetInfo().atk);
+            SOUNDMANAGER->play("BURST", 0.3f);
+            _isCollided = true;
+        }
+    }
 }

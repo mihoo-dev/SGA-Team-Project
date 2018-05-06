@@ -1,5 +1,8 @@
 #pragma once
 #include "gameNode.h"
+
+class Player;
+
 class Object :
     public gameNode
 {
@@ -26,7 +29,7 @@ public:
     virtual void render();
 
     bool Animate();
-    void Collision(RECT rc);
+    virtual void Collision(Player * player);
     inline bool GetInUse() { return _inUse; }
     inline string GetName() { return _imgName; }
 };

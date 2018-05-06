@@ -87,10 +87,11 @@ void TutorialScene::update()
 
     for (int i = 0; i < _vObject.size(); i++)
     {
-        if(_vObject[i]->GetName() == "TutoBubble")
+        _vObject[i]->Collision(_pm->GetPlayer());
+        /*if(_vObject[i]->GetName() == "TutoBubble")
             _vObject[i]->Collision(_pm->GetPlayer()->GetHitRC());
         if (_vObject[i]->GetName() == "Door")
-            _vObject[i]->Collision(_pm->GetPlayer()->GetColRC());
+            _vObject[i]->Collision(_pm->GetPlayer()->GetColRC());*/
         _vObject[i]->update();
 
         if (!_vObject[i]->GetInUse())
@@ -101,7 +102,11 @@ void TutorialScene::update()
         }
     }
 
-    FadeOut(&_alpha);
+    if(_pm->GetPlayer()->GetState() != Player::RIGHT_DOOR_ENTER && 
+        _pm->GetPlayer()->GetState() != Player::LEFT_DOOR_ENTER)
+        FadeOut(&_alpha);
+    else
+        FadeIn(&_alpha);
 }
 
 void TutorialScene::render()

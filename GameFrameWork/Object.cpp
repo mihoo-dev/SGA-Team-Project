@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Object.h"
-
+#include "Player.h"
 
 Object::Object()
 {
@@ -56,11 +56,15 @@ bool Object::Animate()
     return false;
 }
 
-void Object::Collision(RECT rc)
+void Object::Collision(Player * player)
 {
-    RECT temp;
-    if (IntersectRect(&temp, &_rc, &rc))
+    if (!_isCollided)
     {
-        _isCollided = true;
+        RECT temp;
+        if (IntersectRect(&temp, &_rc, &player->GetHitRC()))
+        {
+            SOUNDMANAGER->play("BURST", 1.0f);
+            _isCollided = true;
+        }
     }
 }

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Door.h"
-
+#include "Player.h"
 
 Door::Door()
 {
@@ -50,4 +50,16 @@ void Door::render()
 {
     if (_inUse)
         _img->alphaFrameRender(getMemDC(), _rc.left, _rc.top, _frameX, 0, 255);
+}
+
+void Door::Collision(Player * player)
+{
+    if (!_isCollided)
+    {
+        RECT temp;
+        if (IntersectRect(&temp, &_rc, &player->GetColRC()))
+        {
+            _isCollided = true;
+        }
+    }
 }

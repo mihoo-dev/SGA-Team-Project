@@ -96,7 +96,8 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("GETMONEY", "sound\\EFFECT_GETMONEY.mp3", false, false);
 	SOUNDMANAGER->addSound("BUBBLE", "sound\\EFFECT_BUBBLE.mp3", false, false);
 	SOUNDMANAGER->addSound("MAKEPOISON", "sound\\EFFECT_MAKEPOISON.mp3", false, false);
-    
+    SOUNDMANAGER->addSound("BURST", "sound\\Burst.mp3", false, false);
+
 	return S_OK;
 }
 

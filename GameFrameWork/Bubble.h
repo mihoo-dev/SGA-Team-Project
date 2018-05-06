@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+
 class Bubble :
     public Object
 {
@@ -17,5 +18,7 @@ public:
     void release();
     void update();
     void render();
+
+    void Collision(Player * player);
 };
 

@@ -101,7 +101,7 @@ void BunnyScene::update()
 	SceneStart();
 
 	_door->update();
-	_door->Collision(_pm->GetPlayer()->GetColRC());
+	_door->Collision(_pm->GetPlayer());
 
 	DoorEnter();
 
