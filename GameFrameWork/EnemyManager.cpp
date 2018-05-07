@@ -128,11 +128,12 @@ void EnemyManager::update(string colPixelName)
 
 			if (isCollideWithPlayer() && !isPlayerDamaged() && !isInvincible) 
 			{
-				_pm->GetPlayer()->SetPlayerHit(); 
+				_pm->GetPlayer()->SetPlayerHit();
 				isInvincible = true; 
 			}
 			else if (isInvincible) { InvincibleCount++; }
 			if (InvincibleCount > InvincibleTime) { InvincibleCount = 0; isInvincible = false; }
+			
 		}
 	}
 
@@ -227,11 +228,12 @@ void EnemyManager::checkIsDie()
 {
 	if (_vSmallZombie.size() != 0) {
 		for (int i = 0; i < _vSmallZombie.size(); ++i) {
-			if (_vSmallZombie[i]->getHp() <= 0 && _vSmallZombie[i]->getIsDead() == false) {
-				EFFECTMANAGER->play("dieEffect", _vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
-				MakeMoney(_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
-				_vSmallZombie[i]->setIsDead(true);
-				break;
+			if (_vSmallZombie[i]->getIsDead() == false) {
+				if (_vSmallZombie[i]->getHp() <= 0 || _vSmallZombie[i]->getHitBox().top > WINSIZEY) {
+					EFFECTMANAGER->play("dieEffect", _vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
+					MakeMoney(_vSmallZombie[i]->getX(), _vSmallZombie[i]->getY());
+					_vSmallZombie[i]->setIsDead(true);
+				}
 			}
 		}
 	}

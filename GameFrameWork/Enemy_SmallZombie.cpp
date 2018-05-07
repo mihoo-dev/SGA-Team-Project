@@ -19,7 +19,7 @@ Enemy_SmallZombie::Enemy_SmallZombie()
 	hitBox({ x,y,x + width,y + height }),
 	playerHitBox({ 0,0,0,0 }),
 	direction(RIGHT),
-	alertRange(150),
+	alertRange(220),
 	maxMoveDistance(150),
 	moveDistance(0),
 	period_idleToPatrol(120)
@@ -39,20 +39,20 @@ HRESULT Enemy_SmallZombie::init(int x, int y)
 	IMAGEMANAGER->addFrameImage("SmallZombie_idle", "SmallZombie_idle.bmp", 738, 140, 9, 2, true, RGB(255, 0, 255));
 
 	int rightIdle[] = { 0,1,2,3,4,5,6,7,8 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightIdle", "SmallZombie_idle", rightIdle, 9, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightIdle", "SmallZombie_idle", rightIdle, 9, 10, true);
 
 	int leftIdle[] = { 9,10,11,12,13,14,15,16,17 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftIdle", "SmallZombie_idle", leftIdle, 9, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftIdle", "SmallZombie_idle", leftIdle, 9, 10, true);
 
 	
 	//walk
 	IMAGEMANAGER->addFrameImage("SmallZombie_walk", "SmallZombie_walk.bmp", 1196, 152, 13, 2, true, RGB(255, 0, 255));
 
 	int rightWalk[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightWalk", "SmallZombie_walk", rightWalk, 13, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_rightWalk", "SmallZombie_walk", rightWalk, 13, 10, true);
 
 	int leftWalk[] = { 13,14,15,16,17,18,19,20,21,22,23,24,25 };
-	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftWalk", "SmallZombie_walk", leftWalk, 13, 5, true);
+	KEYANIMANAGER->addArrayFrameAnimation("SZ_leftWalk", "SmallZombie_walk", leftWalk, 13, 10, true);
 	
 	//jump
 	IMAGEMANAGER->addFrameImage("SmallZombie_jump", "SmallZombie_jump.bmp", 630, 156, 7, 2, true, RGB(255, 0, 255));
@@ -93,7 +93,7 @@ void Enemy_SmallZombie::GetPlayerInfo(Player * player)
 	this->player = player;
 	playerX = player->GetX();
 	playerY = player->GetY();
-	//playerAttackPower = player->getAttackPower();
+	playerAttackPower = player->GetInfo().atk;
 	playerAttackBox = player->GetHitRC();
 	playerHitBox = player->GetColRC();
 
@@ -184,7 +184,7 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 	{
 		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.left, hitBox.bottom + 5);
 
-		if (pixelColor == RGB(0, 255, 255) && !cliffIsInLeft)
+		if (pixelColor == RGB(0, 255, 255) && !cliffIsInLeft && state != alert)
 		{
 			cliffIsInLeft = true;
 			changeState(idle, left_idle, "SZ_leftIdle");
@@ -200,7 +200,7 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 		
 		pixelColor = GetPixel(IMAGEMANAGER->findImage(pixelName)->getMemDC(), hitBox.right, hitBox.bottom + 5);
 
-		if (pixelColor == RGB(0, 255, 255) && !cliffIsInRight)
+		if (pixelColor == RGB(0, 255, 255) && !cliffIsInRight && state != alert)
 		{
 			cliffIsInRight = true;
 			changeState(idle, right_idle, "SZ_rightIdle");
@@ -214,17 +214,6 @@ void Enemy_SmallZombie::CollisionUpdate(string pixelName)
 
 	#pragma endregion
 
-	#pragma region PreventEscapeWindow
-	if (hitBox.left + moveX < CAMERA->GetRC().left) {
-		if (state != getHit) changeState(idle, right_idle, "SZ_rightIdle");
-		moveX = 0;
-	}
-	else if (hitBox.right + moveX > CAMERA->GetRC().right) {
-		if (state != getHit) changeState(idle, left_idle, "SZ_leftIdle");
-		moveX = 0;
-	}
-	#pragma endregion
-	
 }
 
 
@@ -256,8 +245,6 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 	y += moveY;
 
 	hitBox = RectMakeCenter(x, y, width, height); // update hitBox
-
-	if (hitBox.top > WINSIZEY) isDead = true;
 }
 
 void Enemy_SmallZombie::render(HDC hdc)
@@ -278,7 +265,6 @@ void Enemy_SmallZombie::idle_behavior()
 	check_idleToPatrol++;
 
 	if (period_idleToPatrol <= check_idleToPatrol) {
-		check_idleToPatrol = 0;
 		bool change = (bool)RND->getFromIntTo(0, 3); // 33%
 		direction = (Directions)RND->getFromIntTo(0, 2);
 		if (change == true) {
@@ -290,16 +276,20 @@ void Enemy_SmallZombie::idle_behavior()
 
 	#pragma region IdleToAlert
 	if (distFromPlayer < alertRange && state != getHit) {
-		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
-		if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+		if (direction == LEFT && isPlayerOnLeft() ||
+			direction == RIGHT && !isPlayerOnLeft()) {
+
+			direction = (x > playerX) ? LEFT : RIGHT;
+			if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
+			if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+		}
 	}
 #pragma endregion
 
 	#pragma region IdleToGetHit
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
-		hp -= 1; // 맞으면 hp 감소
+		hp -= playerAttackPower; // 맞으면 hp 감소
 		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
@@ -320,33 +310,37 @@ void Enemy_SmallZombie::patrol_behavior()
 	if (abs(moveDistance) >= maxMoveDistance) {
 		moveDistance = 0;
 		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
-		else if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
+		if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
 	} // Patrole -> Idle
 	#pragma endregion
 
 	#pragma region PatrolToAlert
 	if (distFromPlayer < alertRange && state != getHit) {
-		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
-		if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+		if (direction == LEFT && isPlayerOnLeft() ||
+			direction == RIGHT && !isPlayerOnLeft()) {
+
+			direction = (x > playerX) ? LEFT : RIGHT;
+			if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
+			if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+		}
 	}
-#pragma endregion
+	#pragma endregion
 
 	#pragma region PatrolToGetHit
 
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
-		hp -= 1; // 맞으면 hp 감소
+		hp -= playerAttackPower; // 맞으면 hp 감소
 		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
 	}
 
-#pragma endregion
+	#pragma endregion
 }
 
 void Enemy_SmallZombie::alert_behavior()
 {
-	if (distFromPlayer <= 30) { moveX = 0; }
+	if (distFromPlayer <= 40) { moveX = 0; }
 	else moveX = (x > playerX) ? -spd : spd;
 	moveY = isOnGround ? 0 : gravity;
 
@@ -361,12 +355,13 @@ void Enemy_SmallZombie::alert_behavior()
 	}
 	#pragma endregion
 
-#pragma region AlertToIdle
+	#pragma region AlertToIdle
 	if (distFromPlayer > alertRange) {
 		if (direction == LEFT) changeState(idle, left_idle, "SZ_leftIdle");
 		else if (direction == RIGHT) changeState(idle, right_idle, "SZ_rightIdle");
 	}
-#pragma endregion
+	#pragma endregion
+
 	#pragma region AlertToJump 
 	/*
 	jumpCount++;
@@ -386,7 +381,7 @@ void Enemy_SmallZombie::alert_behavior()
 	#pragma region AlertToGetHit
 	
 	if (IntersectRect(&Temp, &hitBox, &playerAttackBox) && !isHit) {
-		hp -= 1; // 맞으면 hp 감소
+		hp -= playerAttackPower; // 맞으면 hp 감소
 		SOUNDMANAGER->play("ENEMY_HURT");
 		if (x > playerX) changeState(getHit, left_getHit, "SZ_leftGetHit");
 		else changeState(getHit, right_getHit, "SZ_rightGetHit");
@@ -413,8 +408,8 @@ void Enemy_SmallZombie::getHit_behavior()
 	{
 		knockBackDistance = 0;
 		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT) changeState(alert, left_walk, "SZ_leftWalk");
-		if (direction == RIGHT) changeState(alert, right_walk, "SZ_rightWalk");
+		if (direction == LEFT) changeState(patrol, left_walk, "SZ_leftWalk");
+		if (direction == RIGHT) changeState(patrol, right_walk, "SZ_rightWalk");
 	}
 	
 	if (groundIsInLeft || groundIsInRight)
@@ -422,8 +417,8 @@ void Enemy_SmallZombie::getHit_behavior()
 		moveX = 0;
 		knockBackDistance = 0;
 		direction = (x > playerX) ? LEFT : RIGHT;
-		if (direction == LEFT) changeState(alert, left_walk, "SZ_leftWalk");
-		if (direction == RIGHT) changeState(alert, right_walk, "SZ_rightWalk");
+		if (direction == LEFT) changeState(patrol, left_walk, "SZ_leftWalk");
+		if (direction == RIGHT) changeState(patrol, right_walk, "SZ_rightWalk");
 	}
 	
 }
@@ -436,10 +431,10 @@ void Enemy_SmallZombie::changeState(states state, imageStates imgState, string a
 
 	switch (imageState) {
 	case Enemy_SmallZombie::left_idle:
-	case Enemy_SmallZombie::right_idle: img = IMAGEMANAGER->findImage("SmallZombie_idle");
+	case Enemy_SmallZombie::right_idle: img = IMAGEMANAGER->findImage("SmallZombie_idle"); check_idleToPatrol = 0;
 		break;
 	case Enemy_SmallZombie::left_walk:
-	case Enemy_SmallZombie::right_walk: img = IMAGEMANAGER->findImage("SmallZombie_walk");
+	case Enemy_SmallZombie::right_walk: img = IMAGEMANAGER->findImage("SmallZombie_walk"); moveDistance = 0;
 		break;
 	case Enemy_SmallZombie::left_jump:
 	case Enemy_SmallZombie::right_jump: img = IMAGEMANAGER->findImage("SmallZombie_jump");
@@ -448,6 +443,7 @@ void Enemy_SmallZombie::changeState(states state, imageStates imgState, string a
 	case Enemy_SmallZombie::right_getHit: img = IMAGEMANAGER->findImage("SmallZombie_getHit"); GetDamage(); isHit = true;
 		break;
 	}
+
 
 	anim = KEYANIMANAGER->findAnimation(animKeyName);
 	anim->start();
@@ -464,6 +460,11 @@ void Enemy_SmallZombie::PreventFastAttack()
 			isHit = false;
 		}
 	}
+}
+
+bool Enemy_SmallZombie::isPlayerOnLeft()
+{
+	return (x > playerX) ? true : false;
 }
 
 

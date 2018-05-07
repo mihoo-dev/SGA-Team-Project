@@ -26,20 +26,7 @@ HRESULT GraveyardScene::init()
 	_em->init();
 	_em->SetAdressPM(_pm);
 
-	//_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 250, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 300, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 150, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 120, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 130, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 140, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 110, WINSIZEY / 2);
-	//_em->setSmallZombie(WINSIZEX / 2 + 250, WINSIZEY / 2);
+	
 	for (int ii = 0; ii < 15; ++ii)
 	{
 		_em->setSmallZombie(475 * (ii + 1), WINSIZEY / 2);

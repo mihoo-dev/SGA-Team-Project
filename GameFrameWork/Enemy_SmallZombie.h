@@ -132,6 +132,8 @@ private:
 
 	void PreventFastAttack(); // 연속되는 공격 방지
 
+	bool isPlayerOnLeft();
+
 private:
 
 	void changeState(states state, imageStates imgState, string animKeyName); // 상태와 animation 변경
