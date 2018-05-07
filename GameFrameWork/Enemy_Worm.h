@@ -55,7 +55,7 @@ class Enemy_Worm
 	std::vector<AnimKeyFrame*> vKeyFrame;
 
 private:
-	image * img_Idle;
+	image* img_Idle;
 	image* img_Move;
 	image* img_Attack;
 	image* img_Hit;

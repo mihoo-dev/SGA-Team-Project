@@ -3,6 +3,7 @@
 #include "Enemy_Bear.h"
 #include "Enemy_Bunny.h"
 #include "Enemy_SmallZombie.h"
+#include "Enemy_Worm.h"
 #include "Boss_Snake.h"
 
 #include <vector>
@@ -46,6 +47,9 @@ private:
 
 	image * dieImg;
 
+	vector<Enemy_Worm*> _vWorm;
+	BOOL _isWormStage;
+
 	vector<tagMoney>	_vMoney;
 	int					_moneyIndex;
 	int					_endCount;
@@ -81,6 +85,9 @@ public:
 	void SetBunny(float x, float y);
 
 	void Die();
+
+	// Worm
+	void SetWorm(float x, float y);
 
 	//Money
 	void MoveMoney(string colPixelName);

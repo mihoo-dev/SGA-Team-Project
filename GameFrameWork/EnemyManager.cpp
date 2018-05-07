@@ -5,7 +5,8 @@
 EnemyManager::EnemyManager()
 	:_isSnakeStage(false),
 	_isBearStage(false),
-	_isBunnyStage(false)
+	_isBunnyStage(false),
+	_isWormStage(false)
 {
 }
 
@@ -74,6 +75,10 @@ void EnemyManager::release()
 		if (_vBunny[i]) SAFE_DELETE(_vBunny[i]);
 	}
 	
+	for (int i = 0; i < _vWorm.size(); ++i)
+	{
+		if (_vWorm[i]) SAFE_DELETE(_vWorm[i]);
+	}
 }
 void EnemyManager::update(string colPixelName)
 {
@@ -112,6 +117,14 @@ void EnemyManager::update(string colPixelName)
 		}
 	}
 	Die();
+
+	if (_isWormStage)
+	{
+		for (int i = 0; i < _vWorm.size(); ++i)
+		{
+			_vWorm[i]->update();
+		}
+	}
 
 	MoveMoney(colPixelName);
 
@@ -161,6 +174,14 @@ void EnemyManager::render()
 		for (int i = 0; i < _vBunny.size(); ++i)
 		{
 			_vBunny[i]->render();
+		}
+	}
+
+	if(_isWormStage)
+	{
+		for (int i = 0; i < _vWorm.size(); ++i)
+		{
+			_vWorm[i]->render(getMemDC());
 		}
 	}
 
@@ -300,6 +321,14 @@ void EnemyManager::Die()
 			}
 		}
 	}
+}
+
+void EnemyManager::SetWorm(float x, float y)
+{
+	_vWorm.push_back(new Enemy_Worm);
+	_vWorm[_vWorm.size() - 1]->init(x, y);
+
+	_isWormStage = true;
 }
 
 

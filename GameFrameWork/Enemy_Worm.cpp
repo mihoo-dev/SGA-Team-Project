@@ -183,12 +183,14 @@ void Enemy_Worm::LoopAnimation(UINT value)
 	}
 }
 
+
 void Enemy_Worm::WormController(void)
 {
+
 	count++;
 	if (count % 100 == 0)
 	{
-		phase = RND->getInt(4);
+		phase++;
 
 		if (Status == MOVE_LEFT || Status == ATTACK_LEFT)
 		{
@@ -208,10 +210,21 @@ void Enemy_Worm::WormController(void)
 	}
 	else if (phase == 2)
 	{
+		if (Status == MOVE_LEFT || Status == ATTACK_LEFT)
+		{
+			ChangeAnimationFrame(IDLE_LEFT);
+		}
+		else if (Status == MOVE_RIGHT || Status == ATTACK_RIGHT)
+		{
+			ChangeAnimationFrame(IDLE_RIGHT);
+		}
+	}
+	else if (phase == 3)
+	{
 		ChangeAnimationFrame(MOVE_RIGHT);
 		x += wSpeed;
 	}
-	else if (phase == 3)
+	else if (phase == 4)
 	{
 		if (Status == MOVE_LEFT || Status == ATTACK_LEFT)
 		{
@@ -221,5 +234,6 @@ void Enemy_Worm::WormController(void)
 		{
 			ChangeAnimationFrame(IDLE_RIGHT);
 		}
+		phase = 0;
 	}
 }
