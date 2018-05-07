@@ -1537,6 +1537,7 @@ void Player::SetPlayerHit()
         _state != RIGHT_DIE && _state != LEFT_DIE )
     {
         POPUP->Fire(_x, _y, 1);
+        SaveData();
 
         if (_status.hp == 3)
         {
