@@ -39,7 +39,7 @@ public:
 	void	render(HDC hdc);
 
 	// getter
-	bool getHp() { return hp; }
+	int getHp() { return hp; }
 	bool getIsDead() { return isDead; }
 	int	getX() { return x; }
 	int	getY() { return y; }

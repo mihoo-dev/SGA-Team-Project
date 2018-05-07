@@ -6,7 +6,7 @@ Enemy_SmallZombie::Enemy_SmallZombie()
 	:state(states::idle),
 	imageState(imageStates::right_idle),
 	maxHp(10), hp(5), isDead(false), isHit(false),
-	hitTime(0), hitTimeLimit(30), count(0),
+	hitTime(0), hitTimeLimit(40), count(0),
 	isOnGroundLeft(false), isOnGroundRight(false),
 	spd(1), gravity(4), isOnGround(false),
 	groundIsInLeft(false), groundIsInRight(false),
@@ -97,9 +97,6 @@ void Enemy_SmallZombie::GetPlayerInfo(Player * player)
 	playerAttackBox = player->GetHitRC();
 	playerHitBox = player->GetColRC();
 
-
-
-	
 }
 
 void Enemy_SmallZombie::CollisionUpdate(string pixelName)
@@ -245,6 +242,8 @@ void Enemy_SmallZombie::update(Player * player, string colPixelName)
 	y += moveY;
 
 	hitBox = RectMakeCenter(x, y, width, height); // update hitBox
+
+	//printf_s("%d\n\n", hp);
 }
 
 void Enemy_SmallZombie::render(HDC hdc)
@@ -275,16 +274,17 @@ void Enemy_SmallZombie::idle_behavior()
 	#pragma endregion
 
 	#pragma region IdleToAlert
-	if (distFromPlayer < alertRange && state != getHit) {
-		if (direction == LEFT && isPlayerOnLeft() ||
-			direction == RIGHT && !isPlayerOnLeft()) {
-
-			direction = (x > playerX) ? LEFT : RIGHT;
-			if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
-			if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+		if (distFromPlayer < alertRange && state != getHit) {
+			if (direction == LEFT && isPlayerOnLeft() ||
+				direction == RIGHT && !isPlayerOnLeft()) {
+				if (playerY > x - 120 && playerY < x + 50) {
+					direction = (x > playerX) ? LEFT : RIGHT;
+					if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
+					if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+				}
+			}
 		}
-	}
-#pragma endregion
+	#pragma endregion
 
 	#pragma region IdleToGetHit
 
@@ -318,10 +318,11 @@ void Enemy_SmallZombie::patrol_behavior()
 	if (distFromPlayer < alertRange && state != getHit) {
 		if (direction == LEFT && isPlayerOnLeft() ||
 			direction == RIGHT && !isPlayerOnLeft()) {
-
-			direction = (x > playerX) ? LEFT : RIGHT;
-			if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
-			if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+			if (playerY > x - 120 && playerY < x + 50) {
+				direction = (x > playerX) ? LEFT : RIGHT;
+				if (direction == LEFT && !groundIsInLeft && !cliffIsInLeft) changeState(alert, left_walk, "SZ_leftWalk");
+				if (direction == RIGHT && !groundIsInRight && !cliffIsInRight) changeState(alert, right_walk, "SZ_rightWalk");
+			}
 		}
 	}
 	#pragma endregion
@@ -472,6 +473,6 @@ void Enemy_SmallZombie::GetDamage()
 {
 	if (IntersectRect(&Temp, &playerAttackBox, &hitBox) && !isHit)
 	{
-		POPUP->Fire(x, y, 1);
+		POPUP->Fire(x, y, playerAttackPower);
 	}
 }
