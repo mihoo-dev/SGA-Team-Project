@@ -26,12 +26,15 @@ private:
 	Item* _starPoint;
 
 	bool _isSpeech;
+	bool _sceneChange;
 
 	int _starCost;
 	int _speechCnt;
 	int _coins;
     int _stars;
 	int _alpha;
+	int _alphaCount;
+	int _alpha2;
 
 	vector<string> _vItem;
 public:

@@ -6,7 +6,8 @@
 using namespace std;
 
 StoreScene::StoreScene()
-	:_starCost(10), _starPoint(new StarPoint)
+	:_starCost(10), _starPoint(new StarPoint), _alpha(255),
+	 _alpha2(0), _sceneChange(false), _alphaCount(0)
 {
 	_starPoint->init(0, 0);
 	
@@ -38,6 +39,7 @@ HRESULT StoreScene::init()
 	_state = WELCOME;
 
 	_speechCnt = 0;
+	_alpha2 = 255;
 	_coins = _store->GetPlayerManager()->GetPlayer()->GetInfo().coin;
     _stars = _store->GetPlayerManager()->GetPlayer()->GetInfo().star;
 
@@ -50,20 +52,26 @@ HRESULT StoreScene::init()
 
 void StoreScene::update()
 {
+	if (!_sceneChange)
+		FadeOut(&_alpha2);
+	
+	_alphaCount += TIMEMANAGER->getElapsedTime();
+	if (_alphaCount >= 0.5f)
+	{
+		_alphaCount = 0;
+		if (_alpha == 255)
+			_alpha = 0;
+		else if (_alpha == 0)
+			_alpha = 255;
+	}
+
+	
 	if (_isSpeech)
 	{
 		_speechCnt++;
 		if (_speechCnt % 400 == 0) { _isSpeech = false;  _speechCnt = 0; }
 	}
 
-	/*if (_store->getBtn(1)->getIsClicked() ||
-		_store->getBtn(2)->getIsClicked() ||
-		_store->getBtn(3)->getIsClicked() ||
-		_store->getBtn(4)->getIsClicked())
-	{
-		_state = THANKS;
-		_isSpeech = true;
-	}*/
 	checkCost(1);
 	checkCost(2);
 	checkCost(3);
@@ -93,15 +101,17 @@ void StoreScene::update()
 	}
 
 	_store->update();
-
-	//if (KEYMANAGER->isOnceKeyDown(VK_F12))
-	//{
-    //    _store->GetPlayerManager()->GetPlayer()->SaveData();
-	//	TXTDATA->txtSave("ItemInfo.txt", _vItem);
-    //
-	//	SCENEMANAGER->changeScene("TutorialScene", "LoadingScene");
-	//}
 	updateBackBtn();
+
+	if (_sceneChange)
+	{
+		if (FadeIn(&_alpha2))
+		{
+			_sceneChange = false;
+			SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+			SOUNDMANAGER->stop("STORE");
+		}
+	}
 }
 
 void StoreScene::release()
@@ -134,6 +144,7 @@ void StoreScene::render()
 	_store->RenderPrice(_priceTagImage, CAMERA->GetCenterX() - 40, CAMERA->GetCenterY() - 180, _starPoint->getCost());
 	renderBackBtn();
     _store->render();
+	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha2);
 }
 
 void StoreScene::checkCost(int i)
@@ -169,6 +180,19 @@ void StoreScene::updateBackBtn()
 {
 	bool isClicked = false;
 
+	/*if (!_sceneChange)
+		FadeOut(&_alpha2);
+
+	_alphaCount += TIMEMANAGER->getElapsedTime();
+	if (_alphaCount >= 0.5f)
+	{
+		_alphaCount = 0;
+		if (_alpha == 255)
+			_alpha = 0;
+		else if (_alpha == 0)
+			_alpha = 255;
+	}*/
+
 	if (PtInRect(&_rc, _ptMouse))
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -178,12 +202,22 @@ void StoreScene::updateBackBtn()
 	if (isClicked)
 	{
 		isClicked = false;
+		_sceneChange = true;
         _store->GetPlayerManager()->GetPlayer()->SaveData();
         TXTDATA->txtSave("ItemInfo.txt", _vItem);
 		WORLDXY->SetWorldX(2430);
 		WORLDXY->SetWorldY(840);
-		SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
-		SOUNDMANAGER->stop("STORE");
+		/*if (_sceneChange)
+		{
+			if (FadeIn(&_alpha))
+			{
+				_sceneChange = false;
+				SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
+			}
+		}*/
+
+		
+		
 	}
 }
 
