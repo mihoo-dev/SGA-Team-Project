@@ -23,6 +23,7 @@ HRESULT TutorialScene::init()
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("TALK_FINN", "TALK_FINN.bmp", 556, 154, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("PRESS_X", "PRESS_X.bmp", 56, 28, 2, 1, true, RGB(255, 0, 255));
 
     CAMERA->SetPos(0, 0);
     CAMERA->SetSize(1374, 1464);
