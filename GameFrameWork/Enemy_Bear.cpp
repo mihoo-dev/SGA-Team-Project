@@ -14,10 +14,11 @@ Enemy_Bear::Enemy_Bear()
 	_time(0),
 	_rndTime(200),
 	_rndPattern(4),
-	_hp(1),
+	_hp(10),
 	_isAttack(FALSE),
 	_delay(0),
-	_isDie(false)
+	_isDie(false),
+	_hitTime(0)
 {
 }
 
@@ -51,24 +52,6 @@ void Enemy_Bear::release()
 
 void Enemy_Bear::update()
 {
-	if (_state != LEFT_DIE && _state != RIGHT_DIE)
-	{
-		if (!_isDamage)
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &_rc, &_playerHitRc))
-			{
-				_isDamage = true;
-				_hp -= 1;
-			}
-		}
-		else
-		{
-			RECT temp;
-			if (IntersectRect(&temp, &_rc, &_playerHitRc));
-			else _isDamage = false;
-		}
-	}
 	Move();
 }
 
@@ -138,12 +121,33 @@ void Enemy_Bear::Move()
 		else if (_rndPattern == 2) Pattern3();
 		else if (_rndPattern == 3) Pattern4();
 
-		if (_state == LEFT_ATTACK)
-			_hitRc = RectMake(_rc.left + (_rc.right - _rc.left) / 2 - 100, _rc.bottom - 75, 100, 75);
-		else if (_state == RIGHT_ATTACK)
-			_hitRc = RectMake(_rc.left + (_rc.right - _rc.left) / 2, _rc.bottom - 75, 100, 75);
+		if (_state == LEFT_ATTACK || _state == RIGHT_ATTACK)
+		{
+			_hitTime++;
+			if (_hitTime >= 40)
+			{
+				if (_state == LEFT_ATTACK)
+					_hitRc = RectMake(_rc.left + (_rc.right - _rc.left) / 2 - 100, _rc.bottom - 75, 100, 75);
+				else if (_state == RIGHT_ATTACK)
+					_hitRc = RectMake(_rc.left + (_rc.right - _rc.left) / 2, _rc.bottom - 75, 100, 75);
+			}
+		}
+		else if (_state == LEFT_JUMP || _state == RIGHT_JUMP)
+		{
+			_hitTime++;
+			if (_hitTime >= 30)
+			{
+				if (_state == LEFT_JUMP)
+					_hitRc = RectMake(_rc.left, _rc.bottom, 150, 10);
+				else if (_state == RIGHT_JUMP)
+					_hitRc = RectMake(_rc.right - 150, _rc.bottom, 150, 10);
+			}
+		}
 		else
+		{
 			_hitRc = RectMake(0, 0, 0, 0);
+			_hitTime = 0;
+		}
 
 		if (!_isRight)
 			_weaponRc = RectMakeCenter(_rc.left + (_rc.right - _rc.left) / 2 + 16, _rc.top + 50, 40, 100);
@@ -175,9 +179,9 @@ void Enemy_Bear::Draw()
 	if (_x + _img->getFrameWidth() > CAMERA->GetX() &&
 		_x < CAMERA->GetX() + (CAMERA->GetRC().right - CAMERA->GetRC().left))
 	{
-		//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-		//Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
-		//Rectangle(getMemDC(), _weaponRc.left, _weaponRc.top, _weaponRc.right, _weaponRc.bottom);
+		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
+		Rectangle(getMemDC(), _weaponRc.left, _weaponRc.top, _weaponRc.right, _weaponRc.bottom);
 		_img->frameRender(getMemDC(), _x, _y);
 	}
 }
@@ -305,6 +309,7 @@ void Enemy_Bear::Pattern3()
 {
 	if (_state != LEFT_ROAR)
 	{
+		_isRoar = true;
 		if (_x + _img->getFrameWidth() / 2 > _playerX)
 		{
 			SetState(LEFT_ROAR);
@@ -313,6 +318,7 @@ void Enemy_Bear::Pattern3()
 	}
 	else if (_state != RIGHT_ROAR)
 	{
+		_isRoar = true;
 		if (_x + _img->getFrameWidth() / 2 < _playerX)
 		{
 			SetState(RIGHT_ROAR);
@@ -325,6 +331,7 @@ void Enemy_Bear::Pattern3()
 		_rndTime = RND->getFromIntTo(100, 150);
 		_rndPattern = 4;
 		_time = 0;
+		_isRoar = false;
 		return;
 	}
 	++_time;

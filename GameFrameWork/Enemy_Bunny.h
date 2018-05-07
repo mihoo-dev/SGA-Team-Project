@@ -81,6 +81,8 @@ public:
 	float GetX() { return _x; }
 	float GetY() { return _y; }
 
+	BOOL GetIsDamage() { return _isDamage; }
+	void SetIsDamage(BOOL isDamage) { _isDamage = isDamage; }
 	BOOL GetIsPlayerDamage() { return _isPlayerDamage; }
 	void SetIsPlayerDamage(BOOL isPlayerDamage) { _isPlayerDamage = isPlayerDamage; }
 };

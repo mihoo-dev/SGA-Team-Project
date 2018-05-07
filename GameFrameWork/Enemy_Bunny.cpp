@@ -40,22 +40,6 @@ void Enemy_Bunny::release()
 
 void Enemy_Bunny::update()
 {
-	if (!_isDamage)
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &_rc, &_playerHitRc))
-		{
-			_isDamage = true;
-			_hp -= 1;
-		}
-	}
-	else
-	{
-		RECT temp;
-		if (IntersectRect(&temp, &_rc, &_playerHitRc));
-		else _isDamage = false;
-	}
-
 	Move();
 }
 
@@ -79,14 +63,10 @@ void Enemy_Bunny::Move()
 
 	//렉트 설정
 	_rc = RectMake(_x + 10, _y + 5, _img->getFrameWidth() - 20, _img->getFrameHeight() - 10);
-	if (_isJump)
-	{
-		if (_isRight)
-			_hitRc = RectMakeCenter(_rc.right, _rc.bottom - 30, 20, 10);
-		else
-			_hitRc = RectMakeCenter(_rc.left, _rc.bottom - 30, 20, 10);
-	}
-	else _hitRc = RectMakeCenter(0, 0, 0, 0);
+	if (_isRight)
+		_hitRc = RectMakeCenter(_rc.right, _rc.bottom - 30, 10, 10);
+	else
+		_hitRc = RectMakeCenter(_rc.left, _rc.bottom - 30, 10, 10);
 
 	if (_isJump)
 	{
@@ -102,8 +82,8 @@ void Enemy_Bunny::Draw()
 	if (_x + _img->getFrameWidth() >= CAMERA->GetX() &&
 		_x <= CAMERA->GetRC().right)
 	{
-		//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-		//Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
+		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 	}
 }

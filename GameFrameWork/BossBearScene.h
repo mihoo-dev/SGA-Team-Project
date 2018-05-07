@@ -12,6 +12,7 @@ private:
 
 	int _alpha;
 
+	BOOL _isPlayerDamage;
 	BOOL _isDamage;
 	BOOL _isDone;
 

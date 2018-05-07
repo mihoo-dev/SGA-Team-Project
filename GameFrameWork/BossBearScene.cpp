@@ -59,13 +59,36 @@ void BossBearScene::update()
 	_em->update("BossRoom_Pixel");
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F2)) _pm->GetPlayer()->SetPlayerHit();
+
 	if (!_isDamage)
+	{
+		if (!_em->GetBear()->GetIsDie())
+		{
+			if (!_isDamage)
+			{
+				RECT temp;
+				if (IntersectRect(&temp, &_em->GetBear()->GetRect(), &_pm->GetPlayer()->GetHitRC()))
+				{
+					_isDamage = true;
+					_em->GetBear()->SetHp(_em->GetBear()->GetHp() - _pm->GetPlayer()->GetInfo().atk);
+				}
+			}
+			else
+			{
+				RECT temp;
+				if (IntersectRect(&temp, &_em->GetBear()->GetRect(), &_pm->GetPlayer()->GetHitRC()));
+				else _isDamage = false;
+			}
+		}
+	}
+
+	if (!_isPlayerDamage)
 	{
 		RECT temp;
 		if (IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetHitRect()) ||
 			IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetWeaponRect()))
 		{
-			_isDamage = true;
+			_isPlayerDamage = true;
 			_pm->GetPlayer()->SetPlayerHit();
 		}
 	}
@@ -76,7 +99,7 @@ void BossBearScene::update()
 			IntersectRect(&temp, &_pm->GetPlayer()->GetColRC(), &_em->GetBear()->GetWeaponRect()));
 		else
 		{
-			_isDamage = false;
+			_isPlayerDamage = false;
 		}
 	}
 
@@ -86,6 +109,7 @@ void BossBearScene::update()
 		{
 			_isDone = true;
 			_em->GetBear()->Die();
+			_time = 0;
 		}
 	}
 	else
@@ -140,10 +164,6 @@ void BossBearScene::render()
 	_em->render();
 	_pm->render();
 	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
-
-	char str[256];
-	sprintf(str, "x : %d", _pm->GetPlayer()->GetX());
-	TextOut(getMemDC(), CAMERA->GetX() + 100, 100, str, strlen(str));
 }
 
 void BossBearScene::GoWorldMap()

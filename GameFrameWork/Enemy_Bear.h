@@ -26,6 +26,7 @@ private:
 	float _moveSpeed;	//곰 이동속도
 	RECT _weaponRc;		//곰 무기 렉트
 	RECT _hitRc;		//곰 할퀴기 렉트
+	int _hitTime;
 
 	int _hp;			//곰 HP
 
@@ -54,8 +55,9 @@ private:
 	float _playerY;		//플레이어 y좌표
 	RECT _playerRc;		//플레이어 렉트
 	RECT _playerHitRc;	//플레이어 때리는 렉트
-	BOOL _isDamage;
 	BOOL _isDie;
+
+	BOOL _isRoar;		//특수공격
 
 public:
 	Enemy_Bear();
@@ -95,6 +97,8 @@ public:
 
 	BOOL GetIsDie() { return _isDie; }
 	void SetIsDie(BOOL isDie) { _isDie = isDie; }
+
+	BOOL GetIsRoar() { return _isRoar; }
 
 	float GetX() { return _x; }
 	float GetY() { return _y; }

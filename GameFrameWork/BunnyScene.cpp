@@ -21,7 +21,7 @@ HRESULT BunnyScene::init()
 	IMAGEMANAGER->addImage("Ground_Pixel", "Ground_Pixel.bmp", 0, 0, 6656, 512, true, RGB(255, 0, 255));
 
 	_pm = new PlayerManager;
-	_pm->init(100, 403);
+	_pm->init();
 
 	_em = new EnemyManager;
 	_em->init();
@@ -56,6 +56,22 @@ void BunnyScene::update()
 
 	for (int i = 0; i < _em->GetBunny().size(); ++i)
 	{
+		if (!_em->GetBunny()[i]->GetIsDamage())
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &_em->GetBunny()[i]->GetRect(), &_pm->GetPlayer()->GetHitRC()))
+			{
+				_em->GetBunny()[i]->SetIsDamage(true);
+				_em->GetBunny()[i]->SetHp(_em->GetBunny()[i]->GetHp() - _pm->GetPlayer()->GetInfo().atk);
+			}
+		}
+		else
+		{
+			RECT temp;
+			if (IntersectRect(&temp, &_em->GetBunny()[i]->GetRect(), &_pm->GetPlayer()->GetHitRC()));
+			else _em->GetBunny()[i]->SetIsDamage(false);
+		}
+
 		if (!_em->GetBunny()[i]->GetIsPlayerDamage())
 		{
 			RECT temp;
@@ -105,13 +121,14 @@ void BunnyScene::update()
 
 	DoorEnter();
 
+	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
+	_pm->update();
+
 	_em->update("Ground_Pixel");
 
 
 	GoBearStage();
 
-	_pm->GetPlayer()->GroundCollision("Ground_Pixel");
-	_pm->update();
 
 	//FadeOut(&_alpha);
 }
