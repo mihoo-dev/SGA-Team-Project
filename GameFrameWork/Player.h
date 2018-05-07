@@ -48,7 +48,7 @@ private:
         int speedLV;
 
         tagPlayerStat() :
-            hp(3), atk(1), speed(3), weapon((int)Player::DEFFAULT), 
+            hp(3), atk(1), speed(1), weapon((int)Player::DEFFAULT), 
             coin(10000), star(0), atkLV(0), speedLV(0)
         {}
 
