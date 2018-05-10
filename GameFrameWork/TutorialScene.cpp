@@ -23,7 +23,6 @@ HRESULT TutorialScene::init()
     IMAGEMANAGER->addImage("background", "background1.bmp", 1374, 1464, true, RGB(255, 0, 255));
     IMAGEMANAGER->addImage("backgroundCol", "backgroundCol.bmp", 1374, 1464, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("TALK_FINN", "TALK_FINN.bmp", 556, 154, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("PRESS_X", "PRESS_X.bmp", 56, 28, 2, 1, true, RGB(255, 0, 255));
 
     CAMERA->SetPos(0, 0);
     CAMERA->SetSize(1374, 1464);
@@ -147,7 +146,7 @@ void TutorialScene::render()
 
 	Script();
 
-	TestText();
+	//TestText();
 
     IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 }
@@ -155,7 +154,7 @@ void TutorialScene::render()
 void TutorialScene::TestText()
 {
 	char status[128];
-	sprintf_s(status, "_x : %0.f, _y : %0.f", _pm->GetPlayer()->GetX(), _pm->GetPlayer()->GetY());
+	sprintf_s(status, "_CameraX : %0.f, CameraY : %0.f", CAMERA->GetX(), CAMERA->GetY());
 	TextOut(getMemDC(), CAMERA->GetX(), CAMERA->GetY() + 200, status, strlen(status));
 }
 
@@ -169,6 +168,7 @@ void TutorialScene::Script()
 
 	oldFont = (HFONT)SelectObject(getMemDC(), font);
 	SetBkMode(getMemDC(), TRANSPARENT);
+	SetTextColor(getMemDC(), RGB(255, 255, 0));
 
 	char talk[256];
 	char talk2[256];
@@ -206,6 +206,7 @@ void TutorialScene::Script()
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
 
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
 	SetBkMode(getMemDC(), OPAQUE);
 
 	if ( _scriptState == 0 || _scriptState == 1) return;
@@ -222,7 +223,7 @@ void TutorialScene::MoveScript()
 			_viewScript = true;
 		}
 		_scriptX -= 20;	
-		if (_scriptX + IMAGEMANAGER->findImage("TALK_FINN")->getWidth()/2 < _pm->GetPlayer()->GetX())
+		if (_scriptX < CAMERA->GetX() + 30)
 		{
 			_scriptState = 2;
 		}

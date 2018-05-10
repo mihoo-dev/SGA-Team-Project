@@ -26,7 +26,7 @@ HRESULT HotDogScene::init()
 	IMAGEMANAGER->addImage("STAGE_HOTDOG_PIXEL", "STAGE_HOTDOG_PIXEL.bmp", 674, 510, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("STAGE_HOTDOG_CLOUD", "STAGE_HOTDOG_CLOUD.bmp", 1200, 510, false, NULL);
 	IMAGEMANAGER->addFrameImage("NPC_HOTDOG", "NPC_HOTDOG.bmp", 728, 64, 7, 1, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("TALK_HOTDOG", "TALK_HOTDOG.bmp", 556, 154, false, NULL);
+	IMAGEMANAGER->addImage("TALK_HOTDOG", "TALK_HOTDOG.bmp", 556, 154, true, RGB(255,0,255));
 
 	_pm = new PlayerManager;
 	_pm->init(151, 437);
@@ -97,7 +97,7 @@ void HotDogScene::render()
 
 	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 
-	CheckStatus();
+	//CheckStatus();
 }
 
 void HotDogScene::OutStage()

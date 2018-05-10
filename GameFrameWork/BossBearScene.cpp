@@ -20,6 +20,9 @@ HRESULT BossBearScene::init()
 	IMAGEMANAGER->addImage("BossRoom", "BossRoom.bmp", 1148, 512, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("BossRoom_Pixel", "BossRoom_Pixel.bmp", 1148, 512, true, RGB(255, 0, 255));
 
+	SOUNDMANAGER->allStop();
+	SOUNDMANAGER->play("SNAKE", 0.5f);
+
 	_pm = new PlayerManager;
 	_pm->init();
 
@@ -60,6 +63,7 @@ void BossBearScene::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F2)) _pm->GetPlayer()->SetPlayerHit();
 
+
 	if (!_isDamage)
 	{
 		if (!_em->GetBear()->GetIsDie())
@@ -69,8 +73,8 @@ void BossBearScene::update()
 				RECT temp;
 				if (IntersectRect(&temp, &_em->GetBear()->GetRect(), &_pm->GetPlayer()->GetHitRC()))
 				{
+					_em->GetBear()->SetHp(_em->GetBear()->GetHp() - 3);
 					_isDamage = true;
-					_em->GetBear()->SetHp(_em->GetBear()->GetHp() - _pm->GetPlayer()->GetInfo().atk);
 				}
 			}
 			else
@@ -117,17 +121,16 @@ void BossBearScene::update()
 		if (_time == 0)
 			_pm->GetPlayer()->SetPlayerDance();
 		_time++;
-		if (_time >= 100)
+		if (_time >= 400)
 		{
 			_alpha++;
 			FadeIn(&_alpha);
 		}
-		if (_time >= 400)
+		if (_time >= 700)
 		{
 			SCENEMANAGER->changeScene("WorldScene", "LoadingScene");
 		}
 	}
-
 	
 	FadeOut(&_alpha);
 }

@@ -34,7 +34,7 @@ HRESULT EnemyManager::init()
 	EFFECTMANAGER->addEffect("dieEffect", "EFFECT_DIE", 675, 75, 75, 75, 20, TIMEMANAGER->getElapsedTime(), 10);
 	
 
-	for (int ii = 0; ii < 20; ++ii)
+	for (int ii = 0; ii < 80; ++ii)
 	{
 		tagMoney money;
 		money.img = IMAGEMANAGER->findImage("MONEY");
@@ -150,6 +150,19 @@ void EnemyManager::update(string colPixelName)
 		}
 	}
 
+	for (int ii = 0; ii < _vWorm.size(); ++ii)
+	{
+		RECT temp;
+		
+		if (IntersectRect(&temp, &_vWorm[ii]->GetRC(), &_pm->GetPlayer()->GetColRC()) && !isInvincible)
+		{
+			_pm->GetPlayer()->SetPlayerHit();
+			isInvincible = true;
+		}
+		else if (isInvincible) { InvincibleCount++; }
+		if (InvincibleCount > InvincibleTime) { InvincibleCount = 0; isInvincible = false; }
+	}
+
 	EFFECTMANAGER->update();
 }
 
@@ -196,7 +209,7 @@ void EnemyManager::render()
 
 	EFFECTMANAGER->render();
 	POPUP->render(getMemDC());
-	TestText();
+	//TestText();
 }
 
 void EnemyManager::setSmallZombie(int x, int y)
@@ -285,14 +298,11 @@ void EnemyManager::Die()
 			{
 				EFFECTMANAGER->play("dieEffect", _bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
 					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
-				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
-					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
-				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
-					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
-				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
-					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
-				MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
-					, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				for (int ii = 0; ii < _vMoney.size(); ++ii)
+				{
+					MakeMoney(_bear->GetX() + (_bear->GetRect().right - _bear->GetRect().left) / 2
+						, _bear->GetY() + (_bear->GetRect().bottom - _bear->GetRect().top) / 2);
+				}
 				_bear->SetIsDie(true);
 			}
 	}
@@ -360,7 +370,7 @@ void EnemyManager::MoveMoney(string colPixelName)
 			if (IntersectRect(&temp, &_vMoney[ii].rc, &_pm->GetPlayer()->GetColRC()))
 			{
 				_vMoney[ii].isActive = false;
-				_pm->GetPlayer()->SetCoin(_pm->GetPlayer()->GetInfo().coin + 1);
+				_pm->GetPlayer()->SetCoin(_pm->GetPlayer()->GetInfo().coin + 10);
 				SOUNDMANAGER->play("GETMONEY", 0.3f);
 			}
 		}

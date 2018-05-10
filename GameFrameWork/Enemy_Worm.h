@@ -106,6 +106,7 @@ public:
 
 	void SetHp(int _hp) { hp = _hp; }
 	int GetHp() { return hp; }
+	RECT GetRC() { return hitRect; }
 
 };
 

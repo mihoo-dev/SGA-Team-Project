@@ -13,7 +13,7 @@ Enemy_Bunny::Enemy_Bunny()
 	_jumpPower(0), _gravity(0),
 	_time(0),
 	_rndTime(RND->getFromIntTo(100, 200)),
-	_hp(4),
+	_hp(1),
 	_isDamage(false),
 	_isPlayerDamage(false)
 {
@@ -82,8 +82,8 @@ void Enemy_Bunny::Draw()
 	if (_x + _img->getFrameWidth() >= CAMERA->GetX() &&
 		_x <= CAMERA->GetRC().right)
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-		Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
+		//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		//Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
 		_img->frameRender(getMemDC(), _x, _y, _currentFrameX, _currentFrameY);
 	}
 }

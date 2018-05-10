@@ -1,2 +1,2 @@
 HP	AtkPwr	Speed	Weapon	Coin	Star	atkLV	speedLV
-3	11	3	1	9000	0	0	0
+2	11	1	1	9000	0	0	0

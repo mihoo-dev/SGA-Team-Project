@@ -27,11 +27,16 @@ HRESULT GraveyardScene::init()
 	_em->SetAdressPM(_pm);
 
 	
-	for (int ii = 0; ii < 15; ++ii)
+	for (int ii = 0; ii < 13; ++ii)
 	{
-		_em->setSmallZombie(475 * (ii + 1), WINSIZEY / 2);
+		if (ii == 0) _em->setSmallZombie(475 * (ii + 1), WINSIZEY / 2);
+		else _em->setSmallZombie(475 * (ii + 1), 100);
 	}
 
+	_em->SetWorm(400, 409);
+	_em->SetWorm(1900, 349);
+	_em->SetWorm(2850, 409);
+	_em->SetWorm(5400, 389);
 
 
 	Object * _door = new Door;
@@ -88,7 +93,7 @@ void GraveyardScene::render()
 
 	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
 
-	CheckStatus();
+	//CheckStatus();
 }
 
 void GraveyardScene::CheckStatus()

@@ -3,6 +3,7 @@
 #include "World.h"
 
 WorldScene::WorldScene()
+	:_alpha(255), _sceneStart(true)
 {
 }
 
@@ -34,6 +35,7 @@ void WorldScene::release()
 void WorldScene::update()
 {
 	_world->update();
+	SceneStart();
 }
 
 void WorldScene::render()
@@ -41,4 +43,15 @@ void WorldScene::render()
 	IMAGEMANAGER->addImage("WORLD_MAP", "WORLD_MAP.bmp", 2793, 2111, false, NULL)->render(getMemDC(), CAMERA->GetX(), CAMERA->GetY(), CAMERA->GetX(), CAMERA->GetY(), 600, 500);
 	
 	_world->render();
+
+	IMAGEMANAGER->findImage("fade")->alphaRender(getMemDC(), CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
+}
+
+void WorldScene::SceneStart()
+{
+	if (_sceneStart)
+	{
+		FadeOut(&_alpha);
+		if (_alpha == 0) _sceneStart = false;
+	}
 }

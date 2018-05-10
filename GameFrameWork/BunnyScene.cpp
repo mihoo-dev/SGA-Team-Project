@@ -20,6 +20,9 @@ HRESULT BunnyScene::init()
 	IMAGEMANAGER->addImage("Ground", "Ground.bmp", 0, 0, 6656, 512, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("Ground_Pixel", "Ground_Pixel.bmp", 0, 0, 6656, 512, true, RGB(255, 0, 255));
 
+	SOUNDMANAGER->allStop();
+	SOUNDMANAGER->play("FOREST", 0.5f);
+
 	_pm = new PlayerManager;
 	_pm->init();
 

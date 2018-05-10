@@ -179,9 +179,9 @@ void Enemy_Bear::Draw()
 	if (_x + _img->getFrameWidth() > CAMERA->GetX() &&
 		_x < CAMERA->GetX() + (CAMERA->GetRC().right - CAMERA->GetRC().left))
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-		Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
-		Rectangle(getMemDC(), _weaponRc.left, _weaponRc.top, _weaponRc.right, _weaponRc.bottom);
+		//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		//Rectangle(getMemDC(), _hitRc.left, _hitRc.top, _hitRc.right, _hitRc.bottom);
+		//Rectangle(getMemDC(), _weaponRc.left, _weaponRc.top, _weaponRc.right, _weaponRc.bottom);
 		_img->frameRender(getMemDC(), _x, _y);
 	}
 }

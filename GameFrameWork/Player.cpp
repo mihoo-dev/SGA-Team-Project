@@ -1271,7 +1271,7 @@ void Player::update()
 
 void Player::render()
 {
-    Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
+    //Rectangle(getMemDC(), _colRC.left, _colRC.top, _colRC.right, _colRC.bottom);
     //Rectangle(getMemDC(), _hitRC.left, _hitRC.top, _hitRC.right, _hitRC.bottom);
     _img->alphaAniRender(getMemDC(), _rc.left, _rc.top, _anim, _alpha);
     POPUP->render(getMemDC());

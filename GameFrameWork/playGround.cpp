@@ -19,6 +19,8 @@ HRESULT playGround::init()
 	gameNode::init(true);
 
     IMAGEMANAGER->addImage("fade", "fade.bmp", 800, 600, false, RGB(0, 0, 0), true);
+	IMAGEMANAGER->addFrameImage("PRESS_X", "PRESS_X.bmp", 56, 28, 2, 1, true, RGB(255, 0, 255));
+
     _alpha = 0;
 
     _startScene = new StartScene;
@@ -76,6 +78,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("STORE", "sound\\Grass Lands.mp3", true, true);
     SOUNDMANAGER->addSound("CLEAR", "sound\\Rainicorn Song.mp3", true, true);
 	SOUNDMANAGER->addSound("FOUNTAIN", "sound\\Candy Kingdom Overworld.mp3", true, true);
+	SOUNDMANAGER->addSound("FOREST", "sound\\Ice Kingdom.mp3", true, true);
 
 	//ÀÌÆåÆ®
 	SOUNDMANAGER->addSound("ENTER", "sound\\Door of the Doorlord.mp3", true, false);	
@@ -98,6 +101,7 @@ HRESULT playGround::init()
 	SOUNDMANAGER->addSound("MAKEPOISON", "sound\\EFFECT_MAKEPOISON.mp3", false, false);
     SOUNDMANAGER->addSound("BURST", "sound\\Burst.mp3", false, false);
 	SOUNDMANAGER->addSound("BELL", "sound\\EFFECT_BELL.mp3", false, false);
+	SOUNDMANAGER->addSound("SCENECHANGE", "sound\\EFFECT_SCENECHANGE.mp3", false, false);
 
 	return S_OK;
 }
@@ -179,7 +183,7 @@ void playGround::update()
 		if (FadeIn(&_alpha))
 		{
 			_sceneChange6 = false;
-			SCENEMANAGER->changeScene("FountainScene", "LoadingScene");
+			SCENEMANAGER->changeScene("SnakeScene", "LoadingScene");
 		}
 	}
 	if (_sceneChange7)

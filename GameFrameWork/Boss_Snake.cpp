@@ -11,7 +11,7 @@ Boss_Snake::Boss_Snake()
 	, _direction(SNAKE_LEFT)
 	, _count(0), _isPlay(false)
 	, _attack(0), _attackCount(0)
-	, _HP(20), _isDamage(false)
+	, _HP(120), _isDamage(false)
 	, _isInvincible(false), _invincibleCount(0)
 {
 }
@@ -89,16 +89,16 @@ void Boss_Snake::update(Player * player)
 
 void Boss_Snake::render()
 {
-	Rectangle(getMemDC(), _attackRC.left, _attackRC.top, _attackRC.right, _attackRC.bottom);
-	Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	Rectangle(getMemDC(), playerAttackBox.left, playerAttackBox.top, playerAttackBox.right, playerAttackBox.bottom);
+	//Rectangle(getMemDC(), _attackRC.left, _attackRC.top, _attackRC.right, _attackRC.bottom);
+	//Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	//Rectangle(getMemDC(), playerAttackBox.left, playerAttackBox.top, playerAttackBox.right, playerAttackBox.bottom);
 
 	_img->aniRender(getMemDC()
 		, _x - _img->getFrameWidth() / 2
 		, _y - _img->getFrameHeight() / 2
 		, _motion);
 
-	TestText();
+	//TestText();
 }
 
 void Boss_Snake::Set(float x, float y)

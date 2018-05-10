@@ -20,6 +20,7 @@ World_Character::World_Character()
 	, _colorBridge(RGB(0,0,255)), _colorStore(RGB(1,1,1)), _colorGraveyard(RGB(2,2,2))
 	, _colorHotdog(RGB(3,3,3)), _colorOutHotdog(RGB(4,4,4)), _colorRabbit(RGB(5,5,5))
 	, _colorFountain(RGB(6,6,6))
+	, _alpha(0), _sceneChange(false)
 {
 }
 
@@ -73,8 +74,8 @@ void World_Character::update()
 				break;
 			case GO_STORE:
 				SOUNDMANAGER->stop("WORLDMAP");
-				SOUNDMANAGER->play("ENTER");
-				SCENEMANAGER->changeScene("StoreScene");
+				SOUNDMANAGER->play("SCENECHANGE");
+				_sceneChange = true;
 			break;
 			case GO_GRAVEYARD:
 				SOUNDMANAGER->stop("WORLDMAP");
@@ -113,7 +114,7 @@ void World_Character::update()
 	CheckTrace();
 	BridgeOperation();	
 	button();
-
+	SceneChange();
 
 	_rc = RectMakeCenter(_x, _y + 16, 32, 20);
 }
@@ -153,7 +154,10 @@ void World_Character::render(HDC hdc)
 		IMAGEMANAGER->findImage("PRESS_X")->frameRender(hdc, _x - 14, _y - 60 - 14, _Xframe, 0);
 	}
 
-	CheckStatus(hdc);
+	IMAGEMANAGER->findImage("fade")->alphaRender(hdc, CAMERA->GetRC().left, CAMERA->GetRC().top, _alpha);
+
+
+	//CheckStatus(hdc);
 	//Rectangle(hdc, _rc.left, _rc.top, _rc.right, _rc.bottom);
 }
 
@@ -460,6 +464,33 @@ void World_Character::DrawJake(HDC hdc)
 		, _jakeX - _img->getFrameWidth() / 2
 		, _jakeY - _img->getFrameHeight() / 2
 		, _motion);
+}
+
+void World_Character::SceneChange()
+{
+	if (_sceneChange) FadeIn(&_alpha);
+	if (_alpha == 255)
+	{
+		switch (_buttonState)
+		{
+		case GO_STORE:
+			SCENEMANAGER->changeScene("StoreScene");
+		break;
+		case MAKE_BRIDGE:
+			break;
+		case GO_GRAVEYARD:
+			break;
+		case GO_HOTDOG:
+			break;
+		case OUT_HOTDOG:
+			break;
+		case GO_RABBIT:
+			break;
+		case GO_FOUNTAIN:
+			break;
+		}
+		
+	}
 }
 
 void World_Character::MakeBridge()

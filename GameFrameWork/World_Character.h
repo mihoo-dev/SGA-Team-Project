@@ -52,6 +52,7 @@ private:
 	WORLD_MAKE_BRIDGE			_bridgeState;						//다리 생성 상태
 
 private:
+	BOOL						_sceneChange;
 	BOOL						_pressX;
 	int							_Xframe;
 	int							_Xcount;
@@ -64,6 +65,8 @@ private:
 	COLORREF					_colorRabbit;
 	COLORREF					_colorFountain;
 
+private:
+	int							_alpha;
 public:
 	World_Character();
 	~World_Character();
@@ -84,6 +87,9 @@ public:
 	void CheckTrace();
 	void SaveTrace(int index);
 	void DrawJake(HDC hdc);
+
+	//씬 체인지
+	void SceneChange();
 
 	//다리 생성 관련 함수
 	void MakeBridge();

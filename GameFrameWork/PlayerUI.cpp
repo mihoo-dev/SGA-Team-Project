@@ -101,10 +101,12 @@ void PlayerUI::render()
 
             HFONT hFont = CreateFont(30, 30, 0, 0, 50, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, "±Ã¼­Ã¼");
             HFONT hOFont = (HFONT)SelectObject(getMemDC(), hFont);
-            SetTextColor(getMemDC(), RGB(255, 255, 0));
+            SetTextColor(getMemDC(), RGB(255, 0, 0));
+			SetBkMode(getMemDC(), TRANSPARENT);
             TextOut(getMemDC(), CAMERA->GetX() + 30, CAMERA->GetRC().bottom - 50, to_string(_coin).c_str(), to_string(_coin).size());
             SelectObject(getMemDC(), hOFont);
             DeleteObject(hFont);
+			SetBkMode(getMemDC(), OPAQUE);
         }
         else if (_button[0].isClicked)
         {
